@@ -4,8 +4,9 @@
 # Exclude all from git
 /**
 
-# Include .gitignore
+# Include .gitignore and README
 !/.gitignore
+!/README.md
 
 # Include code directories
 !/qPCR/code/
