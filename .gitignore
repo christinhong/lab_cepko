@@ -1,17 +1,18 @@
-#### Excluding all files except code directories ####
+#### Excluding all except code directories ####
 # from https://gist.github.com/hieblmedia/9318457 and https://stackoverflow.com/questions/5533050/gitignore-exclude-folder-but-include-specific-subfolder#5534865
 
-# Exclude all from git
-/**
-
-# Include .gitignore and README
-!.gitignore
-!README.md
-
-# Include qPCR code subdirectory
+# Exclude all qPCR except code subdirectory
 !qPCR/
 qPCR/*
 !qPCR/code/
 
-# Extra
+# Exclude all RNA-seq except code subdirectory
+!rnaSeq/
+rnaSeq/*
+!rnaSeq/code/
+
+# Exclude
+.git
 .Rproj.user
+.Rhistory
+

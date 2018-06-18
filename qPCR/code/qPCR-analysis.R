@@ -1,0 +1,109 @@
+#### Intro ####
+# Author: Christin M. Hong
+
+# Objective: Analyzing qPCR data
+# Last updated: 2018-06
+# Team: Cepko, Harvard Medical School
+
+
+#### START INFRASTRUCTURE ####
+#### Import libraries ####
+# Standard data tidying
+library(tidyr)
+library(dplyr)
+library(stringr)
+library(lubridate) # For standardizing and manipulating dates and times
+library(httr) # working with urls
+
+# Standard visualization and output
+library(ggplot2)
+library(ggfortify)
+library(gridExtra)
+library(gtable)
+library(ggsignif)
+library(Cairo) # For visualizing transparency in ggplots and PDFs
+library(viridis)
+library(RColorBrewer)
+
+# Data analysis
+library(XLConnect) # for working with 2007 Excel sheets in R
+library(readxl) # for working with newer Excel sheets in R
+
+
+#### Color palettes ####
+colors.pg <- brewer.pal(10, "PRGn")
+
+
+#### Set seed for reproducibility ####
+set.seed(200)
+
+
+#### Set variables ####
+# What's the working directory?  Preferably in same location as the Rproject.
+getwd()
+
+
+#### import data ####
+fname1 <- "output/20180530_2h_plate1.xlsx_qPCR-processing_2018-05-31.csv"
+plate1 <- read.csv(fname1, header = TRUE)
+
+fname2 <- "output/20180530_2h_plate2.xlsx_qPCR-processing_2018-05-31.csv"
+plate2 <- read.csv(fname2, header = TRUE)
+
+
+# Concatenate
+plates <- rbind(plate1, plate2)
+
+#### END INFRASTRUCTURE ####
+
+
+
+#### Analysis ####
+# Remove rows with NA
+plates.na <- plates[complete.cases(plates), ]
+
+# Check if NTCs are still present (if yes, will want to remove)
+levels(factor(plates.na$Group))
+
+
+# Calculate data for technical replicates
+plates.trep <- plates.na %>%
+    group_by(Primer, Group, Mouse) %>%
+    summarise(n = n(), avg = mean(results.Cq), sd = sd(results.Cq)) %>%
+    arrange(Primer)
+
+print(plates.trep)
+
+
+#### THRESHOLD FOR SD? ####
+
+
+# calculate delta Cq relative to housekeeping gene
+## Get hk values
+plates.hk <- plates.trep %>%
+    filter(Primer == "GAPDH")
+
+## Join hk by group and mouse
+plates.hk.full <- dplyr::left_join(plates.trep,
+                                   plates.hk,
+                                   by = c("Group" = "Group", "Mouse" = "Mouse"))
+
+## calculate delta Cq relative to housekeeping gene
+plates.delta <- dplyr::mutate(plates.hk.full, delta.Ct = avg.x - avg.y)
+
+## Check that housekeeping gene has been normalized to 0
+plates.delta %>% filter(Primer.x == "GAPDH")
+
+
+# Plot
+gg1 <- ggplot(data = plates.delta, aes(x = Primer.x,
+                                       y = delta.Ct,
+                                       col = factor(Group))) +
+    geom_point(show.legend = TRUE,
+               size = 3,
+               position = position_dodge(width=0.5)) +
+    theme_light() +
+    ggtitle("qPCR results 2 hours post-AAV transduction")
+
+
+
