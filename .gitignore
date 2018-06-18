@@ -1,5 +1,18 @@
+#### Excluding all files except code directories ####
+# from https://gist.github.com/hieblmedia/9318457
+
+# Exclude all from git
+/**
+
+# Include .gitignore
+!/.gitignore
+
+# Include code directories
+!/qPCR/code/
+!/rnaSeq/code/
+
+# Can also nest excluding-including in subdirectories, e.g. 
+# /templates/** 
+# !/templates/myTemplate/
+# to include only the myTemplate subdirectory.
 .Rproj.user
-.Rhistory
-.RData
-.Ruserdata
-.html
