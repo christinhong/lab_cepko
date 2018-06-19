@@ -1,11 +1,12 @@
 #### Excluding all except code directories ####
 # from https://stackoverflow.com/questions/5533050/gitignore-exclude-folder-but-include-specific-subfolder#5534865
 
-# Exclude other top-level files
+# Exclude specific file types
 .git
 .Rproj.user
 .Rhistory
 .Rproj
+.html
 
 # Exclude sub-subdirectories
 **/data
