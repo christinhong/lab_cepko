@@ -1,18 +1,15 @@
 #### Excluding all except code directories ####
-# from https://gist.github.com/hieblmedia/9318457 and https://stackoverflow.com/questions/5533050/gitignore-exclude-folder-but-include-specific-subfolder#5534865
+# from https://stackoverflow.com/questions/5533050/gitignore-exclude-folder-but-include-specific-subfolder#5534865
 
-# Exclude all qPCR except code subdirectory
-!qPCR/
-qPCR/*
-!qPCR/code/
-
-# Exclude all RNA-seq except code subdirectory
-!rnaSeq/
-rnaSeq/*
-!rnaSeq/code/
-
-# Exclude
+# Exclude other top-level files
 .git
 .Rproj.user
 .Rhistory
+.Rproj
+
+# Exclude sub-subdirectories
+**/data
+**/output
+**/reports
+
 
