@@ -85,7 +85,7 @@ projectDir/R/
 
 * `resources/`: General use analysis resources. Reference files, genomes, software and scripts.
 
-* `projectDir/`: Contains top level analysis scripts, including this one. Ideally includes a README with notes on project, collaborators, data collection, etc.
+* `projectDir/`: Contains top level analysis scripts and a README with project background, collaborators, data collection notes, changelog, etc.
 * `projectDir/bash/` and `projectDir/R/`: For bash and R subscripts
 * `projectDir/data/`: For raw data and symlinks to raw data. Once data is in, can lock as READ ONLY. Best practice: Before any analysis, backup all data to an external drive.
 * `projectDir/doc/`: Human-readable, things to share with other people. Reports, documents, Markdown, LaTeX, manuscripts, etc.
