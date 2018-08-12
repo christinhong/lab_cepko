@@ -8,7 +8,7 @@ Collaborators: Jiho Choi (main contact), Susana da Silva, Nathan Mundell
 
 * Introduced to this project by Nico Lonfat's suggestion to Connie
 
-*This README is written in GitHub Markdown. Outside GitHub, its formatting can be viewed by copying and pasting into [http://markdownlivepreview.com/].*
+*This README is written in GitHub Markdown. Outside GitHub, its general formatting can be viewed by copying and pasting into [http://markdownlivepreview.com/].*
 
 
 ---
