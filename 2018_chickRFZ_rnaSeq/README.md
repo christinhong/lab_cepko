@@ -1,6 +1,6 @@
 # 2018_chickRFZ_rnaSeq
 
-Christin M. Hong
+Christin Hong
 
 HMS, Cepko Lab
 
