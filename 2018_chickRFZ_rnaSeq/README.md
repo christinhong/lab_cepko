@@ -14,10 +14,10 @@ Collaborators: Jiho Choi (main contact), Susana da Silva, Nathan Mundell
 
 ## TOC
 1. [Intro](#intro)
-1. [Data collection](#data-collection)
 1. [Analysis](#analysis)
 	1. [Status](#status)
 1. [Controls](#controls)
+1. [Data collection](#data-collection)
 1. [Cluster setup](#cluster-setup)
 	1. [Directory structure](#directory-structure)
 	1. [Reference files](#reference-files)
@@ -29,6 +29,28 @@ Collaborators: Jiho Choi (main contact), Susana da Silva, Nathan Mundell
 
 
 ## Intro
+
+
+## Analysis
+
+
+### Status
+In progress: Code refactoring. Collecting metrics, annotating, and merging BAMs with Picard.
+
+2018-08-12: Created README. Completed FastQC, Trimmomatic, and STAR multi-sample 2-pass mapping after extensively testing parameters for mapping NextSeq data.
+
+
+## Controls
+From Connie, expect the following gene expression patterns:
+
+* Fgf8: High in RFZ and maybe T
+* Vax: High in V and low in D
+* Tbx5: High in D and low in V
+* Raldh1: High in D
+* Emb: High in RFZ
+* Cyp26c1: High in RFZ
+* Cyp26a1: High in RFZ and N and T
+* Tbx2, 3, and 5: More D than V, but on a gradient
 
 
 ## Data collection
@@ -53,28 +75,6 @@ From Nathan (retina 1-5):
 	* Expected ~685M reads/batch
 * Batch 1 (labeled b2): Mixed sets with and without RNA pre-amplification -> fewer reads than expected (~260M)
 * Batch 2 (labeled b1): Re-run of same pre-amplified set used in batch 1
-
-
-## Analysis
-
-
-### Status
-In progress: Code refactoring. Collecting metrics, annotating, and merging BAMs with Picard.
-
-2018-08-12: Created README. Completed FastQC, Trimmomatic, and STAR multi-sample 2-pass mapping after extensively testing parameters for mapping NextSeq data.
-
-
-## Controls
-From Connie, expect the following gene expression patterns:
-
-* Fgf8: High in RFZ and maybe T
-* Vax: High in V and low in D
-* Tbx5: High in D and low in V
-* Raldh1: High in D
-* Emb: High in RFZ
-* Cyp26c1: High in RFZ
-* Cyp26a1: High in RFZ and N and T
-* Tbx2, 3, and 5: More D than V, but on a gradient
 
 
 ## Cluster setup
