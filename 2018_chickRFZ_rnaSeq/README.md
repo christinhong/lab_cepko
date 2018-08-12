@@ -16,7 +16,7 @@ Collaborators: Jiho Choi (main contact), Susana da Silva, Nathan Mundell
 ## Changelog
 Unreleased: Collected metrics, annotated, and merged BAMs with Picard
 
-2018-08-12: README created. Completed FastQC, Trimmomatic, and STAR multi-sample 2-pass mapping.
+2018-08-12: README created. Completed FastQC, Trimmomatic, and STAR multi-sample 2-pass mapping after extensively testing parameters for mapping NextSeq data.
 
 ---
 
@@ -32,15 +32,19 @@ Unreleased: Collected metrics, annotated, and merged BAMs with Picard
 ## Intro
 
 ## Raw data
-Nathan's data was symlinked from his group folder with:
+* Genetics server at research.files.med.harvard.edu/genetics/??
+* On HMS O2:
+	* I've symlinked Nathan's NextSeq data with:
 
-```bash
-ln -s /n/data2/hms/genetics/cepko/Nathan/NextSeq/150227_NS500531_0022_AH5JJLBGXX/Data/Intensities/BaseCalls/Run_22/* ~/2018_chickRFZ_rnaSeq/data/nathan/nextSeq_b1
+		`ln -s /n/data2/hms/genetics/cepko/Nathan/NextSeq/150227_NS500531_0022_AH5JJLBGXX/Data/Intensities/BaseCalls/Run_22/* /home/ch220/2018_chickRFZ_rnaSeq/data/nathan/nextSeq_b1`
 
-ln -s /n/data2/hms/genetics/cepko/Nathan/NextSeq2/150326_NS500531_0031_AH2L3MBGXX/Data/Intensities/BaseCalls/Run_22/* ~/2018_chickRFZ_rnaSeq/data/nathan/nextSeq_b2
-```
-
-* Symlinked directories can be deleted with "rm [name of link]", no / at the end.  ("rm [name of link]/" will be interpreted as the actual directory, which is precious and needs to be left alone)
+		`ln -s /n/data2/hms/genetics/cepko/Nathan/NextSeq2/150326_NS500531_0031_AH2L3MBGXX/Data/Intensities/BaseCalls/Run_22/* /home/ch220/2018_chickRFZ_rnaSeq/data/nathan/nextSeq_b2`
+	
+		(Symlinked directories can be deleted with `rm <name of link>`, no / at the end. `rm <name of link>/` will be interpreted as the actual directory, which is precious and needs to be left alone.)
+	
+	* I've uploaded Susana's HiSeq data to `/home/ch220/2018_chickRFZ_rnaSeq/data/susana/hiSeq`
+* eCommons (Nathan)
+* Dropbox (Susana)
 
 
 ## Controls
@@ -80,17 +84,18 @@ projectDir/R/
 /n/scratch2/ch220/
 ```
 
-* `jobLogs/`: Where I write out sterr and stout from submitted jobs.
-
-* `resources/`: General use analysis resources. Reference files, genomes, software and scripts.
-
-* `projectDir/`: Contains top level analysis scripts and a README with project background, collaborators, data collection notes, changelog, etc.
-* `projectDir/bash/` and `projectDir/R/`: For bash and R subscripts
+`jobLogs/`: Where I write out sterr and stout from submitted jobs.
+	
+`resources/`: General use analysis resources. Reference files, genomes, software and scripts.
+	
+`projectDir/`: Contains top level analysis scripts and a README with project background, collaborators, data collection notes, changelog, etc.
+* `projectDir/bash/`: For bash subscripts
 * `projectDir/data/`: For raw data and symlinks to raw data. Once data is in, can lock as READ ONLY. Best practice: Before any analysis, backup all data to an external drive.
 * `projectDir/doc/`: Human-readable, things to share with other people. Reports, documents, Markdown, LaTeX, manuscripts, etc.
 * `projectDir/doc/graphs/`: Graphics, figures, charts, pdfs, etc.
-
-* `/n/scratch2/ch220/`: Due to limited personal space (100 GB), using scratch2 for output (10 TB of file space/user, files auto-purged after 30 days of no access). For processed data, logs, and other output. Can always be able to delete and regenerate the contents of this entire folder.
+* `projectDir/R/`: For R subscripts
+	
+`/n/scratch2/ch220/`: Due to limited personal space (100 GB), using scratch2 for output (10 TB of file space/user, files auto-purged after 30 days of no access). For processed data, logs, and other output. Can always be able to delete and regenerate the contents of this entire folder.
 
 ### Reference files
 * Ensembl Galgal5 reference genome assembly
@@ -197,6 +202,9 @@ LC_COLLATE=C    # specifies sort order (numbers, uppercase, then lowercase)
     # Bash variables are untyped by default.  For more robust code, can declare data type with [declare] (see http://tldp.org/LDP/abs/html/declareref.html ), but I'm not sure how declare works with export.  May try later.
     # When possible, using full path to minimize confusion by shell, record tool versions, and increase clarity regarding dependencies.
 ```
+
+I usually write bash in gedit and R in RStudio, but probably any editor with syntax highlighting will do.
+
 
 ## Acknowledgments
 * Include citations for tools
