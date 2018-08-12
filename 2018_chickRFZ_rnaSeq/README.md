@@ -22,29 +22,22 @@ Unreleased: Collected metrics, annotated, and merged BAMs with Picard
 
 ## TOC
 1. [Intro](#intro)
-1. [Raw data](#raw-data)
-1. [Controls](#controls)
 1. [Data collection notes](#data-collection-notes)
-1. [Setup](#setup)
+1. [Controls](#controls)
+1. [Cluster setup](#cluster-setup)
+	1. [Directory structure](#directory-structure)
+	1. [Reference files](#reference-files)
+	1. [Raw data](#raw-data)
+	1. [Sample script header](#sample-script-header)
 1. [Acknowledgments](#acknowledgments)
 
 
 ## Intro
 
-## Raw data
-* Genetics server at research.files.med.harvard.edu/genetics/??
-* On HMS O2:
-	* I've symlinked Nathan's NextSeq data with:
 
-		`ln -s /n/data2/hms/genetics/cepko/Nathan/NextSeq/150227_NS500531_0022_AH5JJLBGXX/Data/Intensities/BaseCalls/Run_22/* /home/ch220/2018_chickRFZ_rnaSeq/data/nathan/nextSeq_b1`
+## Data collection notes
+From Susana and Nathan
 
-		`ln -s /n/data2/hms/genetics/cepko/Nathan/NextSeq2/150326_NS500531_0031_AH2L3MBGXX/Data/Intensities/BaseCalls/Run_22/* /home/ch220/2018_chickRFZ_rnaSeq/data/nathan/nextSeq_b2`
-	
-		(Symlinked directories can be deleted with `rm <name of link>`, no / at the end. `rm <name of link>/` will be interpreted as the actual directory, which is precious and needs to be left alone.)
-	
-	* I've uploaded Susana's HiSeq data to `/home/ch220/2018_chickRFZ_rnaSeq/data/susana/hiSeq`
-* eCommons (Nathan)
-* Dropbox (Susana)
 
 
 ## Controls
@@ -60,10 +53,14 @@ From Connie, expect the following expression patterns:
 * Tbx2, 3, and 5: More D than V, but on a gradient
 
 
-## Data collection notes
-From Susana and Nathan
+## Cluster setup
+The HMS O2 cluster has ~7000 nodes with 32 cores and 256 GB RAM each. It's managed by the Slurm job scheduler; for how to use Slurm, see [https://wiki.rc.hms.harvard.edu/display/O2/O2].
 
-## Setup
+* Can request a max of 20 cores/node, but the more cores/memory requested, the longer the pend time.
+
+* To run an interactive session for testing commands, I generally use `srun --pty -p interactive -c 8 --mem=64G -t 0-11:00 /bin/bash`. The interactive queue has a max of 12 hours.
+
+
 
 ### Directory structure
 ```
@@ -103,16 +100,33 @@ projectDir/R/
 * Ensembl Galgal5 GTF annotation
 * STAR genome index from genome assembly + annotation
 
-### FASTQ files in folders with numeric suffixes for job array, e.g. Sample1.1/RFZ-1-A01_S1_L001_R1_001.fastq.gz
-    # For STAR, this pipeline assumes:
-        # No spaces in file names
-            # I adore bash, but it's terrible at handling filenames with spaces. If that's a major concern, I sincerely believe that it's easier to write a script to rename all the files at the very beginning or learn how to code in Python.
-        # FASTQ files are compressed as "*.fastq.gz"
-        # Lane IDs are formatted as "_L###_"
-        # Prefix is before the final 2 underscores (so from previous example, prefix would be "RFZ-1-A01_S1_L001")
+## Raw data
+* Genetics server at research.files.med.harvard.edu/genetics/??
+* On HMS O2:
+	* I've symlinked Nathan's NextSeq data with:
+
+		`ln -s /n/data2/hms/genetics/cepko/Nathan/NextSeq/150227_NS500531_0022_AH5JJLBGXX/Data/Intensities/BaseCalls/Run_22/* /home/ch220/2018_chickRFZ_rnaSeq/data/nathan/nextSeq_b1`
+
+		`ln -s /n/data2/hms/genetics/cepko/Nathan/NextSeq2/150326_NS500531_0031_AH2L3MBGXX/Data/Intensities/BaseCalls/Run_22/* /home/ch220/2018_chickRFZ_rnaSeq/data/nathan/nextSeq_b2`
+	
+		(Symlinked directories can be deleted with `rm <name of link>`, no / at the end. `rm <name of link>/` will be interpreted as the actual directory, which is precious and needs to be left alone.)
+	
+	* I've uploaded Susana's HiSeq data to `/home/ch220/2018_chickRFZ_rnaSeq/data/susana/hiSeq`
+* Dropbox (Susana)
+* eCommons (Nathan)
 
 
-### Typical script header
+### Data format
+* Paired end FASTQ files (R1 for forward read and R2 for reverse)
+* FASTQ files are compressed as necessary by gunzip
+* Each sample has its own folder
+* Initial scripts format all filenames into the following structure:
+	* `tissue-sample-well_sampleNumber_laneNumber_R1orR2_batchNumber.fastq.gz`
+	* E.g. `Sample1.1/RFZ-1-A01_S1_L001_R1_001.fastq.gz`
+* Samples are matched by lane assuming that lane regex is `_L###_`
+
+
+## Sample script header
 ```bash
 #!/bin/bash
 
