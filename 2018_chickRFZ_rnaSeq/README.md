@@ -16,6 +16,8 @@ Collaborators: Jiho Choi (main contact), Susana da Silva, Nathan Mundell
 1. [Intro](#intro)
 1. [Analysis](#analysis)
 	1. [Status](#status)
+	1. [Pipelines](#pipelines)
+	1. [Mapping NextSeq reads](#mapping-nextseq-reads)
 1. [Controls](#controls)
 1. [Data collection](#data-collection)
 1. [Cluster setup](#cluster-setup)
@@ -38,6 +40,43 @@ Collaborators: Jiho Choi (main contact), Susana da Silva, Nathan Mundell
 In progress: Code refactoring. Collecting metrics, annotating, and merging BAMs with Picard.
 
 2018-08-12: Created README. Completed FastQC, Trimmomatic, and STAR multi-sample 2-pass mapping after extensively testing parameters for mapping NextSeq data.
+
+
+### Pipelines
+In development: Genome-based mapping: STAR multi-sample 2-pass mapping -> featureCounts -> DESeq2
+
+*Hold: Genome-based mapping plus automated read count processing: STAR -> RSEM (used by Broad)*
+
+*Hold: Transcriptome-based mapping: STAR -> Salmon -> tximport -> DESeq2*
+
+
+### Mapping NextSeq reads
+From STAR's output, only ~20-25% of NextSeq reads are uniquely mapped vs. ~75-80% of HiSeq reads. The main difference is that ~40% NextSeq reads are "mapped to too many loci" (>10).
+
+It's worth noting here that:
+1. The NextSeq reads are 32 bp while the HiSeq are 50 bp, and
+1. Galgal5 has only the toplevel genome assembly, which includes haplotypes and patches (no primary assembly is available on Ensembl). It's likely that reads are mapping to repetitive regions.
+
+I've tested the following:
+1. Mapping reads to genomes indexed with `--sjdbOverhang 31` or `49` based on read length (default is 100, recommended is ((max read length)-1)).
+	1. No effect.
+1. Mapping only R1 reads to see if the sort order in paired FASTQ input was an issue.
+	1. No effect.
+1. Relaxing the requirements for mapping length with `--outFilterScoreMinOverLread 0 --outFilterMatchNminOverLread 0 --outFilterMatchNmin 25`. The average input length for the PE is ~60 (2x32). Default for STAR aligns if read maps at least 2/3 of total input length, so this essentially allows shorter reads to map.
+	1. As expected, ~4% more reads map uniquely instead of falling in the "too short" category.
+1. Setting `--outFilterMultimapNmax 20` (default is 10, meaning that once a read maps to >10 loci, it's marked as mapping to too many.  20 is seen at https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/Expression_mRNA_Pipeline/).
+	1. No effect.
+1. Setting `--outFilterMultimapNmax 200`
+	1. The "too many loci" reads are now "multiple loci" reads, which make sense. Of course, this value is far too lenient, but good to know everything's working as expected.
+1. Setting `--sjdbScore 1` (default is 2). This decreases mapping to splice junctions. From Alex Dobin (the developer of STAR) at https://groups.google.com/forum/#!msg/rna-star/O1oDItDltjY/0jSn0vy0ccgJ: "I think it is to be expected that some unique mappers become multi-mappers as you add more and more sjdb junctions, since this effectively adds more possibilities for the reads to align. Note, that by default the --sjdbScore = 2, which means that STAR will try to map aggressively to the sjdb junctions, preferring spliced alignment with 1 mismatch to an unspliced alignment without mismatches. You may want to try to reduce this parameter, though it will lead to yet another slight decrease in the % of unique mappers."
+	1. No effect.
+
+Unfortunately, it is what it is. Quality > quantity, so will move forward with what's available.
+
+For future reference, excessive multimapping is likely due to:
+1. Shorter read lengths, 
+1. rRNA "contamination" (poor ribo-depletion), and/or
+1. Repetitive haplotypes/patches in toplevel genome assembly (less likely since HiSeq reads map well).
 
 
 ## Controls
