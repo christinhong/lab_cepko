@@ -84,18 +84,19 @@ projectDir/R/
 /n/scratch2/ch220/
 ```
 
-`jobLogs/`: Where I write out sterr and stout from submitted jobs.
+* `jobLogs/`: Where I write out sterr and stout from submitted jobs.
+
+* `resources/`: General use analysis resources. Reference files, genomes, software and scripts.
+
+* `projectDir/`: Contains top level analysis scripts and a README with project background, collaborators, data collection notes, changelog, etc.
+	* `projectDir/bash/`: For bash subscripts
+	* `projectDir/data/`: For raw data and symlinks to raw data. Once data is in, can lock as READ ONLY. Best practice: Before any analysis, backup all data to an external drive.
+	* `projectDir/doc/`: Human-readable, things to share with other people. Reports, documents, Markdown, LaTeX, manuscripts, etc.
+	* `projectDir/doc/graphs/`: Graphics, figures, charts, pdfs, etc.
+	* `projectDir/R/`: For R subscripts
 	
-`resources/`: General use analysis resources. Reference files, genomes, software and scripts.
-	
-`projectDir/`: Contains top level analysis scripts and a README with project background, collaborators, data collection notes, changelog, etc.
-* `projectDir/bash/`: For bash subscripts
-* `projectDir/data/`: For raw data and symlinks to raw data. Once data is in, can lock as READ ONLY. Best practice: Before any analysis, backup all data to an external drive.
-* `projectDir/doc/`: Human-readable, things to share with other people. Reports, documents, Markdown, LaTeX, manuscripts, etc.
-* `projectDir/doc/graphs/`: Graphics, figures, charts, pdfs, etc.
-* `projectDir/R/`: For R subscripts
-	
-`/n/scratch2/ch220/`: Due to limited personal space (100 GB), using scratch2 for output (10 TB of file space/user, files auto-purged after 30 days of no access). For processed data, logs, and other output. Can always be able to delete and regenerate the contents of this entire folder.
+* `/n/scratch2/ch220/`: Due to limited personal space (100 GB), using scratch2 for output (10 TB of file space/user, files auto-purged after 30 days of no access). For processed data, logs, and other output. Can always be able to delete and regenerate the contents of this entire folder.
+
 
 ### Reference files
 * Ensembl Galgal5 reference genome assembly
