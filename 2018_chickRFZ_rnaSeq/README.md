@@ -60,7 +60,7 @@ It's worth noting here that:
 I've tested the following:
 1. Mapping reads to genomes indexed with `--sjdbOverhang 31` or `49` based on read length (default is 100, recommended is ((max read length)-1)).
 	1. No effect.
-1. Mapping only R1 reads to see if the sort order in paired FASTQ input was an issue.
+1. Mapping only R1 reads to see if the sort order in paired FASTQ input was an issue (known STAR bug).
 	1. No effect.
 1. Relaxing the requirements for mapping length with `--outFilterScoreMinOverLread 0 --outFilterMatchNminOverLread 0 --outFilterMatchNmin 25`. The average input length for the PE is ~60 (2x32). Default for STAR aligns if read maps at least 2/3 of total input length, so this essentially allows shorter reads to map.
 	1. As expected, ~4% more reads map uniquely instead of falling in the "too short" category.
