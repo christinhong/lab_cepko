@@ -10,24 +10,20 @@ Collaborators: Jiho Choi (main contact), Susana da Silva, Nathan Mundell
 
 *This README is written in GitHub Markdown. Outside GitHub, its general formatting can be viewed by copying and pasting into [http://markdownlivepreview.com/].*
 
-
----
-
-## Changelog
-Unreleased: Collected metrics, annotated, and merged BAMs with Picard
-
-2018-08-12: README created. Completed FastQC, Trimmomatic, and STAR multi-sample 2-pass mapping after extensively testing parameters for mapping NextSeq data.
-
 ---
 
 ## TOC
 1. [Intro](#intro)
-1. [Data collection notes](#data-collection-notes)
+1. [Data collection](#data-collection)
+1. [Analysis](#analysis)
+	1. [Status](#status)
 1. [Controls](#controls)
 1. [Cluster setup](#cluster-setup)
 	1. [Directory structure](#directory-structure)
 	1. [Reference files](#reference-files)
 	1. [Raw data](#raw-data)
+1. [Scripting tips](#scripting-tips)
+	1. [Parallelization](#parallelization)
 	1. [Sample script header](#sample-script-header)
 1. [Acknowledgments](#acknowledgments)
 
@@ -35,13 +31,41 @@ Unreleased: Collected metrics, annotated, and merged BAMs with Picard
 ## Intro
 
 
-## Data collection notes
-From Susana and Nathan
+## Data collection
+Organism: Chick (Galgal5)
 
+Groups for comparison: Retinal tissue regions. RFZ, dorsal, ventral, nasal and temporal.
+
+From Susana (retina 6-7):
+* Identified RFZ progenitors at E5+1DIV by RARE reporter
+* HMS Biopolymer Facility quantified RNA, diluted samples for SPIA amplification, and generated libraries
+* Ran on HiSeq for 2x50 bp reads
+
+From Nathan (retina 1-5):
+* Identified RFZ progenitors at E5+1DIV by RARE reporter
+* Input characteristics: 
+	* RIN > 9 for all samples
+	* 1 ng total RNA
+	* PolyA primer for selection
+	* Libraries are not strand-specific
+	* Generated 2 library sets: 1 set without RNA pre-amplification (failed) and 1 set with pre-amplification (OK)
+* Ran on NextSeq for 2x32 bp reads
+	* Expected ~685M reads/batch
+* Batch 1 (labeled b2): Mixed sets with and without RNA pre-amplification -> fewer reads than expected (~260M)
+* Batch 2 (labeled b1): Re-run of same pre-amplified set used in batch 1
+
+
+## Analysis
+
+
+### Status
+In progress: Code refactoring. Collecting metrics, annotating, and merging BAMs with Picard.
+
+2018-08-12: Created README. Completed FastQC, Trimmomatic, and STAR multi-sample 2-pass mapping after extensively testing parameters for mapping NextSeq data.
 
 
 ## Controls
-From Connie, expect the following expression patterns:
+From Connie, expect the following gene expression patterns:
 
 * Fgf8: High in RFZ and maybe T
 * Vax: High in V and low in D
@@ -54,11 +78,11 @@ From Connie, expect the following expression patterns:
 
 
 ## Cluster setup
-The HMS O2 cluster has ~7000 nodes with 32 cores and 256 GB RAM each. It's managed by the Slurm job scheduler; for how to use Slurm, see [https://wiki.rc.hms.harvard.edu/display/O2/O2].
+The HMS O2 cluster has ~7000 nodes with 32 cores and 256 GB RAM each. It's managed by the [Slurm job scheduler](https://wiki.rc.hms.harvard.edu/display/O2/O2).
 
 * Can request a max of 20 cores/node, but the more cores/memory requested, the longer the pend time.
 
-* To run an interactive session for testing commands, I generally use `srun --pty -p interactive -c 8 --mem=64G -t 0-11:00 /bin/bash`. The interactive queue has a max of 12 hours.
+* To run an interactive session, I generally use `srun --pty -p interactive -c 8 --mem=64G -t 0-11:00 /bin/bash`. The interactive queue has a max of 12 hours.
 
 
 
@@ -100,9 +124,10 @@ projectDir/R/
 * Ensembl Galgal5 GTF annotation
 * STAR genome index from genome assembly + annotation
 
-## Raw data
+### Raw data
+The raw data for this project can be found at:
 * Genetics server at research.files.med.harvard.edu/genetics/??
-* On HMS O2:
+* HMS O2:
 	* I've symlinked Nathan's NextSeq data with:
 
 		`ln -s /n/data2/hms/genetics/cepko/Nathan/NextSeq/150227_NS500531_0022_AH5JJLBGXX/Data/Intensities/BaseCalls/Run_22/* /home/ch220/2018_chickRFZ_rnaSeq/data/nathan/nextSeq_b1`
@@ -116,17 +141,54 @@ projectDir/R/
 * eCommons (Nathan)
 
 
-### Data format
+#### Data format
 * Paired end FASTQ files (R1 for forward read and R2 for reverse)
 * FASTQ files are compressed as necessary by gunzip
-* Each sample has its own folder
+* Each donor has its own folder
 * Initial scripts format all filenames into the following structure:
-	* `tissue-sample-well_sampleNumber_laneNumber_R1orR2_batchNumber.fastq.gz`
-	* E.g. `Sample1.1/RFZ-1-A01_S1_L001_R1_001.fastq.gz`
+	* `tissue-donor-well_sampleNumber_laneNumber_R1orR2_batchNumber.fastq.gz`
+	* E.g. `Donor1.1/RFZ-1-A01_S1_L001_R1_001.fastq.gz`
 * Samples are matched by lane assuming that lane regex is `_L###_`
 
 
-## Sample script header
+## Scripting tips
+* Be organized and consistent, especially with naming syntax. 
+	* It's always worth the time to make all your initial data files have the same filename syntax.
+
+* Immediately remove whitespace from folder and filenames, and avoid using spaces in names as much as possible. If this is infeasible, seriously consider learning Python instead of bash.
+
+* Use an editor with syntax highlighting. I usually write bash in gedit and R in RStudio, but probably any editor with syntax highlighting will do.
+
+* Set variables for frequently-modified parameters, and keep them at the beginning of your scripts. Then later, when you need to change them, you won't have to hunt through your entire pipeline to find them all.
+
+* Add `set -Eeuo pipefail` to the beginning of every bash script. See [https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/] and [http://redsymbol.net/articles/unofficial-bash-strict-mode/].
+
+
+
+### Parallelization
+I often use job arrays for between-donor analyses and GNU parallel for within-donor analyses.
+
+#### Why?
+A cluster is a collection of nodes. On HMS O2, each node has 32 cores and 256G memory.
+
+This can also be said as, "A network is a collection of computers. On HMS O2, each computer has 32 threads and 256 GB RAM."
+
+Each job is sent to 1 node (unless you're using mpi, but that's on you).
+
+Keep this structure in mind when parallelizing. 
+
+Say you have ten donors, and you've collected five tissue types from each donor.
+
+It's often a great idea to submit a job per donor, then within that job, simultaneously process the different tissues from that donor on different cores.
+
+On the other hand, submitting a job per tissue while trying to analyze the different donors on different cores will at best fail and at worst make a mess.
+
+
+#### Caveat
+Jobs that require a large number of cores/memory can spend a long time languishing in the queue. Sometimes it's faster to loop instead of parallelize.
+
+
+### Sample script header
 ```bash
 #!/bin/bash
 
@@ -218,9 +280,6 @@ LC_COLLATE=C    # specifies sort order (numbers, uppercase, then lowercase)
     # When possible, using full path to minimize confusion by shell, record tool versions, and increase clarity regarding dependencies.
 ```
 
-I usually write bash in gedit and R in RStudio, but probably any editor with syntax highlighting will do.
-
 
 ## Acknowledgments
 * Include citations for tools
-
