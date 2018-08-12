@@ -26,7 +26,6 @@ Unreleased: Collected metrics, annotated, and merged BAMs with Picard
 1. [Controls](#controls)
 1. [Data collection notes](#data-collection-notes)
 1. [Setup](#setup)
-1. [TODOs](#todos)
 1. [Acknowledgments](#acknowledgments)
 
 
@@ -198,10 +197,6 @@ LC_COLLATE=C    # specifies sort order (numbers, uppercase, then lowercase)
     # Bash variables are untyped by default.  For more robust code, can declare data type with [declare] (see http://tldp.org/LDP/abs/html/declareref.html ), but I'm not sure how declare works with export.  May try later.
     # When possible, using full path to minimize confusion by shell, record tool versions, and increase clarity regarding dependencies.
 ```
-
-
-
-## TODOs
 
 ## Acknowledgments
 * Include citations for tools
