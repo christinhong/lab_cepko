@@ -248,7 +248,7 @@ The raw data for this project can be found at:
 * Be organized and consistent, especially with naming syntax. 
 	* It's always worth the time to make all your initial data files have the same filename syntax.
 
-* Immediately remove whitespace from folder and filenames, and avoid using spaces in names as much as possible. If this is infeasible, seriously consider learning Python instead of bash.
+* Immediately remove whitespace from folder and filenames, and avoid using spaces in names as much as possible. If this is infeasible, seriously consider coding in Python instead of bash.
 
 * Write in an editor with syntax highlighting. I usually write bash in gedit and R in RStudio, but probably any editor with syntax highlighting will do.
 
