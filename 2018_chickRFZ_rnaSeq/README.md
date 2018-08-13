@@ -4,7 +4,7 @@ Christin Hong
 
 Harvard Medical School, Cepko Lab
 
-Collaborators: Jiho Choi (main contact), Susana da Silva, Nathan Mundell
+Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 
 * Introduced to this project by Nico Lonfat's suggestion to Connie
 
