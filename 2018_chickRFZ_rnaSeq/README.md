@@ -44,7 +44,7 @@ Collaborators: Jiho Choi (main contact), Susana da Silva, Nathan Mundell
 ### Changelog
 In progress: Collecting metrics, annotating, and merging BAMs with Picard.
 
-2018-08-13: HMS approved my request for increased group space! /n/data2/hms/genetics/cepko has gone from 1 to 10 TB. Will set up shop in group for easier resource sharing and avoiding the auto-purge in scratch2.
+2018-08-13: HMS approved my request for increased group space! `/n/data2/hms/genetics/cepko` has gone from 1 to 10 TB. Will set up shop in group for easier resource sharing and avoiding the auto-purge in scratch2.
 
 2018-08-12: Initialized project README. Tested parameters for mapping NextSeq data. Finalized FastQC, Trimmomatic, and STAR multi-sample 2-pass mapping. Code refactoring.
 
