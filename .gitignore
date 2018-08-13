@@ -1,5 +1,6 @@
 #### Excluding all except code directories ####
 # from https://stackoverflow.com/questions/5533050/gitignore-exclude-folder-but-include-specific-subfolder#5534865
+<<<<<<< HEAD
 
 # Exclude other top-level files
 archive
@@ -7,11 +8,12 @@ archive
 .Rproj.user
 .Rhistory
 .Rproj
+.html
 
-
-# Exclude all qPCR except code subdirectory
-!qPCR/
-qPCR/*
-!qPCR/code/
+# Exclude sub-subdirectories
+**/data
+**/layouts
+**/output
+>>>>>>> 3df7c86bdb0d35d062e2b95a3db8c8467848b2dd
 
 
