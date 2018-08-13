@@ -258,7 +258,7 @@ The raw data for this project can be found at:
 
 * Use `sacct -j <jobid>` to check whether jobs completed successfully. ExitValues should be 0:0.
 
-* Version control with [GitHub](https://confluence.atlassian.com/bitbucketserver/basic-git-commands-776639767.html).
+* Remember version control with [GitHub](https://confluence.atlassian.com/bitbucketserver/basic-git-commands-776639767.html).
 
 
 ### Parallelization
