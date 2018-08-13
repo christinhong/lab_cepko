@@ -8,7 +8,7 @@ Collaborators: Jiho Choi (main contact), Susana da Silva, Nathan Mundell
 
 * Introduced to this project by Nico Lonfat's suggestion to Connie
 
-*This README is written in GitHub Markdown. Outside GitHub, its general formatting can be viewed by copying and pasting into https://dillinger.io/.*
+*This README is written in GitHub Markdown. Outside GitHub, it can be opened and previewed in RStudio or copied and pasted into https://dillinger.io/.*
 
 ---
 
@@ -80,6 +80,7 @@ The main difference is that ~40% NextSeq reads are "mapped to too many loci" (>1
 Part of this is probably due to the NextSeq reads being 32 bp while the HiSeq are 50 bp + Galgal5 having only the toplevel genome assembly on Ensembl. Unlike primary assemblies, toplevel genome assemblies include haplotypes and repetitive patches. It's likely that the shorter reads map more easily to these repetitive regions.
 
 I've tested the following:
+
 1. Mapping reads to genomes indexed with `--sjdbOverhang 31` or `49` based on read length (default is 100, recommended is ((max read length)-1)).
 	1. No effect.
 1. Mapping only R1 reads to see if the sort order in paired FASTQ input was an issue (known STAR bug).
@@ -126,6 +127,7 @@ From Connie, expect the following gene expression patterns:
 ## Data collection
 
 **Organism**: Chick (Galgal5)
+
 * **Groups for comparison**: 5 retinal tissue regions
 	1. RFZ
 	1. Dorsal
