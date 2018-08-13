@@ -8,7 +8,7 @@ Collaborators: Jiho Choi (main contact), Susana da Silva, Nathan Mundell
 
 * Introduced to this project by Nico Lonfat's suggestion to Connie
 
-*This README is written in GitHub Markdown. Outside GitHub, its general formatting can be viewed by copying and pasting into [http://markdownlivepreview.com/].*
+*This README is written in GitHub Markdown. Outside GitHub, its general formatting can be viewed by copying and pasting into https://dillinger.io/.*
 
 ---
 
@@ -17,7 +17,7 @@ Collaborators: Jiho Choi (main contact), Susana da Silva, Nathan Mundell
 1. [Analysis](#analysis)
 	1. [Status](#status)
 	1. [Pipelines](#pipelines)
-	1. [Mapping NextSeq reads](#mapping-nextseq-reads)
+	1. [On mapping NextSeq reads](#on-mapping-nextseq-reads)
 1. [Controls](#controls)
 1. [Data collection](#data-collection)
 1. [Cluster setup](#cluster-setup)
@@ -50,7 +50,7 @@ In development: Genome-based mapping: STAR multi-sample 2-pass mapping -> featur
 *Hold: Transcriptome-based mapping: STAR -> Salmon -> tximport -> DESeq2*
 
 
-### Mapping NextSeq reads
+### On mapping NextSeq reads
 From STAR's output, only ~20-25% of NextSeq reads are uniquely mapped vs. ~75-80% of HiSeq reads. The main difference is that ~40% NextSeq reads are "mapped to too many loci" (>10).
 
 It's worth noting here that:
@@ -71,7 +71,7 @@ I've tested the following:
 1. Setting `--sjdbScore 1` (default is 2). This decreases mapping to splice junctions. From Alex Dobin (the developer of STAR) at https://groups.google.com/forum/#!msg/rna-star/O1oDItDltjY/0jSn0vy0ccgJ: "I think it is to be expected that some unique mappers become multi-mappers as you add more and more sjdb junctions, since this effectively adds more possibilities for the reads to align. Note, that by default the --sjdbScore = 2, which means that STAR will try to map aggressively to the sjdb junctions, preferring spliced alignment with 1 mismatch to an unspliced alignment without mismatches. You may want to try to reduce this parameter, though it will lead to yet another slight decrease in the % of unique mappers."
 	1. No effect.
 
-Unfortunately, I think these reads are genuinely mapping non-specifically. Quality > quantity, so will move forward with what's available.
+Unfortunately, I think these reads are genuinely mapping non-specifically. Will use the higher stringency STAR defaults while using the genome index generated with `--sjdbOverhang 49`. Quality > quantity.
 
 For future reference, excessive multimapping is likely due to:
 1. Shorter read lengths, 
@@ -321,4 +321,8 @@ LC_COLLATE=C    # specifies sort order (numbers, uppercase, then lowercase)
 
 
 ## Acknowledgments
-* Include citations for tools
+Citing important tools helps to keep them funded.
+
+* GNU Parallel: Tange, Ole. (2018). GNU Parallel 2018. GNU Parallel 2018 (p. 112). Ole Tange. http://doi.org/10.5281/zenodo.1146014
+
+
