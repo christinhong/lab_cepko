@@ -1,5 +1,5 @@
-#### Excluding all except code directories ####
-# from https://stackoverflow.com/questions/5533050/gitignore-exclude-folder-but-include-specific-subfolder#5534865
+#### Excluding all except specific subdirectories ####
+# see https://stackoverflow.com/questions/5533050/gitignore-exclude-folder-but-include-specific-subfolder#5534865
 <<<<<<< HEAD
 
 # Exclude all folders or files named "archive"
