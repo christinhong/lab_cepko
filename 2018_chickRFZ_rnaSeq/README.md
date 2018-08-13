@@ -319,12 +319,12 @@ export pathData=${pathProj}/data/*/*
 export pathBash=${pathProj}/bash
 export pathDoc=${pathProj}/doc
 
-export pathData2=/n/scratch2/ch220/fq_trimmed
 
 export pathOut=/n/scratch2/ch220
-export pathOutTrimmed=/n/scratch2/ch220/fq_trimmed
-export pathOutStar=${pathOut}/starMap                   
+export pathData2=${pathOut}/fq_trimmed
 export pathStarInd=${pathOut}/STAR-gg5-sjo49            # STAR indexed with --sjbdOverhang 49
+
+export pathOutStar=${pathOut}/starMap                   
 export fileSJ=${pathOutStar}/sj_1-60.txt                # File of STAR splice junctions
 
 
