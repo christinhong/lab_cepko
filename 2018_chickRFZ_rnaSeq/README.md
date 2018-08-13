@@ -46,6 +46,7 @@ In progress: Collecting metrics, annotating, and merging BAMs with Picard.
 
 ### Pipelines
 In development: Genome-based mapping: STAR multi-sample 2-pass mapping -> featureCounts -> DESeq2
+* GNU Make and knitr
 
 *Hold: Genome-based mapping plus automated read count processing: STAR -> RSEM (used by Broad)*
 
