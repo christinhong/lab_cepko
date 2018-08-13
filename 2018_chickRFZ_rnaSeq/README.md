@@ -96,9 +96,8 @@ I've tested the following:
 Unfortunately, I think these reads are genuinely mapping non-specifically.  Quality > quantity. Will use the higher stringency STAR defaults while using the genome index generated with `--sjdbOverhang 49` for processing all samples.
 
 For future reference, excessive multimapping is likely due to:
-1. Shorter read lengths, 
-1. rRNA "contamination" (poor ribo-depletion), and/or
-1. Repetitive haplotypes/patches in toplevel genome assembly (less likely since HiSeq reads map well).
+1. rRNA "contamination" (poor ribo-depletion) and/or
+1. shorter read lengths + repetitive haplotypes/patches in toplevel genome assembly.
 
 
 ### Post-mapping thoughts
