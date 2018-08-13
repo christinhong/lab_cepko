@@ -8,7 +8,7 @@ Collaborators: Jiho Choi (main contact), Susana da Silva, Nathan Mundell
 
 * Introduced to this project by Nico Lonfat's suggestion to Connie
 
-*This README is written in GitHub Markdown. Outside GitHub, it can be opened and previewed in RStudio or copied and pasted into https://dillinger.io/.*
+*The README.md is written in GitHub Markdown. Outside GitHub, it can be opened and previewed in RStudio or copied and pasted into https://dillinger.io/.*
 
 ---
 
