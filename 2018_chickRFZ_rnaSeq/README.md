@@ -72,7 +72,8 @@ Ultimately, each pass across all samples in this dataset took me ~1 hour.
 
 
 ### On mapping NextSeq reads
-From STAR's output, only ~20-25% of NextSeq reads are uniquely mapped vs. ~75-80% of HiSeq reads. The main difference is that ~40% NextSeq reads are "mapped to too many loci" (>10).
+From STAR's output, only ~20-25% of NextSeq reads are uniquely mapped vs. ~75-80% of HiSeq reads. The main difference is that ~40% NextSeq reads are "mapped to too many loci" (>10 loci)
+# vs ??% of HiSeq reads.
 
 It's worth remembering that:
 1. The NextSeq reads are 32 bp while the HiSeq are 50 bp, and
