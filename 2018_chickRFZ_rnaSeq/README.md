@@ -146,7 +146,7 @@ From Connie, expect the following gene expression patterns:
 * Identified RFZ progenitors at E5+1DIV by RARE reporter
 * HMS Biopolymer Facility quantified RNA, diluted samples for SPIA amplification, and generated libraries
 * Ran on HiSeq for 2x50 bp reads
-* 2 retina * 5 tissues * 1 lane * 1 batch = 10 FASTQ files
+* 2 retina * 5 tissues * 1 lane = 10 FASTQ files
 
 #### From Nathan (retina 1-5)
 * Identified RFZ progenitors at E5+1DIV by RARE reporter
@@ -160,7 +160,7 @@ From Connie, expect the following gene expression patterns:
 	* Expected ~685M reads/batch
 * Batch 1 (labeled b2): Mixed sets with and without RNA pre-amplification -> fewer reads than expected (~260M)
 * Batch 2 (labeled b1): Re-run of same pre-amplified set used in batch 1
-* 5 retina * 5 tissues * 4 lanes * 2 batches = 200 FASTQ files
+* 5 retina * 5 tissues * 4 lanes * 2 runs = 200 FASTQ files
 
 
 ---
