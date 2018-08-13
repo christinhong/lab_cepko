@@ -250,9 +250,9 @@ The raw data for this project can be found at:
 
 * Use an editor with syntax highlighting. I usually write bash in gedit and R in RStudio, but probably any editor with syntax highlighting will do.
 
-* Set variables for frequently-modified parameters, and keep them at the beginning of your scripts. Then later, when you need to change them, you won't have to hunt through your entire pipeline to find them all.
-
 * Use tmux for interactive scripting.
+
+* Set variables for frequently-modified parameters, and keep them at the beginning of your scripts. Then later, when you need to change them, you won't have to hunt through your entire pipeline to find them all.
 
 * Put `set -Eeuo pipefail` at the beginning of every bash script. See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/ and http://redsymbol.net/articles/unofficial-bash-strict-mode/.
 
