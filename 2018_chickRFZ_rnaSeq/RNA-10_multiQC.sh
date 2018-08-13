@@ -15,8 +15,11 @@
 srun --pty -p interactive -c 8 --mem=64G -t 0-11:00 /bin/bash
 
 
-
 # GLOBAL VARIABLES
+
+export cepko=/n/data2/hms/genetics/cepko
+export christin=${cepko}/christin
+
 
 # Job-specific
 export intCores=8
@@ -110,12 +113,11 @@ mkdir /n/scratch2/ch220/starMap
 
 #### After 2-pass STAR mapping ####
 
-# MultiQC after STAR takes a while (~1 hour). Definitely run within tmux.
+# MultiQC after STAR takes a couple hours. Definitely run within tmux.
 
 sacct -j 21496183            # Exit values should be 0:0
 
 cat ~/jobLogs/RNA-05_*.err  # Should all be empty
-
 
 multiqc \
     /home/ch220/2018_chickRFZ_rnaSeq/doc \

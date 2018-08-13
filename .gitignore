@@ -16,8 +16,8 @@ archive
 
 # Exclude specific sub-subdirectories
 **/data
+**/doc
 **/layouts
 **/output
->>>>>>> 3df7c86bdb0d35d062e2b95a3db8c8467848b2dd
-
+>>>>>>>
 

@@ -35,8 +35,7 @@ ssh ch220@o2.hms.harvard.edu
 
 
 # Request resources on interactive node
-srun --pty -p interactive -c 8 --mem=24G -t 0-11:00 /bin/bash
-    # O2 has 7000 nodes. Each O2 node has 32 cores and 256 GB RAM, so this requests a quarter of a node with flexible memory distribution.
+srun --pty -p interactive -c 8 --mem=64G -t 0-11:00 /bin/bash
 
 
 # Set job resource variables
