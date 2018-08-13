@@ -238,7 +238,7 @@ The raw data for this project can be found at:
 
 * Set variables for frequently-modified parameters, and keep them at the beginning of your scripts. Then later, when you need to change them, you won't have to hunt through your entire pipeline to find them all.
 
-* Add `set -Eeuo pipefail` to the beginning of every bash script. See [https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/] and [http://redsymbol.net/articles/unofficial-bash-strict-mode/].
+* Add `set -Eeuo pipefail` to the beginning of every bash script. See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/ and http://redsymbol.net/articles/unofficial-bash-strict-mode/.
 
 
 
