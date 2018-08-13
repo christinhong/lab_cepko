@@ -8,7 +8,7 @@ Collaborators: Jiho Choi (main contact), Susana da Silva, Nathan Mundell
 
 * Introduced to this project by Nico Lonfat's suggestion to Connie
 
-*README.md is written in GitHub Markdown. Outside GitHub, it can be copied and pasted into https://jbt.github.io/markdown-editor/ or opened and previewed as HTML from RStudio.*
+*README.md is written in GitHub Markdown. Outside GitHub, it can be copied and pasted into https://jbt.github.io/markdown-editor/ or opened and previewed as HTML by RStudio.*
 
 ---
 
@@ -31,9 +31,12 @@ Collaborators: Jiho Choi (main contact), Susana da Silva, Nathan Mundell
 	1. [Sample script header](#sample-script-header)
 1. [Acknowledgments](#acknowledgments)
 
+---
 
 ## Intro
 
+
+---
 
 ## Analysis
 
@@ -111,6 +114,8 @@ From HiSeq, it's pretty variable with the range being ~1-13 M.
 It looks like Ryoji's dendrogram was based on log2+1 read counts, so I'd guess that's the main reason why the datasets look so different. But there's plenty of data for each sample. Will see how the analysis turns out.
 
 
+---
+
 ## Controls
 From Connie, expect the following gene expression patterns:
 
@@ -123,6 +128,8 @@ From Connie, expect the following gene expression patterns:
 * Cyp26a1: High in RFZ and N and T
 * Tbx2, 3, and 5: More D than V, but on a gradient
 
+
+---
 
 ## Data collection
 
@@ -156,13 +163,14 @@ From Connie, expect the following gene expression patterns:
 * 5 retina * 5 tissues * 4 lanes * 2 batches = 200 FASTQ files
 
 
+---
+
 ## Cluster setup
 The HMS O2 cluster has ~7000 nodes with 32 cores and 256 GB RAM each. It's managed by the [Slurm job scheduler](https://wiki.rc.hms.harvard.edu/display/O2/O2).
 
 * Can request a max of 20 cores/node, but the more cores/memory requested, the longer the pend time.
 
 * To run an interactive session, I generally use `srun --pty -p interactive -c 8 --mem=64G -t 0-11:00 /bin/bash`. The interactive queue has a max of 12 hours.
-
 
 
 ### Directory structure
@@ -232,6 +240,8 @@ The raw data for this project can be found at:
 * Samples are matched by lane assuming that lane regex is `_L###_`
 
 
+---
+
 ## Scripting tips
 * Be organized and consistent, especially with naming syntax. 
 	* It's always worth the time to make all your initial data files have the same filename syntax.
@@ -243,7 +253,6 @@ The raw data for this project can be found at:
 * Set variables for frequently-modified parameters, and keep them at the beginning of your scripts. Then later, when you need to change them, you won't have to hunt through your entire pipeline to find them all.
 
 * Add `set -Eeuo pipefail` to the beginning of every bash script. See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/ and http://redsymbol.net/articles/unofficial-bash-strict-mode/.
-
 
 
 ### Parallelization
@@ -369,6 +378,8 @@ echo "Using STAR index ${pathStarInd}"
 echo
 ```
 
+
+---
 
 ## Acknowledgments
 Citing tools helps keep them funded.
