@@ -286,7 +286,7 @@ I often use job arrays for between-sample analyses and GNU Parallel for within-s
 
 * Caveats
 	* Jobs that require a large number of cores/memory (>8 cores and/or >48 GB RAM) can spend a long time languishing in the queue. Sometimes it's faster to reduce memory requirements by looping instead of parallelizing.
-	* And when a script generates large intermediate files (e.g. STAR), available disk space can become a limiting factor. Then it may be worthwhile to limit the number of jobs allowed to run from a job array at a time.
+	* When a script generates large intermediate files (e.g. STAR), available disk space can become a limiting factor. Then it may be worthwhile to limit the number of jobs allowed to run from a job array at a time.
 
 
 ### Sample script header
