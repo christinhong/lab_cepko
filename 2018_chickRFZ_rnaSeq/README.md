@@ -360,7 +360,7 @@ LC_COLLATE=C    # specifies sort order (numbers, uppercase, then lowercase)
 
 
 ## Acknowledgments
-Citing important tools helps to keep them funded.
+Citing tools helps keep them funded.
 
 * GNU Parallel: Tange, Ole. (2018). GNU Parallel 2018. GNU Parallel 2018 (p. 112). Ole Tange. http://doi.org/10.5281/zenodo.1146014
 
