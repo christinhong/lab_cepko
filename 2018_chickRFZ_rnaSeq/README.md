@@ -72,7 +72,9 @@ With NoSharedMemory, every job needs ~30 GB of memory just to load the genome. I
 
 STAR itself is fast--mapping each read pair takes 2-20 minutes--so it's actually more efficient to loop through each read pair instead of parallelizing. This cuts the RAM requirement to what's necessary for mapping 1 read pair (I use 48 GB/job to be safe) instead of what would be necessary to map all the read pairs in parallel (e.g. 4 pairs per sample due to 4 flowcell lanes per pair * >30 GB RAM = >120 GB RAM required). Less RAM necessary per job means faster job allocation from the queue.
 
-Then I submit a job for each sample via job array. Average time for each pass across all samples is ~40-60 minutes.
+Then I submit a job for each sample via job array. 
+
+Average time for each pass across all samples is ~40-60 minutes, but it's taken >3 hours when the cluster is busy.
 
 
 ### On mapping NextSeq reads
