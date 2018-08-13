@@ -201,15 +201,24 @@ rename _001.fastq.gz _002.fastq.gz /home/ch220/2018_chickRFZ_rnaSeq/data/nathan/
 
 module load fastqc/0.11.3
 
-mkdir /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_nextSeq
+mkdir /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_orig
 
-${parallel} -j ${intCores} --verbose --joblog "/home/ch220/2018_chickRFZ_rnaSeq/output/logs/parallel-fastqc-nextSeq.log" --resume-failed --keep-order "fastqc -o /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_nextSeq {}" ::: /home/ch220/2018_chickRFZ_rnaSeq/data/nathan/*/*/*.fastq.gz
-    # Note: This command assumes none of the output files exist, including the joblog. If they do, FastQC gets confused, so clean up results from old analyses before running.
+mkdir /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_orig/ctrls
+mkdir /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_orig/nextSeq
+mkdir /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_orig/hiSeq
 
 
-mkdir /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_hiSeq
+${parallel} -j ${intCores} --verbose --joblog "/home/ch220/jobLogs/parallel-fastqc-ctrls.log" --resume-failed --keep-order "fastqc -o /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_orig/ctrls {}" ::: /home/ch220/2018_chickRFZ_rnaSeq/dataCtrls/*/*/*.fastq.gz
 
-${parallel} -j ${intCores} --verbose --joblog "/home/ch220/2018_chickRFZ_rnaSeq/output/logs/parallel-fastqc-hiSeq.log" --resume-failed --keep-order "fastqc -o /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_hiSeq {}" ::: /home/ch220/2018_chickRFZ_rnaSeq/data/susana/*/*/*.fastq.gz
+
+${parallel} -j ${intCores} --verbose --joblog "/home/ch220/jobLogs/parallel-fastqc-nextSeq.log" --resume-failed --keep-order "fastqc -o /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_orig/nextSeq {}" ::: /home/ch220/2018_chickRFZ_rnaSeq/data/nathan/*/*/*.fastq.gz
+
+
+${parallel} -j ${intCores} --verbose --joblog "/home/ch220/jobLogs/parallel-fastqc-hiSeq.log" --resume-failed --keep-order "fastqc -o /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_orig/hiSeq {}" ::: /home/ch220/2018_chickRFZ_rnaSeq/data/susana/*/*/*.fastq.gz
+
+
+multiqc /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_orig -o /home/ch220/2018_chickRFZ_rnaSeq/doc/multiQC -n multiQC-01_fastqc-orig_$(date '+%Y-%m-%d')
+
 
 
 
@@ -229,16 +238,6 @@ multiqc .
 
 cd /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_hiSeq
 multiqc .
-
-
-
-#### Download MultiQC results to PC to look them over by eye ####
-# From shell on HOME COMPUTER, run:
-scp -r ch220@transfer.rc.hms.harvard.edu:/home/ch220/2018_chickRFZ_rnaSeq/doc/multiqc* /home/christin/aaa_data_CepkoLab/2018_chickRFZ_rnaSeq_data/multiQC
-
-scp -r ch220@transfer.rc.hms.harvard.edu:/home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_nextSeq/multiqc* /home/christin/aaa_data_CepkoLab/2018_chickRFZ_rnaSeq_data/multiQC/nextSeq
-
-scp -r ch220@transfer.rc.hms.harvard.edu:/home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_hiSeq/multiqc* /home/christin/aaa_data_CepkoLab/2018_chickRFZ_rnaSeq_data/multiQC/hiSeq
 
 
 

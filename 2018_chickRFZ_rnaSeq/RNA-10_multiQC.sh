@@ -14,7 +14,6 @@
 # Request resources on interactive node
 srun --pty -p interactive -c 8 --mem=64G -t 0-11:00 /bin/bash
 
-tmux
 
 
 # GLOBAL VARIABLES
@@ -96,8 +95,12 @@ mv -n fastqc_nextSeq archive/
 mv -n fastqc_hiSeq archive/
 
 # Post-trimmomatic
-multiqc . --ignore archive/ -o multiQC -n multiQC-02_afterTrimmomatic
-    # Note that multiQC recognizes files it's already analyzed on previous runs, so it doesn't take extra time to include previous analyses in report.
+multiqc \
+    /home/ch220/2018_chickRFZ_rnaSeq/doc \
+    --ignore /home/ch220/2018_chickRFZ_rnaSeq/doc/archive \
+    --ignore /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_orig \
+    -o /home/ch220/2018_chickRFZ_rnaSeq/doc/multiQC \
+    -n multiQC-02_afterTrimmomatic_$(date '+%Y-%m-%d')
 
 
 
@@ -106,20 +109,25 @@ mkdir /n/scratch2/ch220/starMap
 
 
 #### After 2-pass STAR mapping ####
-    # This might take a while (~1 hour)
-tmux
 
-sacct -j <jobid>            # Exit values should be 0:0
+# MultiQC after STAR takes a while (~1 hour). Definitely run within tmux.
+
+sacct -j 21496183            # Exit values should be 0:0
 
 cat ~/jobLogs/RNA-05_*.err  # Should all be empty
 
-cd /home/ch220/2018_chickRFZ_rnaSeq/doc
 
-multiqc . /n/scratch2/ch220/starMap/pass2 --ignore ./archive -o ./multiQC -n multiQC-03_STARmapping
+multiqc \
+    /home/ch220/2018_chickRFZ_rnaSeq/doc \
+    /n/scratch2/ch220/starMap/pass2 \
+    --ignore /home/ch220/2018_chickRFZ_rnaSeq/doc/archive \
+    --ignore /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_orig \
+    -o /home/ch220/2018_chickRFZ_rnaSeq/doc/multiQC \
+    -n multiQC-03_STARmapping_$(date '+%Y-%m-%d')
 
 
 
 
 #### Downloading data from home terminal ####
-rsync -av --progress "ch220@transfer.rc.hms.harvard.edu:/home/ch220/2018_chickRFZ_rnaSeq/doc/multiQC/*" "/home/christin/Desktop/2018_chickRFZ_rnaSeq/"
+rsync -avr --progress "ch220@transfer.rc.hms.harvard.edu:/home/ch220/2018_chickRFZ_rnaSeq/doc/multiQC/*" "/home/christin/Dropbox/01_Harvard/01_lab_connieCepko/doc/2018_chickRFZ_rnaSeq/"
 
