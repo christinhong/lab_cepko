@@ -125,13 +125,12 @@ From Connie, expect the following gene expression patterns:
 ## Data collection
 
 **Organism**: Chick (Galgal5)
-
-**Groups for comparison**: 5 retinal tissue regions
-1. RFZ
-1. Dorsal
-1. Ventral
-1. Nasal
-1. Temporal
+* **Groups for comparison**: 5 retinal tissue regions
+	1. RFZ
+	1. Dorsal
+	1. Ventral
+	1. Nasal
+	1. Temporal
 
 #### From Susana (retina 6-7)
 * Identified RFZ progenitors at E5+1DIV by RARE reporter
