@@ -104,7 +104,7 @@ For future reference, excessive multimapping is likely due to:
 
 
 ### Thoughts on mapped data
-The high percentage of reads that were "mapped to too many loci" in the first STAR pass seem to be split across "mapping to too many loci" and "reads unmapped: other" in the second STAR pass. But the percentage of uniquely mapped reads is stable, so that's probably fine.
+The high percentage of reads that were "mapped to too many loci" in the first STAR pass seem to be split across "mapped to too many loci" and "reads unmapped: other" in the second STAR pass. But the percentage of uniquely mapped reads is stable, so that's probably fine.
 
 In terms of uniquely mapped reads, the NextSeq data consistently hovers around 0.5-1 M/BAM. Times 4 lanes = 2-4 M/sample.
 
