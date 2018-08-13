@@ -251,7 +251,7 @@ A cluster is a collection of nodes. On HMS O2, each node has 32 cores and 256G m
 
 This can also be said as, "A network is a collection of computers. On HMS O2, each computer has 32 threads and 256 GB RAM."
 
-Each job is sent to 1 node (unless you're using mpi, but that's on you).
+Each job is sent to 1 node (unless you're using mpi. That's all you).
 
 Keep this structure in mind when parallelizing. 
 
