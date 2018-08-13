@@ -131,5 +131,5 @@ multiqc \
 
 
 #### Downloading data from home terminal ####
-rsync -avr --progress "ch220@transfer.rc.hms.harvard.edu:/home/ch220/2018_chickRFZ_rnaSeq/doc/multiQC/*" "/home/christin/Dropbox/01_Harvard/01_lab_connieCepko/doc/2018_chickRFZ_rnaSeq/"
+rsync -avr --progress "ch220@transfer.rc.hms.harvard.edu:/home/ch220/2018_chickRFZ_rnaSeq/doc/multiQC/*" "/home/christin/Dropbox/01_Harvard/02_code_github/lab_cepko/2018_chickRFZ_rnaSeq/doc/"
 
