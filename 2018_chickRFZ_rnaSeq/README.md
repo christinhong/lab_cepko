@@ -99,7 +99,7 @@ I've tested the following:
 1. Setting `--sjdbScore 1` (default is 2). This decreases mapping to splice junctions. From Alex Dobin (the developer of STAR) at https://groups.google.com/forum/#!msg/rna-star/O1oDItDltjY/0jSn0vy0ccgJ: "I think it is to be expected that some unique mappers become multi-mappers as you add more and more sjdb junctions, since this effectively adds more possibilities for the reads to align. Note, that by default the --sjdbScore = 2, which means that STAR will try to map aggressively to the sjdb junctions, preferring spliced alignment with 1 mismatch to an unspliced alignment without mismatches. You may want to try to reduce this parameter, though it will lead to yet another slight decrease in the % of unique mappers."
 	1. No effect.
 
-Unfortunately, I think these reads are genuinely mapping non-specifically. Quality > quantity. Will use the higher stringency STAR defaults while using the genome index generated with `--sjdbOverhang 49` for processing all samples.
+Unfortunately, I think these reads are genuinely mapping non-specifically... I'm tempted to relax the mapping length requirement, but quality > quantity. To be safe, I'll use the STAR defaults while using the genome index generated with `--sjdbOverhang 49` for processing all samples.
 
 For future reference, excessive multimapping is likely due to:
 
@@ -107,7 +107,7 @@ For future reference, excessive multimapping is likely due to:
 1. rRNA "contamination" (poor ribo-depletion).
 
 
-### Post-mapping thoughts
+### Post first-pass-mapping thoughts
 In terms of uniquely mapped reads, the NextSeq data consistently hovers around 1 M/sample.
 
 From HiSeq, it's pretty variable with the range being ~1-13 M.
@@ -159,8 +159,8 @@ From Connie, expect the following gene expression patterns:
 	* Generated 2 library sets: 1 set without RNA pre-amplification (failed) and 1 set with pre-amplification (OK)
 * Ran on NextSeq for 2x32 bp reads
 	* Expected ~685M reads/batch
-* Batch 1 (labeled b2): Mixed sets with and without RNA pre-amplification -> fewer reads than expected (~260M)
-* Batch 2 (labeled b1): Re-run of same pre-amplified set used in batch 1
+* Batch 1: Mix of sets with and without RNA pre-amplification -> fewer reads than expected (~260M)
+* Batch 2: Re-run of same pre-amplified set used in batch 1
 * 5 retina * 5 tissues * 4 lanes * 2 runs = 200 FASTQ files
 
 
