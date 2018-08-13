@@ -68,7 +68,7 @@ STAR itself is fast--mapping each read pair takes 5-20 minutes--so it's actually
 
 Then I submit a job for each sample via job array.
 
-Each pass across all samples in this dataset took me ~40-60 minutes.
+Ultimately, each pass across all samples in this dataset took ~40-60 minutes.
 
 
 ### On mapping NextSeq reads
