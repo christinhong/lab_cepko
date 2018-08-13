@@ -78,9 +78,9 @@ Average time for each pass across all samples is ~40-60 minutes, but it's taken 
 
 
 ### On mapping NextSeq reads
-From STAR's output, only ~20-25% of NextSeq reads are uniquely mapped vs. ~75-80% of HiSeq reads. 
+From STAR's output after the first pass, only ~20-25% of NextSeq reads are uniquely mapped vs. ~75-80% of HiSeq reads.
 
-The main difference is that ~40% NextSeq reads are "mapped to too many loci" (>10 loci) vs 2-10% of HiSeq reads. The NextSeq reads are also more likely to be unmapped due to being "too short" (20% vs. 10%) or "other" (15% vs. 2%).
+Some NextSeq samples have ~40% of reads mapping "to too many loci" (>10 loci) vs 2-10% of HiSeq reads. The NextSeq reads are also more likely to be unmapped due to being "too short" (e.g. 20% vs. 10%) or "other" (e.g. 15% vs. 2%). The second batch generally has higher read counts, but the proportions mapped look the same.
 
 Part of this is probably due to the NextSeq reads being 32 bp while the HiSeq are 50 bp + Galgal5 having only the toplevel genome assembly on Ensembl. Unlike primary assemblies, toplevel genome assemblies include haplotypes and repetitive patches. It's likely that the shorter reads map more easily to these repetitive regions.
 
@@ -107,12 +107,12 @@ For future reference, excessive multimapping is likely due to:
 1. rRNA "contamination" (poor ribo-depletion).
 
 
-### Post first-pass-mapping thoughts
-In terms of uniquely mapped reads, the NextSeq data consistently hovers around 1 M/sample.
+### Interpretation of mapped data
+In terms of uniquely mapped reads, the NextSeq data consistently hovers around 0.5-1 M/BAM. Times 4 lanes = 2-4 M/sample.
 
-From HiSeq, it's pretty variable with the range being ~1-13 M.
+From HiSeq, it's pretty variable, with the range being ~1-12 M/sample.
 
-It looks like Ryoji's dendrogram was based on log2+1 read counts, so I'd guess that's the main reason why the datasets look so different. But there's plenty of data for each sample. Will see how the analysis turns out.
+Ryoji's dendrogram seems to be based on log2+1 read counts, so I'd guess that's the main reason why the datasets looked so different. But all the samples have information. Will see how the analysis turns out.
 
 
 ---
