@@ -233,7 +233,7 @@ The raw data for this project can be found at:
 * Paired end FASTQ files (R1 for forward read and R2 for reverse)
 * FASTQ files are compressed as necessary by gunzip
 * Each sample (combination of donor and tissue) has its own folder
-* Initial scripts format all filenames into the following structure: 
+* Initial scripts format Hiseq filenames into the NextSeq naming syntax: 
 	* `tissue-donor-well_sampleNumber_laneNumber_R1orR2_batchNumber.fastq.gz`
 	* E.g. `Sample1.1/RFZ-1-A01_S1_L001_R1_001.fastq.gz`
 	* E.g. `Sample2.2/D-1-A02_S2_L001_R1_001.fastq.gz`
@@ -252,7 +252,9 @@ The raw data for this project can be found at:
 
 * Set variables for frequently-modified parameters, and keep them at the beginning of your scripts. Then later, when you need to change them, you won't have to hunt through your entire pipeline to find them all.
 
-* Add `set -Eeuo pipefail` to the beginning of every bash script. See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/ and http://redsymbol.net/articles/unofficial-bash-strict-mode/.
+* Use tmux for interactive scripting.
+
+* Put `set -Eeuo pipefail` at the beginning of every bash script. See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/ and http://redsymbol.net/articles/unofficial-bash-strict-mode/.
 
 
 ### Parallelization
@@ -306,7 +308,6 @@ Jobs that require a large number of cores/memory (>8 cores and/or >48 GB RAM) ca
 
 # Script for differential expression analysis of chick RNA-seq data. See project README.
     # Decided to keep flexibility of array command by leaving it outside this file. Then can choose each time which values to run, e.g. "sbatch --array=1-50 <script.sh>" for NextSeq samples, or "sbatch --array=51-60 <script.sh>" for HiSeq samples.
-
 
 # Tasks
     # Second pass mapping of reads to Galgal5 with STAR via job array (1 job per sample)
@@ -382,8 +383,8 @@ echo
 ---
 
 ## Acknowledgments
-Citing tools helps keep them funded.
+* Citing tools helps keep them funded.
 
-* GNU Parallel: Tange, Ole. (2018). GNU Parallel 2018. GNU Parallel 2018 (p. 112). Ole Tange. http://doi.org/10.5281/zenodo.1146014
+Tange, Ole. (2018). GNU Parallel 2018. GNU Parallel 2018 (p. 112). Ole Tange. http://doi.org/10.5281/zenodo.1146014
 
 
