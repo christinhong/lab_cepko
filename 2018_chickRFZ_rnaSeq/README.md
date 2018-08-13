@@ -390,9 +390,10 @@ echo
 ---
 
 ## Acknowledgments
-* Citing tools helps keep them funded.
+* Citing tools helps keep them funded. Keeping track below; citation format will vary.
+
+Alexander Dobin, Carrie A. Davis, Felix Schlesinger, Jorg Drenkow, Chris Zaleski, Sonali Jha, Philippe Batut, Mark Chaisson, Thomas R. Gingeras; STAR: ultrafast universal RNA-seq aligner, Bioinformatics, Volume 29, Issue 1, 1 January 2013, Pages 15–21, https://doi.org/10.1093/bioinformatics/bts635
 
 Tange, Ole. (2018). GNU Parallel 2018. GNU Parallel 2018 (p. 112). Ole Tange. http://doi.org/10.5281/zenodo.1146014
 
-https://academic.oup.com/bioinformatics/article/29/1/15/272537#84630902
 
