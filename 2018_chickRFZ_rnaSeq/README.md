@@ -221,10 +221,11 @@ The raw data for this project can be found at:
 #### Data format
 * Paired end FASTQ files (R1 for forward read and R2 for reverse)
 * FASTQ files are compressed as necessary by gunzip
-* Each donor has its own folder
-* Initial scripts format all filenames into the following structure:
+* Each sample (combination of donor and tissue) has its own folder
+* Initial scripts format all filenames into the following structure: 
 	* `tissue-donor-well_sampleNumber_laneNumber_R1orR2_batchNumber.fastq.gz`
-	* E.g. `Donor1.1/RFZ-1-A01_S1_L001_R1_001.fastq.gz`
+	* E.g. `Sample1.1/RFZ-1-A01_S1_L001_R1_001.fastq.gz`
+	* E.g. `Sample2.2/D-1-A02_S2_L001_R1_001.fastq.gz`
 * Samples are matched by lane assuming that lane regex is `_L###_`
 
 
@@ -262,7 +263,7 @@ On the other hand, submitting a job per tissue while trying to analyze the diffe
 
 
 #### Caveat
-Jobs that require a large number of cores/memory can spend a long time languishing in the queue. Sometimes it's faster to loop instead of parallelize.
+Jobs that require a large number of cores/memory (>8 cores and/or >48 GB RAM) can spend a long time languishing in the queue. Sometimes it's faster to reduce memory requirements by looping instead of parallelizing.
 
 
 ### Sample script header
