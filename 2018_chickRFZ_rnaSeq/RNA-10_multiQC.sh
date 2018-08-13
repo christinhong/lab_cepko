@@ -119,14 +119,28 @@ sacct -j 21496183            # Exit values should be 0:0
 
 cat ~/jobLogs/RNA-05_*.err  # Should all be empty
 
+# MultiQC reports: It's easier to see the details from each step if the reports aren't all concatenated together. Maybe break up as:
+
+    # fastQC
+    # trimmomatic-fastQC
+    # starPass1
+    # starPass2
+
+
 multiqc \
     /home/ch220/2018_chickRFZ_rnaSeq/doc \
-    /n/scratch2/ch220/starMap/pass2 \
+    /n/scratch2/ch220/starMap/ \
+    --ignore /n/scratch2/ch220/starMap/pass2 \
     --ignore /home/ch220/2018_chickRFZ_rnaSeq/doc/archive \
     --ignore /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_orig \
     -o /home/ch220/2018_chickRFZ_rnaSeq/doc/multiQC \
-    -n multiQC-03_STARmapping_$(date '+%Y-%m-%d')
+    -n multiQC-02_STARpass1_$(date '+%Y-%m-%d')
 
+
+multiqc \
+    /n/scratch2/ch220/starMap/pass2 \
+    -o /home/ch220/2018_chickRFZ_rnaSeq/doc/multiQC \
+    -n multiQC-03_STARpass2_$(date '+%Y-%m-%d')
 
 
 
