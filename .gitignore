@@ -1,26 +1,20 @@
-#### Excluding all except specific subdirectories ####
-# see https://stackoverflow.com/questions/5533050/gitignore-exclude-folder-but-include-specific-subfolder#5534865
-<<<<<<< HEAD
-
-# Exclude all folders or files named "archive"
-archive
-
-
-# Exclude other top-level files
+# Exclude the following top-level files
 .git
 .Rproj.user
 .Rhistory
 .Rproj
 
 
-# Exclude specific sub-subdirectories
-**/data
-**/doc
-**/layouts
-**/output
+# Exclude specific subdirectories
+archive/
+data/
+doc/
+layouts/
+output/
 
-# Exclude subfile types
-**.html
 
->>>>>>>
+# Exclude specific file types
+*.html
 
+
+#Exclude all except specific subdirectories: see https://stackoverflow.com/questions/5533050/gitignore-exclude-folder-but-include-specific-subfolder#5534865
