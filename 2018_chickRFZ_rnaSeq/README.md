@@ -113,9 +113,9 @@ For future reference, excessive multimapping is likely due to:
 
 
 ### Thoughts on mapped data
-The high percentage of reads that were "mapped to too many loci" in the first STAR pass seem to be split across "mapped to too many loci" and "reads unmapped: other" in the second STAR pass.
+NextSeq: The high percentage of reads that were "mapped to too many loci" in the first STAR pass seem to be split across "mapped to too many loci" and "reads unmapped: other" in the second STAR pass. But the percentage of uniquely mapped reads is stable, so that's probably fine.
 
-The percentage of uniquely mapped reads is stable, so that's probably fine...though it does call into question whether 2-pass mapping is helpful here. It's standard for human and mouse, but perhaps it isn't the best option for chick?
+HiSeq: There is a slight drop in uniquely mapping and rise in multimapping reads after the 2nd pass, which is to be expected, but I would say it's a very minor shift (~3%) and that these are also stable.
 
 In terms of uniquely mapped reads, the NextSeq data consistently hovers around 0.5-1 M/BAM. Times 4 lanes = 2-4 M/sample.
 
