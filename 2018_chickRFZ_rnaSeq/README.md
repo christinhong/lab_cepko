@@ -256,6 +256,8 @@ The raw data for this project can be found at:
 
 * Put `set -Eeuo pipefail` at the beginning of every bash script. See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/ and http://redsymbol.net/articles/unofficial-bash-strict-mode/.
 
+* Use `sacct -j <jobid>` to check whether jobs completed successfully. ExitValues should be 0:0.
+
 
 ### Parallelization
 Job arrays parallelize across nodes. GNU Parallel parallelizes across cores.
