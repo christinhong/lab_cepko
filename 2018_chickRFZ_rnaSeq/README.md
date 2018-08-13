@@ -19,7 +19,7 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 	1. [Pipelines](#pipelines)
 	1. [STAR mapping](#star-mapping)
 	1. [On mapping NextSeq reads](#on-mapping-nextseq-reads)
-	1. [Post-mapping thoughts](#post-mapping-thoughts)
+	1. [Thoughts on mapped data](#thoughts-on-mapped-data)
 1. [Controls](#controls)
 1. [Data collection](#data-collection)
 1. [Cluster setup](#cluster-setup)
@@ -107,7 +107,7 @@ For future reference, excessive multimapping is likely due to:
 1. rRNA "contamination" (poor ribo-depletion).
 
 
-### Interpretation of mapped data
+### Thoughts on mapped data
 In terms of uniquely mapped reads, the NextSeq data consistently hovers around 0.5-1 M/BAM. Times 4 lanes = 2-4 M/sample.
 
 From HiSeq, it's pretty variable, with the range being ~1-12 M/sample.
