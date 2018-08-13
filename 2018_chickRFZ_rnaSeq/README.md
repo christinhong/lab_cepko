@@ -97,11 +97,10 @@ I've tested the following:
 1. Setting `--sjdbScore 1` (default is 2). This decreases mapping to splice junctions. From Alex Dobin (the developer of STAR) at https://groups.google.com/forum/#!msg/rna-star/O1oDItDltjY/0jSn0vy0ccgJ: "I think it is to be expected that some unique mappers become multi-mappers as you add more and more sjdb junctions, since this effectively adds more possibilities for the reads to align. Note, that by default the --sjdbScore = 2, which means that STAR will try to map aggressively to the sjdb junctions, preferring spliced alignment with 1 mismatch to an unspliced alignment without mismatches. You may want to try to reduce this parameter, though it will lead to yet another slight decrease in the % of unique mappers."
 	1. No effect.
 
-Unfortunately, I think these reads are genuinely mapping non-specifically.  
-
-Quality > quantity. Will use the higher stringency STAR defaults while using the genome index generated with `--sjdbOverhang 49` for processing all samples.
+Unfortunately, I think these reads are genuinely mapping non-specifically. Quality > quantity. Will use the higher stringency STAR defaults while using the genome index generated with `--sjdbOverhang 49` for processing all samples.
 
 For future reference, excessive multimapping is likely due to:
+
 1. Shorter read lengths + repetitive haplotypes/patches in the toplevel genome assembly and/or
 1. rRNA "contamination" (poor ribo-depletion).
 
@@ -214,7 +213,8 @@ projectDir/R/
 
 ### Raw data
 The raw data for this project can be found at:
-* Genetics server at research.files.med.harvard.edu/genetics/??
+
+* HMS Genetics server:  research.files.med.harvard.edu/genetics/
 * HMS O2:
 	* I've symlinked Nathan's NextSeq data with:
 
@@ -266,26 +266,16 @@ Job arrays parallelize across nodes. GNU Parallel parallelizes across cores.
 
 I often use job arrays for between-sample analyses and GNU Parallel for within-sample analyses.
 
-#### Why?
-A cluster is a collection of nodes. On HMS O2, each node has 32 cores and 256G memory.
+* Why?
+	* A cluster is a collection of nodes. On HMS O2, each node has 32 cores and 256G memory.
+	* This can also be said as, "A network is a collection of computers. On HMS O2, each computer has 32 threads and 256 GB RAM."
+	* Each job is sent to 1 node (unless you're using mpi. That's all you).
+	* Keep this structure in mind when parallelizing.
+	* Say you have ten donors, and you've collected five tissue types from each donor. It's often a great idea to submit a job per donor, then within that job, simultaneously process the different tissues from that donor on different cores. On the other hand, submitting a job per tissue while trying to analyze the different donors on different cores will at best fail and at worst make a mess.
 
-This can also be said as, "A network is a collection of computers. On HMS O2, each computer has 32 threads and 256 GB RAM."
-
-Each job is sent to 1 node (unless you're using mpi. That's all you).
-
-Keep this structure in mind when parallelizing. 
-
-Say you have ten donors, and you've collected five tissue types from each donor.
-
-It's often a great idea to submit a job per donor, then within that job, simultaneously process the different tissues from that donor on different cores.
-
-On the other hand, submitting a job per tissue while trying to analyze the different donors on different cores will at best fail and at worst make a mess.
-
-
-#### Caveats
-Jobs that require a large number of cores/memory (>8 cores and/or >48 GB RAM) can spend a long time languishing in the queue. Sometimes it's faster to reduce memory requirements by looping instead of parallelizing.
-
-And when a script generates large intermediate files (e.g. STAR), available disk space can become a limiting factor. Then it may be worthwhile to limit the number of jobs allowed to run from a job array at a time.
+* Caveats
+	* Jobs that require a large number of cores/memory (>8 cores and/or >48 GB RAM) can spend a long time languishing in the queue. Sometimes it's faster to reduce memory requirements by looping instead of parallelizing.
+	* And when a script generates large intermediate files (e.g. STAR), available disk space can become a limiting factor. Then it may be worthwhile to limit the number of jobs allowed to run from a job array at a time.
 
 
 ### Sample script header
