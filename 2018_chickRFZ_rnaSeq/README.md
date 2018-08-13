@@ -44,7 +44,7 @@ Collaborators: Jiho Choi (main contact), Susana da Silva, Nathan Mundell
 ### Changelog
 In progress: Collecting metrics, annotating, and merging BAMs with Picard.
 
-2018-08-13: Finished initializing README. Completed FastQC, Trimmomatic, and STAR multi-sample 2-pass mapping after extensively testing parameters for mapping NextSeq data. Refactored code.
+2018-08-12: Initialized project README. Extensively tested parameters for mapping NextSeq data. Finalized FastQC, Trimmomatic, and STAR multi-sample 2-pass mapping. Code refactoring.
 
 
 ### Pipelines
