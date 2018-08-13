@@ -282,8 +282,10 @@ It's often a great idea to submit a job per donor, then within that job, simulta
 On the other hand, submitting a job per tissue while trying to analyze the different donors on different cores will at best fail and at worst make a mess.
 
 
-#### Caveat
+#### Caveats
 Jobs that require a large number of cores/memory (>8 cores and/or >48 GB RAM) can spend a long time languishing in the queue. Sometimes it's faster to reduce memory requirements by looping instead of parallelizing.
+
+And when a script generates large intermediate files (e.g. STAR), available disk space can become a limiting factor. Then it may be worthwhile to limit the number of jobs allowed to run from a job array at a time.
 
 
 ### Sample script header
