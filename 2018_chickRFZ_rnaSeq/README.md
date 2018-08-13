@@ -288,17 +288,16 @@ Jobs that require a large number of cores/memory (>8 cores and/or >48 GB RAM) ca
 
 #### INTRO ####
 
-# Christin M. Hong
+# Christin Hong
 # Last modified: 2018-08
 # Harvard Medical School, Connie Cepko Lab
 
-# Script for differential expression analysis of chick RNA-seq data.
-    # Running bash on HMS O2 cluster (Slurm). Decided to keep flexibility of array command by leaving it outside this file. Then can choose each time which values to run.
-        # Submit with "sbatch --array=1-50 <script.sh>" for NextSeq samples, or "sbatch --array=51-60 <script.sh>" for HiSeq samples.
+# Script for differential expression analysis of chick RNA-seq data. See project README.
+    # Decided to keep flexibility of array command by leaving it outside this file. Then can choose each time which values to run, e.g. "sbatch --array=1-50 <script.sh>" for NextSeq samples, or "sbatch --array=51-60 <script.sh>" for HiSeq samples.
 
-    # Tasks
-        # Second pass mapping of reads to Galgal5 with STAR via job array (1 job per sample)
 
+# Tasks
+    # Second pass mapping of reads to Galgal5 with STAR via job array (1 job per sample)
 
 
 #### INFRASTRUCTURE ####
@@ -315,19 +314,18 @@ export pathLogs=/home/ch220/jobLogs
 
 
 # Experiment-specific
-export pathProj=/home/ch220/2018_chickRFZ_rnaSeq # Project's working directory, set for script with "SBATCH -D"
+export pathProj=/home/ch220/2018_chickRFZ_rnaSeq
+export pathData=${pathProj}/data/*/*
 export pathBash=${pathProj}/bash
 export pathDoc=${pathProj}/doc
 
 export pathData2=/n/scratch2/ch220/fq_trimmed
 
 export pathOut=/n/scratch2/ch220
-export pathOutStar=${pathOut}/starMap                   # S1-50 is from nextSeq. S51-60 is from hiSeq.
-export fileSJ=${pathOutStar}/sj_51-60.txt               # File of splice junctions
-
-
-export varReadL=49                                      # NextSeq reads are 32 bp. HiSeq reads are 50 bp.
-export pathStarInd=${pathOut}/STAR-gg5-sjo${varReadL}   # Alt: STAR-gg5 (sjo100), STAR-gg5-sjo49
+export pathOutTrimmed=/n/scratch2/ch220/fq_trimmed
+export pathOutStar=${pathOut}/starMap                   
+export pathStarInd=${pathOut}/STAR-gg5-sjo49            # STAR indexed with --sjbdOverhang 49
+export fileSJ=${pathOutStar}/sj_1-60.txt                # File of STAR splice junctions
 
 
 # References
@@ -341,12 +339,11 @@ export parallel=${pathTools}/parallel-20180722/src/parallel
 
 
 # Modules loaded from O2
-    # "As Lmod is a hierarchical system, you may need to load a prerequisite module to be able to load you need (or see it in module avail). For example, if you'd like to load the Cython module, but don't know the prerequisite modules, run module spider cython. Then, you can load the prerequisites (listed in the module spider output), and will be able to load Cython." -https://wiki.rc.hms.harvard.edu/display/O2/Moving+from+Orchestra+to+O2
-
-module load gcc/6.2.0 python/2.7.12 # Dependencies
+    # Need to load prereq modules first. Check for prereqs and command syntax with "module spider <tool name>"
+module load gcc/6.2.0 python/2.7.12
 module load fastqc/0.11.3
 module load multiqc/1.5
-module load trimmomatic/0.36
+module load trimmomatic/0.36    # Problematic syntax. Script will need to be manually updated if program is updated.
 module load star/2.5.4a
 
 
@@ -355,9 +352,18 @@ LC_COLLATE=C    # specifies sort order (numbers, uppercase, then lowercase)
 
 
 # Notes
+    # "${SLURM_ARRAY_TASK_ID}" sometimes needs to be quoted to be recognized by the shell. Just quote it all the time.
     # Export: Variables are inherited by child processes (e.g. subshells from GNU parallel).
     # Bash variables are untyped by default.  For more robust code, can declare data type with [declare] (see http://tldp.org/LDP/abs/html/declareref.html ), but I'm not sure how declare works with export.  May try later.
     # When possible, using full path to minimize confusion by shell, record tool versions, and increase clarity regarding dependencies.
+
+
+
+#### START ####
+
+echo "Starting second pass of multi-sample 2-pass STAR mapping on $(date '+%Y-%m-%d %H:%M:%S')"
+echo "Using STAR index ${pathStarInd}"
+echo
 ```
 
 
