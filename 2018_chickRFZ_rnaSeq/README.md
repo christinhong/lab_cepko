@@ -89,7 +89,7 @@ I've tested the following:
 1. Setting `--outFilterMultimapNmax 20` (default is 10, meaning that once a read maps to >10 loci, it's marked as mapping to too many.  20 is seen at https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/Expression_mRNA_Pipeline/).
 	1. No effect.
 1. Setting `--outFilterMultimapNmax 200`
-	1. The "too many loci" reads are now "multiple loci" reads, which make sense. Of course, this value is far too lenient, but good to know everything's working as expected.
+	1. The "too many loci" reads are now "multiple loci" reads, which makes sense. Of course, this value is far too lenient, but good to know everything's working as expected.
 1. Setting `--sjdbScore 1` (default is 2). This decreases mapping to splice junctions. From Alex Dobin (the developer of STAR) at https://groups.google.com/forum/#!msg/rna-star/O1oDItDltjY/0jSn0vy0ccgJ: "I think it is to be expected that some unique mappers become multi-mappers as you add more and more sjdb junctions, since this effectively adds more possibilities for the reads to align. Note, that by default the --sjdbScore = 2, which means that STAR will try to map aggressively to the sjdb junctions, preferring spliced alignment with 1 mismatch to an unspliced alignment without mismatches. You may want to try to reduce this parameter, though it will lead to yet another slight decrease in the % of unique mappers."
 	1. No effect.
 
