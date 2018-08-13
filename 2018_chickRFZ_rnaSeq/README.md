@@ -237,7 +237,7 @@ The raw data for this project can be found at:
 	* `tissue-donor-well_sampleNumber_laneNumber_R1orR2_batchNumber.fastq.gz`
 	* E.g. `Sample1.1/RFZ-1-A01_S1_L001_R1_001.fastq.gz`
 	* E.g. `Sample2.2/D-1-A02_S2_L001_R1_001.fastq.gz`
-* Samples are matched by lane assuming that lane regex is `_L###_`
+* Paired end reads are matched by lane assuming that lane regex is `_L###_`
 
 
 ---
