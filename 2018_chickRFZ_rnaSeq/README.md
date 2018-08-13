@@ -68,23 +68,22 @@ STAR itself is fast--mapping each read pair takes 5-20 minutes--so it's actually
 
 Then I submit a job for each sample via job array.
 
-Ultimately, each pass across all samples in this dataset took me ~1 hour.
+Each pass across all samples in this dataset took me ~40-60 minutes.
 
 
 ### On mapping NextSeq reads
-From STAR's output, only ~20-25% of NextSeq reads are uniquely mapped vs. ~75-80% of HiSeq reads. The main difference is that ~40% NextSeq reads are "mapped to too many loci" (>10 loci)
-# vs ??% of HiSeq reads.
+From STAR's output, only ~20-25% of NextSeq reads are uniquely mapped vs. ~75-80% of HiSeq reads. 
 
-It's worth remembering that:
-1. The NextSeq reads are 32 bp while the HiSeq are 50 bp, and
-1. Galgal5 has only the toplevel genome assembly, which includes haplotypes and patches (no primary assembly is available on Ensembl). It's likely that reads are mapping to repetitive regions.
+The main difference is that ~40% NextSeq reads are "mapped to too many loci" (>10 loci) vs 2-10% of HiSeq reads. The NextSeq reads are also more likely to be unmapped due to being "too short" (20% vs. 10%) or "other" (15% vs. 2%).
+
+Part of this is probably due to the NextSeq reads being 32 bp while the HiSeq are 50 bp + Galgal5 having only the toplevel genome assembly on Ensembl. Unlike primary assemblies, toplevel genome assemblies include haplotypes and repetitive patches. It's likely that the shorter reads map more easily to these repetitive regions.
 
 I've tested the following:
 1. Mapping reads to genomes indexed with `--sjdbOverhang 31` or `49` based on read length (default is 100, recommended is ((max read length)-1)).
 	1. No effect.
 1. Mapping only R1 reads to see if the sort order in paired FASTQ input was an issue (known STAR bug).
 	1. No effect.
-1. Relaxing the requirements for mapping length with `--outFilterScoreMinOverLread 0 --outFilterMatchNminOverLread 0 --outFilterMatchNmin 25`. The average input length for the PE is ~60 (2x32). Default for STAR aligns if read maps at least 2/3 of total input length, so this essentially allows shorter reads to map.
+1. Relaxing the requirements for mapping length with `--outFilterScoreMinOverLread 0 --outFilterMatchNminOverLread 0 --outFilterMatchNmin 25`. The average input length for the PE is ~60 (2x32). STAR defaults map if read aligns to at least 2/3 of its total input length, so this allows reads that match on at least 25 bp instead of at least 40 bp to be mapped.
 	1. ~4% more reads map uniquely instead of falling in the "too short" category. Makes sense but doesn't solve the problem.
 1. Setting `--outFilterMultimapNmax 20` (default is 10, meaning that once a read maps to >10 loci, it's marked as mapping to too many.  20 is seen at https://docs.gdc.cancer.gov/Data/Bioinformatics_Pipelines/Expression_mRNA_Pipeline/).
 	1. No effect.
@@ -96,8 +95,8 @@ I've tested the following:
 Unfortunately, I think these reads are genuinely mapping non-specifically.  Quality > quantity. Will use the higher stringency STAR defaults while using the genome index generated with `--sjdbOverhang 49` for processing all samples.
 
 For future reference, excessive multimapping is likely due to:
-1. rRNA "contamination" (poor ribo-depletion) and/or
-1. shorter read lengths + repetitive haplotypes/patches in toplevel genome assembly.
+1. Shorter read lengths + repetitive haplotypes/patches in the toplevel genome assembly and/or
+1. rRNA "contamination" (poor ribo-depletion).
 
 
 ### Post-mapping thoughts
