@@ -8,7 +8,7 @@ Collaborators: Jiho Choi (main contact), Susana da Silva, Nathan Mundell
 
 * Introduced to this project by Nico Lonfat's suggestion to Connie
 
-*README.md is written in GitHub Markdown. Outside GitHub, it can be copied and pasted into https://jbt.github.io/markdown-editor/ or opened and previewed in RStudio.*
+*README.md is written in GitHub Markdown. Outside GitHub, it can be copied and pasted into https://jbt.github.io/markdown-editor/ or opened and previewed as HTML from RStudio.*
 
 ---
 
