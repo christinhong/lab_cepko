@@ -244,9 +244,9 @@ The raw data for this project can be found at:
 
 
 ### Parallelization
-Job arrays parallelize across nodes. GNU parallel parallelizes across cores.
+Job arrays parallelize across nodes. GNU Parallel parallelizes across cores.
 
-I often use job arrays for between-sample analyses and GNU parallel for within-sample analyses.
+I often use job arrays for between-sample analyses and GNU Parallel for within-sample analyses.
 
 #### Why?
 A cluster is a collection of nodes. On HMS O2, each node has 32 cores and 256G memory.
