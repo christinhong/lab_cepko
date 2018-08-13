@@ -1,0 +1,51 @@
+n,Unigene,Name,C57Bl6_na_5w_a,C57Bl6_na_5w_b,C57Bl6_na_8w_a,C57Bl6_na_8w_b,C57Bl6_RPE_6w_a,FVB_na_5w_a,FVB_na_5w_b,FVB_RPE_6w_a,gene name,RNAseq
+1,Mm.795,colony stimulating factor 1 (macrophage),183,214,196,186,710,168,144,574,csf1,3.34E+02
+5,Mm.22574,colony stimulating factor 1 receptor,272,316,337,358,13406,1347,1094,15477,csf1r,3.46E+03
+1,Mm.3960,interferon regulatory factor 3,491,668,699,632,1382,372,411,1648,irf3,8.50E+02
+3,Mm.33874,toll-like receptor 3,30,16,19,16,537,22,26,356,tlr3,4.99E+02
+ ,Mm.38049,toll-like receptor 4,22,20,24,25,237,26,26,248,tlr4,2.73E+02
+7,Mm.45995,RIKEN cDNA 2610307O08 gene sting,76,62,62,77,247,86,77,234,2610307O08Rik,nf
+8,Mm.86382,DEAD (Asp-Glu-Ala-Asp) box polypeptide 58 rig-i,77,73,70,74,918,75,70,670,DDX58,7.07E+02
+9,Mm.87596,toll-like receptor 2,23,20,26,33,260,40,29,324,tlr2,3.11E+02
+10,Mm.101559,RIKEN cDNA E330016A19 gene cgas,134,101,93,104,104,110,71,102,cgas,nf
+12,Mm.213003,myeloid differentiation primary response gene 88,51,48,38,48,875,54,44,666,my88,6.87E+02
+1,Mm.10306,phospholipid scramblase 2,42,33,32,30,660,78,55,497,plscr2,3.88E+02
+1,Mm.4128,AXL receptor tyrosine kinase,60,65,59,56,1825,61,41,1875,axl,1.50E+03
+1,Mm.239655,c-mer proto-oncogene tyrosine kinase mertk,97,134,112,146,2957,250,340,2799,mertk,1.96E+03
+1,Mm.681,"complement component 1, q subcomponent, receptor 1",60,68,35,54,1158,30,42,877,c1qr1,1.20E+03
+2,Mm.2570,"complement component 1, q subcomponent, beta polypeptide",67,49,61,42,2582,68,91,1658,c1qb,3.47E+02
+5,Mm.30049,"complement component 1, q subcomponent binding protein",1240,1120,1166,1060,6301,1269,1601,7354,c1qvp,1.20E+03
+6,Mm.34776,C1q and tumor necrosis factor related protein 6,52,54,55,51,443,53,50,413,c1qtnf6,1.80E+02
+9,Mm.227110,C1q and tumor necrosis factor related protein 5,227,238,230,256,16827,156,154,10681,c1qtnf5,1.35E+03
+4,Mm.896,"interleukin 1 receptor, type I",19,20,14,17,586,26,16,533,il1r1,5.73E+02
+7,Mm.4154,"interleukin 10 receptor, beta",19,16,23,21,3397,25,22,4569,il10rb,9.37E+02
+8,Mm.4392,interleukin 15,42,41,31,44,298,60,39,278,il15,5.10E+01
+9,Mm.4481,interleukin 17 receptor,27,26,22,22,236,19,19,142,Il17ra,2.62E+02
+21,Mm.131781,interleukin 17 receptor E,255,230,245,201,2894,164,134,3361,Il17re,3.20E+03
+25,Mm.193451,"interleukin 11 receptor, alpha chain 1",102,130,127,111,2655,78,133,2687,Il11ra1,nf
+26,Mm.196618,interleukin 1 receptor-like 1 ligand,214,264,231,223,1270,196,166,1518,Il1rl1,6.06E+00
+2,Mm.1258,"tumor necrosis factor receptor superfamily, member 1a",30,37,34,34,2367,63,109,2044,tnfrsf1a,1.72E+03
+4,Mm.1626,"tumor necrosis factor receptor superfamily, member 6",20,19,18,19,689,21,18,375,tnr6,nf
+7,Mm.3399,Tnf receptor-associated factor 2,29,28,30,30,406,24,21,263,traf2,5.93E+02
+11,Mm.5126,Fas (TNFRSF6)-associated via death domain,51,61,50,56,475,62,59,337,tnfrsf6,nf
+18,Mm.27431,Tnf receptor-associated factor 3,313,345,192,267,1158,241,221,988,traf3,4.42E+02
+19,Mm.27740,"tumor necrosis factor, alpha-induced protein 8",92,78,78,62,1325,58,65,910,tnfaip8,9.71E+02
+21,Mm.28615,TNFAIP3 interacting protein 2,40,58,50,45,199,25,20,168,tnip2,3.73E+02
+23,Mm.31403,"tumor necrosis factor, alpha-induced protein 9",14,14,15,13,667,14,29,1015,tnfaip8,9.71E+02
+24,Mm.35241,Fas (TNFRSF6) binding factor 1,194,211,197,210,959,214,241,603,fbf1,8.14E+02
+28,Mm.90787,nerve growth factor receptor (TNFRSF16) associated protein 1,707,778,755,728,3836,641,676,4046,bex3,1.76E+03
+29,Mm.101198,"tumor necrosis factor receptor superfamily, member 25",14,20,12,13,15,12,12,18,tnfrsf25,8.12E+00
+30,Mm.112765,"DNA segment, Chr 4, Brigham & Women's Genetics 0615 expressed",123,108,84,90,262,71,72,284,ripk2,2.85E+02
+31,Mm.116683,"tumor necrosis factor, alpha-induced protein 3",2748,2249,2397,2241,635,277,262,360,tnfaip3,6.15E+02
+32,Mm.123366,TNF receptor-associated protein 1,283,250,294,263,1788,203,372,2068,trap1,1.26E+03
+33,Mm.150701,"tumor necrosis factor superfamily, member 5-induced protein 1",226,240,295,263,814,83,92,987,tnfsf10,6.10E+02
+34,Mm.193430,"tumor necrosis factor receptor superfamily, member 10b",20,23,20,20,126,25,28,173,tnrsf10b,1.63E+02
+35,Mm.200792,"tumor necrosis factor receptor superfamily, member 21",101,114,115,84,1351,130,110,766,tnfrsf21,1.69E+03
+42,Mm.252210,receptor (TNFRSF)-interacting serine-threonine kinase 1,48,29,40,37,3050,30,35,3550,ripk1,8.16E+02
+43,Mm.255332,"tumor necrosis factor, alpha-induced protein 2",83,77,66,75,943,49,49,765,tnfaip2,8.66E+02
+44,Mm.259671,TNFAIP3 interacting protein 1,164,184,149,124,765,432,566,1131,tnip1,7.04E+02
+46,Mm.264255,TNFRSF1A-associated via death domain,31,19,22,25,446,38,40,484,tradd,5.44E+02
+49,Mm.275150,Tnf receptor-associated factor 7,188,221,183,200,839,254,183,742,Traf7,1.20E+03
+50,Mm.281356,"tumor necrosis factor receptor superfamily, member 19",32,32,34,26,1489,24,42,1804,tnfrsf19,2.02E+03
+52,Mm.290780,"tumor necrosis factor receptor superfamily, member 23",22,16,23,18,213,30,25,98,tnfrsf23,5.96E+01
+53,Mm.292729,Tnf receptor-associated factor 6,55,58,47,56,274,48,47,277,traf6,6.75E+02
