@@ -74,11 +74,11 @@ From [STAR's publication](https://academic.oup.com/bioinformatics/article/29/1/1
 
 There is the question of how accurately STAR detects novel junctions. The developers have some data for that in their paper, but the real reason I'm using it is that STAR is the most popular aligner in the RNA-seq world. It's also used by Broad for their RNA-seq analysis (albeit in the more convenient single-sample 2-pass instead of multi-sample 2-pass). Part of this is simply because STAR is blazingly fast, but if there were any glaring errors in its mapping method, I'm fairly sure they would have been noticed by now. 
 
-I also think STAR provides the most options. The trend is to move towards *de novo* genome/transcriptome-based analysis, e.g. Tophat searches the transcriptome first, then maps to the genome only if it can't find a good match in the transcriptome. Kallisto and Salmon map solely to the transcriptome. 
+I also think STAR is the most flexible aligner. The trend is to move towards *de novo* genome/transcriptome-based analysis, e.g. Tophat searches the transcriptome first, then maps to the genome only if it can't find a good match in the transcriptome. Kallisto and Salmon map solely to the transcriptome. 
 
 In comparison, STAR's default approach is to map to the annotated reference genome, then split the read across the reference genome if it can't find a good contiguous match to see if it can discover a novel splice junction. The transcriptome-based approaches make theorectical sense--in RNA-seq, the transcriptome is what matters--but STAR's approach is probably more forgiving of less-well-annotated genomes, and it's possibly more accurate for calling uniquely mapping reads. (See https://sequencing.qcfail.com/articles/mapping-to-a-transcriptome-can-incorrectly-report-reads-as-mapping-uniquely/, with the counterpoint being at https://cgatoxford.wordpress.com/2016/08/17/why-you-should-stop-using-featurecounts-htseq-or-cufflinks2-and-start-using-kallisto-salmon-or-sailfish/.)
 
-But STAR also has the option of providing transcriptome-based counts, so it fits easily into the transcriptome-based approach. Hence the flexibility.
+But STAR *also* has the option of providing transcriptome-based counts, so it fits easily into the transcriptome-based approach. Hence its flexibility.
 
 As for 2-pass: I think that if someone is using STAR, they've already bought into its novel splice junction detection method, because it'll do that on every run anyway. If we don't believe in its novel junction detection method, we have to use a different aligner. If we do believe that STAR's novel junction detection is accurate, then 2-pass mapping is part of using STAR well.
 
