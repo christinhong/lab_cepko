@@ -13,10 +13,11 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 ---
 
 ## TOC
-1. [Intro](#intro)
+1. [Intro](#intro) - TODO
 1. [Analysis](#analysis)
 	1. [Changelog](#changelog)
 	1. [Pipelines](#pipelines)
+	1. [FastQC and Trimmomatic](#fastqc-and-trimmomatic) - TODO
 	1. [STAR mapping](#star-mapping)
 	1. [On mapping NextSeq reads](#on-mapping-nextseq-reads)
 	1. [Thoughts on mapped data](#thoughts-on-mapped-data)
@@ -56,6 +57,9 @@ In development: Genome-based mapping: STAR multi-sample 2-pass mapping -> featur
 *Hold: Genome-based mapping plus automated read count processing: (STAR) RSEM (used by Broad)*
 
 *Hold: Transcriptome-based mapping: (STAR) Salmon -> tximport -> DESeq2*
+
+
+### FastQC and Trimmomatic
 
 
 ### STAR mapping
