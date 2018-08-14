@@ -127,13 +127,13 @@ For future reference, excessive multimapping is likely due to:
 ### Thoughts on mapped data
 NextSeq: The high percentage of reads that were "mapped to too many loci" in the first STAR pass seem to be split across "mapped to too many loci" and "reads unmapped: other" in the second STAR pass. But the percentage of uniquely mapped reads is stable (~20-25%), so that's probably fine.
 
-HiSeq: There's a slight drop in uniquely mapping and rise in multimapping reads after the 2nd pass, which makes sense. It's a very minor shift (~72% vs. ~75%), so I would say these are also stable.
+HiSeq: There's a slight drop in uniquely mapping and rise in multimapping reads after the 2nd pass, which makes sense. It's a very minor shift (from ~75% to ~72%), so I would say these are also stable.
 
 In terms of uniquely mapped reads, the NextSeq data consistently hovers around 0.5-1 M/BAM * 4 lanes = 2-4 M/sample.
 
 From HiSeq, it's pretty variable, with the range being ~1-12 M/sample.
 
-Ryoji's dendrogram seems to be based on log2+1 read counts, so I'd guess that's the main reason why the datasets looked so different. But all the samples have information. Will see how the analysis turns out.
+Ryoji's dendrogram seems to be based on log2+1 read counts, so I'd guess that's the main reason why the datasets looked so different? At any rate, all the samples have information. Will see how the analysis turns out.
 
 
 ---
