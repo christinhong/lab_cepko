@@ -114,7 +114,7 @@ I've tested the following:
 1. Setting `--sjdbScore 1` (default is 2). This decreases mapping to splice junctions. From Alex Dobin (the developer of STAR) at https://groups.google.com/forum/#!msg/rna-star/O1oDItDltjY/0jSn0vy0ccgJ: "I think it is to be expected that some unique mappers become multi-mappers as you add more and more sjdb junctions, since this effectively adds more possibilities for the reads to align. Note, that by default the --sjdbScore = 2, which means that STAR will try to map aggressively to the sjdb junctions, preferring spliced alignment with 1 mismatch to an unspliced alignment without mismatches. You may want to try to reduce this parameter, though it will lead to yet another slight decrease in the % of unique mappers."
 	1. No effect.
 
-Unfortunately, I think these reads are genuinely mapping non-specifically... I'm tempted to relax the mapping length requirement, but quality > quantity. To be safe, I'll use the STAR defaults while using the genome index generated with `--sjdbOverhang 49` for processing all samples.
+Unfortunately, I think these reads are genuinely mapping non-specifically. I'm tempted to relax the mapping length requirement, but quality > quantity. To be safe, I'll use the STAR defaults while using the genome index generated with `--sjdbOverhang 49` for processing all samples.
 
 For future reference, excessive multimapping is likely due to:
 
