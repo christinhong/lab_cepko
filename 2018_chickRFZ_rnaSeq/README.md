@@ -125,7 +125,7 @@ For future reference, excessive multimapping is likely due to:
 
 
 ### Thoughts on mapped data
-NextSeq: The high percentage of reads that were "mapped to too many loci" in the first STAR pass seem to be split across "mapped to too many loci" and "reads unmapped: other" in the second STAR pass. But the percentage of uniquely mapped reads is stable (~20%), so that's probably fine.
+NextSeq: The high percentage of reads that were "mapped to too many loci" in the first STAR pass seem to be split across "mapped to too many loci" and "reads unmapped: other" in the second STAR pass. But the percentage of uniquely mapped reads is stable (~20-25%), so that's probably fine.
 
 HiSeq: There's a slight drop in uniquely mapping and rise in multimapping reads after the 2nd pass, which makes sense. It's a very minor shift (~72% vs. ~75%), so I would say these are also stable.
 
