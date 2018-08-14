@@ -95,7 +95,7 @@ As for 2-pass: I think that if someone is using STAR, they've already bought int
 ### On mapping NextSeq reads
 From STAR's output after the first pass, only ~20-25% of NextSeq reads are uniquely mapped vs. ~75-80% of HiSeq reads.
 
-The NextSeq samples have ~40% of reads mapping "to too many loci" (>10 loci) vs 2-10% of HiSeq reads. NextSeq reads are also more likely to be unmapped due to being "too short" (e.g. 20% vs. 10%) or "other" (e.g. 15% vs. 2%). The second batch generally has higher read counts, but the proportions mapped look the same.
+The NextSeq samples have ~40% of reads mapping "to too many loci" (>10 loci) vs 2-10% of HiSeq reads. NextSeq reads are also more likely to be unmapped due to being "too short" (e.g. 20% vs. 10%) or "other" (e.g. 15% vs. 2%). The second NextSeq batch has higher read counts, but the mapped proportions look the same.
 
 Part of this is probably due to the NextSeq reads being 32 bp while the HiSeq are 50 bp + Galgal5 having only the toplevel genome assembly on Ensembl. Unlike primary assemblies, toplevel genome assemblies include haplotypes and repetitive patches. It's likely that the shorter reads map more easily to these repetitive regions.
 
