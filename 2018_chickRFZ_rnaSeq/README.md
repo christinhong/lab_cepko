@@ -72,7 +72,9 @@ From [STAR's publication](https://academic.oup.com/bioinformatics/article/29/1/1
 
 There is the question of how accurately STAR detects novel junctions. The developers have some data for that in their paper, but the real reason I'm using it is that STAR is the most popular aligner in the RNA-seq world. It's also used by Broad for their RNA-seq analysis (albeit in the more convenient single-sample 2-pass instead of multi-sample 2-pass). Part of this is simply because STAR is blazingly fast, but if there were any glaring errors in its mapping method, I'm fairly sure they would have been noticed by now.
 
-As for 2-pass: I think that if someone is using STAR, they've already bought into its novel splice junction detection method, because it'll do that on every run anyway. If we don't believe in its novel junction detection method, we have to use a different aligner. If we do believe that STAR's novel junction detection is accurate, then 2-pass mapping is part of using STAR well. 
+As for 2-pass: I think that if someone is using STAR, they've already bought into its novel splice junction detection method, because it'll do that on every run anyway. If we don't believe in its novel junction detection method, we have to use a different aligner. If we do believe that STAR's novel junction detection is accurate, then 2-pass mapping is part of using STAR well.
+
+(For the pipelines, I refer to STAR as a genome-based assembly, but I think it's more specifically a hybrid between reference and *de novo* genome assembly. See https://biology.stackexchange.com/questions/56158/what-is-contigs-in-picards-reordersam.)
 
 * Increasing mapping speed
 	* To run this, I set STAR `--genomeLoad NoSharedMemory`. LoadAndRemove can be faster for the first pass, but it occasionally caused shared memory errors. For the second pass, junction insertion changes the genome, and I suspect that would also lead to shared memory errors.
