@@ -268,7 +268,7 @@ The raw data for this project can be found at:
 
 ## Scripting tips
 * Be organized and consistent, especially with naming syntax. 
-	* It's always worthwhile to make all your initial data files have a consistent, group-aware, and as-simple-as-possible filename syntax. Usually it's best to name from most to least general characteristic. 
+	* It's always worthwhile to make all your initial data files have a consistent, group-aware, and as-simple-as-possible filename syntax. Usually it's best to name from the most to least general characteristic. 
 	* `tissue-replicate-well_sampleNumber_laneNumber_R1orR2_batchNumber` works well (as does `tissue-condition-replicate-well_sampleNumber_laneNumber_R1orR2_batchNumber`).
 
 * Immediately strip whitespace from folder and filenames, and avoid having spaces in names as much as possible. If this is infeasible, seriously consider coding in Python instead of bash.
