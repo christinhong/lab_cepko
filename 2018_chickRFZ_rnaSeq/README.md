@@ -79,7 +79,7 @@ In comparison, STAR maps to the annotated reference genome, then splits the read
 
 As for 2-pass: I think that if someone is using STAR, they've already bought into its novel splice junction detection method, because it'll do that on every run anyway. If we don't believe in its novel junction detection method, we have to use a different aligner. If we do believe that STAR's novel junction detection is accurate, then 2-pass mapping is part of using STAR well.
 
-(For the pipelines, I refer to STAR as a genome-based assembly, but I think it's more specifically a hybrid between reference and *de novo* genome assembly - see https://biology.stackexchange.com/questions/56158/what-is-contigs-in-picards-reordersam. It can also output both genome and transcriptome (more de novo-esque)-based counts, which makes it very flexible across analysis approaches.)
+(For the pipelines, I refer to STAR as a genome-based assembly, but I think it's more specifically a hybrid between reference and *de novo* genome assembly - see https://biology.stackexchange.com/questions/56158/what-is-contigs-in-picards-reordersam. It can also output both genome and transcriptome-based counts, which makes it very flexible across analysis approaches.)
 
 
 * Increasing mapping speed
