@@ -89,7 +89,7 @@ As for 2-pass: I think that if someone is using STAR, they've already bought int
 	* With NoSharedMemory, every job needs ~30 GB of memory just to load the genome. I normally parallelize STAR mapping within each sample, but requesting 64+ GB of RAM significantly increases the amount of time a job spends in the queue. 
 	* STAR itself is fast--mapping each read pair takes 2-20 minutes--so it's actually more efficient to loop through each read pair instead of parallelizing. This cuts the RAM requirement to what's necessary for mapping 1 read pair (I use 48 GB/job to be safe) instead of what would be necessary to map all the read pairs in parallel (e.g. 4 pairs per sample (from 4 flowcell lanes per pair) * >30 GB RAM = >120 GB RAM required). Less RAM/job required means faster job allocation from the queue.
 	* Then I submit a job for each sample via job array. 
-	* Average time for each pass across all samples is ~40-60 minutes, though it's taken >3 hours when the cluster is busy.
+	* Average time for each pass across all samples is ~40-60 minutes, though it's taken >3 hours when the cluster is busy. (Like lab, equipment is most available during nights and weekends.)
 
 
 ### On mapping NextSeq reads
