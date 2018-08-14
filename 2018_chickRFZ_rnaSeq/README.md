@@ -62,10 +62,10 @@ In progress: Collecting metrics, annotating, and merging BAMs with Picard.
 ### STAR mapping
 Running STAR multi-sample 2-pass mapping, which increases sensitivity for novel splice junctions. From my understanding:
 
-1. STAR is indexed with the published genome annotation, which identifies potential splice sites.
-1. STAR also detects and maps reads to novel splice junctions as it aligns, presumably based on a scoring system for the likelihood of novel splice junction vs. incorrect mapping. Due to this scoring system, reads with short overhangs (e.g. 5-10 bp) across the junctions are unlikely to be correctly mapped to novel junctions.
-1. Novel splice junctions that pass STAR's criteria for being legitimate (presumably based on the number of reads that mapped well across them) are outputted in a "SJ.out.tab" file.
-1. Then it's possible to perform a second mapping pass with the SJ.out.tab files from the first mapping pass. In the second pass, STAR inserts the novel junctions into a private copy of the provided reference genome, then re-maps the reads against this personalized genome index.  This increases the sensitivity of read alignment to novel junctions, presumably because the mapped reads are scored for "standard junction (reference genome) vs. incorrect mapping" rather than "novel junction vs. incorrect mapping."
+1. STAR is indexed with the published genome annotation, which identifies potential splice sites in the genome assembly.
+1. STAR further detects and maps reads to novel splice junctions as it aligns, presumably based on a scoring system for the likelihood of novel splice junction vs. incorrect mapping. Due to this scoring system, reads with short overhangs (e.g. 5-10 bp) across the junctions are unlikely to be mapped to novel junctions.
+1. Novel splice junctions that pass STAR's criteria for being legitimate (presumably based on the number and percentage of reads that mapped well across them) are outputted in a "SJ.out.tab" file.
+1. Then it's possible to perform a second mapping pass with the SJ.out.tab files from the first mapping pass. In the second pass, STAR inserts the novel junctions into a private copy of the provided reference genome, then re-maps the reads against this personalized genome index.  This increases the sensitivity of read alignment to the novel junctions, presumably because the mapped reads are scored for "standard junction (reference genome) vs. incorrect mapping" rather than "novel junction vs. incorrect mapping."
 
 From [STAR's publication](https://academic.oup.com/bioinformatics/article/29/1/15/272537#84630902): 
 
