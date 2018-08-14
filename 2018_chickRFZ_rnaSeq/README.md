@@ -78,7 +78,7 @@ I also think STAR provides the most options. The trend is to move towards *de no
 
 In comparison, STAR's default approach is to map to the annotated reference genome, then split the read across the reference genome if it can't find a good contiguous match to see if it can discover a novel splice junction. The transcriptome-based approaches make theorectical sense--in RNA-seq, the transcriptome is what matters--but STAR's approach is probably more forgiving of less-well-annotated genomes, and it's possibly more accurate for calling uniquely mapping reads. (See https://sequencing.qcfail.com/articles/mapping-to-a-transcriptome-can-incorrectly-report-reads-as-mapping-uniquely/, with the counterpoint being at https://cgatoxford.wordpress.com/2016/08/17/why-you-should-stop-using-featurecounts-htseq-or-cufflinks2-and-start-using-kallisto-salmon-or-sailfish/.)
 
-That said, STAR also has the option of providing transcriptome-based counts, so it fits easily into the transcriptome-based approach.
+But STAR also has the option of providing transcriptome-based counts, so it fits easily into the transcriptome-based approach. Hence the flexibility.
 
 As for 2-pass: I think that if someone is using STAR, they've already bought into its novel splice junction detection method, because it'll do that on every run anyway. If we don't believe in its novel junction detection method, we have to use a different aligner. If we do believe that STAR's novel junction detection is accurate, then 2-pass mapping is part of using STAR well.
 
