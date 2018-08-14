@@ -256,9 +256,9 @@ The raw data for this project can be found at:
 #### Data format
 * Paired end FASTQ files (R1 for forward read and R2 for reverse)
 * FASTQ files are compressed as necessary by gunzip
-* Each sample (combination of donor and tissue) has its own folder
+* Each sample (unique combination of tissue and biological replicate) has its own folder
 * Initial scripts format Hiseq filenames into the NextSeq naming syntax: 
-	* `tissue-donor-well_sampleNumber_laneNumber_R1orR2_batchNumber.fastq.gz`
+	* `tissue-replicate-well_sampleNumber_laneNumber_R1orR2_batchNumber.fastq.gz`
 	* E.g. `Sample1.1/RFZ-1-A01_S1_L001_R1_001.fastq.gz`
 	* E.g. `Sample2.2/D-1-A02_S2_L001_R1_001.fastq.gz`
 * Paired end reads are matched by lane assuming that lane regex is `_L###_`
@@ -294,8 +294,9 @@ I often use job arrays for between-sample analyses and GNU Parallel for within-s
 	* A cluster is a collection of nodes. On HMS O2, each node has 32 cores and 256G memory.
 	* This can also be said as, "A network is a collection of computers. On HMS O2, each computer has 32 threads and 256 GB RAM."
 	* Each job is sent to 1 node (unless you're using mpi. That's all you).
-	* Keep this structure in mind when parallelizing.
-	* Say you have ten donors, and you've collected five tissue types from each donor. It's often a great idea to submit a job per donor, then within that job, simultaneously process the different tissues from that donor on different cores. On the other hand, submitting a job per tissue while trying to analyze the different donors on different cores will at best fail and at worst make a mess.
+	* Keep this structure in mind when parallelizing. You want to parallelize in a way that's analogous to the organization of your data.
+	* Say you have ten donors, and you're analyzing all the chromosomes per donor. Each donor has their own folder named with a unique number, but their chromosomes have the same name (so both donor 1 and donor 2 have chr2). It's often a great idea to submit a job per donor, then within that job, simultaneously process the different chromosomes on different cores. On the other hand, submitting a job per chromosome while trying to analyze the different donors on different cores will generally make a mess.
+		* Of course, submitting a job per chromosome while analyzing different donors across cores is possible. It all depends on how you've organized and annotated your data.
 
 * Caveats
 	* Jobs that require a large number of cores/memory (>8 cores and/or >48 GB RAM) can spend a long time languishing in the queue. Sometimes it's faster to reduce memory requirements by looping instead of parallelizing.
