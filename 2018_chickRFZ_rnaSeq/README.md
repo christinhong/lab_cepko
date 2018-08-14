@@ -122,7 +122,7 @@ For future reference, excessive multimapping is likely due to:
 1. Shorter read lengths + repetitive haplotypes/patches in the toplevel genome assembly and/or
 1. rRNA "contamination" (poor ribo-depletion).
 
-:star: **NOTE: On further thought, I think I also prefer using the toplevel assembly, with its repetitive regions as read sinks, and running STAR to exclude reads that map to too many loci.** It reduces the number of usable mapped reads, but it's also more conservative and reduces the risk of mapping reads incorrectly. Ideally, this would be with 2x100 (or 2x150) bp reads to maximize mapping accuracy. Then after mapping, reads that map primarily/strongly to problematic regions would be removed from downstream analysis. (This approach was also suggested by Babraham Bioinformatics, the devs of FastQC, at https://sequencing.qcfail.com/articles/genomic-sequence-not-in-the-genome-assembly-creates-mapping-artefacts/.)
+:star: **NOTE: On further thought, I think I also prefer using the toplevel assembly while viewing its repetitive regions as read sinks, and running STAR to exclude reads that map to too many loci.** It reduces the number of usable mapped reads, but it's also more conservative and reduces the risk of mapping reads incorrectly. Ideally, this would be with 2x100 (or 2x150) bp reads to maximize mapping accuracy. Then after mapping, reads that map primarily/strongly to problematic regions would be removed from downstream analysis. (This approach was also suggested by Babraham Bioinformatics, the devs of FastQC, at https://sequencing.qcfail.com/articles/genomic-sequence-not-in-the-genome-assembly-creates-mapping-artefacts/.)
 
 
 ### Thoughts on mapped data
