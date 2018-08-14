@@ -53,9 +53,9 @@ In progress: Collecting metrics, annotating, and merging BAMs with Picard.
 In development: Genome-based mapping: STAR multi-sample 2-pass mapping -> featureCounts -> DESeq2
 * GNU Make and knitr
 
-*Hold: Genome-based mapping plus automated read count processing: STAR -> RSEM (used by Broad)*
+*Hold: Genome-based mapping plus automated read count processing: (STAR) RSEM (used by Broad)*
 
-*Hold: Transcriptome-based mapping: STAR -> Salmon -> tximport -> DESeq2*
+*Hold: Transcriptome-based mapping: (STAR) Salmon -> tximport -> DESeq2*
 
 
 ### STAR mapping
@@ -74,7 +74,8 @@ There is the question of how accurately STAR detects novel junctions. The develo
 
 As for 2-pass: I think that if someone is using STAR, they've already bought into its novel splice junction detection method, because it'll do that on every run anyway. If we don't believe in its novel junction detection method, we have to use a different aligner. If we do believe that STAR's novel junction detection is accurate, then 2-pass mapping is part of using STAR well.
 
-(For the pipelines, I refer to STAR as a genome-based assembly, but I think it's more specifically a hybrid between reference and *de novo* genome assembly. See https://biology.stackexchange.com/questions/56158/what-is-contigs-in-picards-reordersam.)
+(For the pipelines, I refer to STAR as a genome-based assembly, but I think it's more specifically a hybrid between reference and *de novo* genome assembly - see https://biology.stackexchange.com/questions/56158/what-is-contigs-in-picards-reordersam. It can also output both genome and transcriptome (more de novo-esque)-based counts, which makes it very flexible across analysis approaches.)
+
 
 * Increasing mapping speed
 	* To run this, I set STAR `--genomeLoad NoSharedMemory`. LoadAndRemove can be faster for the first pass, but it occasionally caused shared memory errors. For the second pass, junction insertion changes the genome, and I suspect that would also lead to shared memory errors.
