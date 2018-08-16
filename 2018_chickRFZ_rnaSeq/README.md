@@ -175,10 +175,10 @@ From Connie, expect the following gene expression patterns:
 * Identified RFZ progenitors at E5+1DIV by RARE reporter
 * Input characteristics: 
 	* RIN > 9 for all samples
-	* 1 ng total RNA
+	* 125 ng total RNA
 	* PolyA primer for selection
 	* Libraries are not strand-specific
-	* Generated 2 library sets: 1 set without RNA pre-amplification (failed) and 1 set with pre-amplification (OK)
+	* Generated 2 library sets: 1 set without RNA pre-amplification (failed due to reads only mapping to 3 loci) and 1 set with 12 cycles of pre-amplification with Kappa HF followed by Nextera XT reactions (OK)
 * Ran on NextSeq for 2x32 bp reads
 	* Expected ~685M reads/batch
 * Batch 1: Mix of sets with and without RNA pre-amplification -> fewer reads than expected (~260M)
