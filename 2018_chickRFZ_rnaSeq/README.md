@@ -8,7 +8,7 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 
 * Introduced to this project by Nico Lonfat's suggestion to Connie
 
-*README.md is written in GitHub Markdown. Outside GitHub, it can be copied and pasted into https://jbt.github.io/markdown-editor/ or opened and previewed as HTML by RStudio.*
+*README.md is written in GitHub Markdown. README.html is the .md after opening and previewing as HTML in RStudio.*
 
 ---
 
@@ -191,9 +191,15 @@ From Connie, expect the following gene expression patterns:
 ## Cluster setup
 The HMS O2 cluster has ~7000 nodes with 32 cores and 256 GB RAM each. It's managed by the [Slurm job scheduler](https://wiki.rc.hms.harvard.edu/display/O2/O2).
 
+On Linux and Macs, log in from the terminal with `ssh <eCommons username>@o2.hms.harvard.edu`
+
+My home directory is at `/home/ch220`, as ch220 is my eCommons username. Quota is 100 GB.
+
+The Cepko Lab group folder is at `/n/data2/hms/genetics/cepko` As of 2018-08, its quota is 10 TB.
+
 * Can request a max of 20 cores/node, but the more cores/memory requested, the longer the pend time.
 
-* To run an interactive session, I generally use `srun --pty -p interactive -c 8 --mem=64G -t 0-11:00 /bin/bash`. The interactive queue has a max of 12 hours.
+* To run an interactive session, I usually use `srun --pty -p interactive -c 8 --mem=64G -t 0-11:00 /bin/bash`. The interactive queue has a max of 12 hours.
 
 
 ### Directory structure
@@ -238,7 +244,7 @@ projectDir/R/
 ### Raw data
 The raw data for this project can be found at:
 
-* HMS Genetics server:  research.files.med.harvard.edu/genetics/
+* HMS Genetics server:  research.files.med.harvard.edu/genetics/Chick_Retina_Expression
 * HMS O2:
 	* I've symlinked Nathan's NextSeq data with:
 
