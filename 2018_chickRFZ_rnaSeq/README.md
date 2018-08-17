@@ -28,6 +28,7 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 	1. [Reference files](#reference-files)
 	1. [Raw data](#raw-data)
 1. [Scripting tips](#scripting-tips)
+	1. [Bash commands](#bash-commands)
 	1. [Parallelization](#parallelization)
 	1. [Sample script header](#sample-script-header)
 1. [Acknowledgments](#acknowledgments)
@@ -285,11 +286,27 @@ The raw data for this project can be found at:
 
 * Use variables to minimize code duplication and set custom parameters. Keep them at the beginning of your scripts. Then later, when you need to change them, you won't have to hunt through your entire pipeline to find them all.
 
+* Write scripts to be as modular and reusable as possible.
+
 * Put `set -Eeuo pipefail` at the beginning of every bash script. See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/ and http://redsymbol.net/articles/unofficial-bash-strict-mode/.
 
 * Use `sacct -j <jobid>` to check whether jobs completed successfully. ExitValues should be 0:0.
 
 * Remember version control with [GitHub](https://confluence.atlassian.com/bitbucketserver/basic-git-commands-776639767.html).
+
+
+### Bash commands
+Common bash commands include:
+
+* `cd <target dir>`: Change directory
+	* Press tab to auto-complete a name, and press tab twice to see potential auto-complete options.
+	* `cd ..`: Move up one directory
+* `ls`: List contents of current directory
+	* `ls *.bam > bams.txt`: List contents of current directory if it ends in ".bam" and write output to bams.txt
+* `cat <file name>`: Display contents of file
+* `head <file name>`: Display the first 10 lines of a file
+* `mkdir <directory name>:` Make a new directory
+* `mv -i <old file> <new file>`: Move a file or folder from one location to another, with a prompt if moving will overwrite a file. Also used for renaming.
 
 
 ### Parallelization
