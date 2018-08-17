@@ -28,7 +28,7 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 	1. [Reference files](#reference-files)
 	1. [Raw data](#raw-data)
 1. [Scripting tips](#scripting-tips)
-	1. [Bash commands](#bash-commands)
+	1. [Some bash commands](#some-bash-commands)
 	1. [Parallelization](#parallelization)
 	1. [Sample script header](#sample-script-header)
 1. [Acknowledgments](#acknowledgments)
@@ -296,7 +296,7 @@ The raw data for this project can be found at:
 * Remember version control with [GitHub](https://confluence.atlassian.com/bitbucketserver/basic-git-commands-776639767.html).
 
 
-### Bash commands
+### Some bash commands
 Common bash commands include:
 
 * `cd <target dir>`: Change directory
