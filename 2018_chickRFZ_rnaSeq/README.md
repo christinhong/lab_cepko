@@ -278,7 +278,8 @@ The raw data for this project can be found at:
 	* It's always worthwhile to make all your initial data files have a consistent, group-aware, and as-simple-as-possible filename syntax. Usually it's best to name from the most to least general characteristic. 
 	* `tissue-replicate-well_sampleNumber_laneNumber_R1orR2_batchNumber` works well (as does `tissue-condition-replicate-well_sampleNumber_laneNumber_R1orR2_batchNumber`).
 
-* Immediately strip whitespace from folder and filenames, and avoid having spaces in names as much as possible. If this is infeasible, seriously consider coding in Python instead of bash.
+* Immediately strip whitespace from folder and filenames, and avoid having spaces in names as much as possible.
+	* If this is infeasible, seriously consider coding in Python instead of bash. Bash wasn't developed for handling whitespace (but I still think it's a wonderful and under-appreciated language).
 
 * Write in an editor with syntax highlighting. I usually write bash in gedit and R in RStudio, but probably any editor with syntax highlighting will do.
 
