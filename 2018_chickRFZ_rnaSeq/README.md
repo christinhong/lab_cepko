@@ -118,12 +118,39 @@ I've tested the following:
 
 Unfortunately, I think these reads are genuinely mapping non-specifically. I'm tempted to relax the mapping length requirement, but quality > quantity. To be safe, I'll use the STAR defaults while using the genome index generated with `--sjdbOverhang 49` for processing all samples.
 
-For future reference, excessive multimapping is likely due to:
+Hmm...this *could* be due to shorter read lengths + repetitive haplotypes/patches in the toplevel genome assembly, but the difference between the HiSeq and NextSeq data seems too dramatic. Will keep digging.
 
-1. Shorter read lengths + repetitive haplotypes/patches in the toplevel genome assembly and/or
-1. rRNA "contamination" (poor ribo-depletion).
 
-:star: **NOTE: On further thought, I think I also prefer using the toplevel assembly while viewing its repetitive regions as read sinks, and running STAR to exclude reads that map to too many loci.** It reduces the number of usable mapped reads, but it's also more conservative and reduces the risk of mapping reads incorrectly. Ideally, this would be with 2x100 (or 2x150) bp reads to maximize mapping accuracy. Then after mapping, reads that map primarily/strongly to problematic regions would be removed from downstream analysis. (This approach was also suggested by Babraham Bioinformatics, the devs of FastQC, at https://sequencing.qcfail.com/articles/genomic-sequence-not-in-the-genome-assembly-creates-mapping-artefacts/.)
+#### UPDATE
+After looking around further, I discovered that another common reason for a high percentage of multimappers is rRNA "contamination" (incomplete rRNA depletion).
+
+Checking for rRNA contamination in chick was less straightforward than I expected - seems like Galgal rRNA genes aren't really annotated. But the FastQC reports provide the top overrepresented sequences, so I copied the top 3 sequences from a sampling of NextSeq files into [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi) and searched the BLAST results for "gallus gallus." The first *Gallus gallus* result, if available, is listed below:
+
+1. D-1-A02_S2_L001_S2_R1_paired_trimmed.fq.gz
+	1. `GTACAAAGGGCAGGGACTTAATCAACGCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
+	1. `ATCAGATACCGTCGTAGTTCCGACCATAAA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA 
+	1. `TCGTAGTTCCGACCATAAACGATGCCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
+1. N-2-B05_S10_L001_S35_R1_paired_trimmed.fq.gz
+	1. `GTACGGAAGCAGTGGTATCAACGCAGAGTA`: No hit
+	1. `CTTCCGTACTCTGCGTTGATACCACTGCTT`: No hit
+	1. `TCCGTACTCTGCGTTGATACCACTGCTTC`: No hit
+		* The sequences seem to be related, e.g. they all pull up multiple "common carp genome, scaffold" results. But nothing for chicken. Weird, but it is what it is.
+1. RFZ-3-C01_S11_L003_S36_R2_paired_trimmed.fq.gz
+	1. `GTACAAAGGGCAGGGACTTAATCAACGCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
+	1. `GTACAGTGAAACTGCGAATGGCTCATTAAA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533602), rRNA
+	1. `GGGTAGACACAAGCTGAGCCAGTCAGTGTA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
+1. T-4-D04_S19_L004_S19_R2_paired_trimmed.fq.gz
+	1. `GTACAAAGGGCAGGGACTTAATCAACGCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
+	1. `GTTAAGAGCATCGAGGGGGCGCCGAGAGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
+	1. `TCGTAGTTCCGACCATAAACGATGCCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA 
+1. V-5-E03_S23_L004_S48_R1_paired_trimmed.fq.gz (yeah, this file happens to have the same top sequences as the first one)
+	1. `GTACAAAGGGCAGGGACTTAATCAACGCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
+	1. `TCGTAGTTCCGACCATAAACGATGCCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
+	1. `ATCAGATACCGTCGTAGTTCCGACCATAAA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA 
+	
+HiSeq samples (retinas 6-7) had no notable overrepresented sequences.
+
+Conclusion: NextSeq libraries probably have a high percentage of multimapping reads due to original input having high levels of rRNA.
 
 
 ### Thoughts on mapped data
@@ -237,7 +264,8 @@ projectDir/R/
 
 
 ### Reference files
-* Ensembl Galgal5 reference genome assembly
+* Ensembl Galgal5 toplevel reference genome assembly (no primary assembly available)
+	* :star: **NOTE: On further thought, I think I also prefer using the toplevel assembly while viewing its repetitive regions as read sinks, and running STAR to exclude reads that map to too many loci.** It reduces the number of usable mapped reads, but it's also more conservative and reduces the risk of mapping reads incorrectly. Ideally, this would be with 2x100 (or 2x150) bp reads to maximize mapping accuracy. Then after mapping, reads that map primarily/strongly to problematic regions would be removed from downstream analysis. (This approach was also suggested by Babraham Bioinformatics, the devs of FastQC, at https://sequencing.qcfail.com/articles/genomic-sequence-not-in-the-genome-assembly-creates-mapping-artefacts/.)
 * Ensembl Galgal5 GTF annotation
 * STAR genome index from genome assembly + annotation
 
