@@ -8,7 +8,7 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 
 * Introduced to this project by Nico Lonfat's suggestion to Connie
 
-*README.md is written in GitHub Markdown. README.html is the .md after opening and previewing as HTML in RStudio.*
+*README.md is written in GitHub Markdown. README.html is the .md in HTML (via RStudio) for easier viewing outside GitHub.*
 
 ---
 
