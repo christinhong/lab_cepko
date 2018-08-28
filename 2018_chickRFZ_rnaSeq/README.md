@@ -124,7 +124,7 @@ Hmm...this *could* be due to shorter read lengths + repetitive haplotypes/patche
 #### UPDATE
 After looking around further, I discovered that another common reason for a high percentage of multimappers is rRNA "contamination" (incomplete rRNA depletion).
 
-Checking for rRNA contamination in chick was less straightforward than I expected - seems like Galgal rRNA genes aren't really annotated. But the FastQC reports provide the top overrepresented sequences, so I copied the top 3 sequences from a sampling of NextSeq files into [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi) and searched the BLAST results for "gallus gallus." The first *Gallus gallus* result, if available, is listed below:
+Checking for rRNA contamination in chick was less straightforward than I expected - seems like Galgal rRNA genes aren't really annotated. But the FastQC reports provide the top overrepresented sequences, so I copied the top 3-5 sequences from a sampling of NextSeq files into [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi) and searched the BLAST results for "gallus gallus." The first *Gallus gallus* result, if available, is listed below:
 
 1. D-1-A02_S2_L001_S2_R1_paired_trimmed.fq.gz
 	1. `GTACAAAGGGCAGGGACTTAATCAACGCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
@@ -134,7 +134,9 @@ Checking for rRNA contamination in chick was less straightforward than I expecte
 	1. `GTACGGAAGCAGTGGTATCAACGCAGAGTA`: No hit
 	1. `CTTCCGTACTCTGCGTTGATACCACTGCTT`: No hit
 	1. `TCCGTACTCTGCGTTGATACCACTGCTTC`: No hit
+	1. `GAGTACGGAAGCAGTGGTATCAACGCAGAG`: No hit
 		* The sequences seem to be related, e.g. they all pull up multiple "common carp genome, scaffold" results. But nothing for chicken. Weird, but it is what it is.
+	1. `GTACAAAGGGCAGGGACTTAATCAACGCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
 1. RFZ-3-C01_S11_L003_S36_R2_paired_trimmed.fq.gz
 	1. `GTACAAAGGGCAGGGACTTAATCAACGCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
 	1. `GTACAGTGAAACTGCGAATGGCTCATTAAA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533602), rRNA
@@ -289,8 +291,7 @@ The raw data for this project can be found at:
 
 
 #### Data format
-* Paired end FASTQ files (R1 for forward read and R2 for reverse)
-* FASTQ files are compressed as necessary by gunzip
+* Paired end FASTQ.GZ files (R1 for forward read and R2 for reverse, GZ = compressed by gunzip)
 * Each sample (unique combination of tissue and biological replicate) has its own folder
 * Initial scripts format Hiseq filenames into the NextSeq naming syntax: 
 	* `tissue-replicate-well_sampleNumber_laneNumber_R1orR2_batchNumber.fastq.gz`
