@@ -21,6 +21,7 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 	1. [STAR mapping](#star-mapping)
 	1. [On mapping NextSeq reads](#on-mapping-nextseq-reads)
 	1. [Thoughts on mapped data](#thoughts-on-mapped-data)
+	1. [Picard](#picard)
 1. [Controls](#controls)
 1. [Data collection](#data-collection)
 1. [Cluster setup](#cluster-setup)
@@ -145,7 +146,7 @@ Checking for rRNA contamination in chick was less straightforward than I expecte
 	1. `GTACAAAGGGCAGGGACTTAATCAACGCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
 	1. `GTTAAGAGCATCGAGGGGGCGCCGAGAGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
 	1. `TCGTAGTTCCGACCATAAACGATGCCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA 
-1. V-5-E03_S23_L004_S48_R1_paired_trimmed.fq.gz (yeah, this file happens to have the same top sequences as the first one)
+1. V-5-E03_S23_L004_S48_R1_paired_trimmed.fq.gz
 	1. `GTACAAAGGGCAGGGACTTAATCAACGCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
 	1. `TCGTAGTTCCGACCATAAACGATGCCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
 	1. `ATCAGATACCGTCGTAGTTCCGACCATAAA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA 
@@ -165,6 +166,42 @@ In terms of uniquely mapped reads, the NextSeq data consistently hovers around 0
 From HiSeq, it's pretty variable, with the range being ~1-12 M/sample.
 
 Ryoji's dendrogram seems to be based on log2+1 read counts, so I'd guess that's the main reason why the datasets looked so different? At any rate, all the samples have information. Will see how the analysis turns out.
+
+
+### Picard
+BAM QC with Picard (https://broadinstitute.github.io/picard/)
+
+- [x] CreateSequenceDictionary (sequence dictionary for reference genome FASTA)
+- [ ]  Annotate BAMs with AddOrReplaceReadGroups
+- [ ]  SortSam (sort by coordinate for building index) 
+- [ ] BuildBamIndex 
+- [ ] ReorderSam (sorts by reference, prefers indexed BAMs)
+	* Broad does ReorderSam -> MarkDuplicates. ReorderSam may be better for MarkDuplicates: "When the input is coordinate-sorted, unmapped mates of mapped records and supplementary/secondary alignments are not marked as duplicates. However, when the input is query-sorted (actually query-grouped), then unmapped mates and secondary/supplementary reads are not excluded from the duplication test and can be marked as duplicate reads." -https://broadinstitute.github.io/picard/command-line-overview.html#MarkDuplicates
+- [ ]  MarkDuplicates
+- [ ]  CollectMultipleMetrics
+	- [ ]  CollectAlignmentSummaryMetrics
+	- [ ]  CollectInsertSizeMetrics
+	- [ ]  QualityScoreDistribution (not supported by MultiQC)
+	- [ ]  MeanQualityByCycle (not supported by MultiQC)
+	- [ ]  CollectBaseDistributionByCycle
+	- [ ]  CollectGCBiasMetrics (If necessary, using cqn with DESeq2: https://www.biostars.org/p/259378/ and in https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html)
+	- [ ] CollectQualityYieldMetrics (May be redundant with FastQC since not doing GATK base recalibration, but technically it's measuring MapQ instead of Phred. See https://sequencing.qcfail.com/articles/mapq-values-are-really-useful-but-their-implementation-is-a-mess/)
+	- [ ] EstimateLibraryComplexity
+	* Not doing CollectRnaSeqMetrics because it requires a refFlat instead of GTF annotation file (https://github.com/broadinstitute/picard/issues/805)
+	* Not doing CollectSequencingArtifactMetrics because we aren't interested in SNPs
+
+* Qualimap
+	* May look into BAM and RNA-seq metrics from Qualimap to see if it'd give any additional data (see MultiQC doc for compatibility notes): http://qualimap.bioinfo.cipf.es/doc_html/analysis.html
+	* Qualimap does Multi-sample BAM QC, but that's a simple aggregation of BAM QC, so may as well continue applying MultiQC for aggregating.
+	* Qualimap also has Counts QC post-featureCounts: http://qualimap.bioinfo.cipf.es/doc_html/samples.html
+	
+- [ ] Check out BAMs in SeqMonk (which can also do read density vs. duplication). Can also try IGV and IGB if necessary: https://bioinformatics.stackexchange.com/questions/722/visualisation-of-long-read-rna-seq-splicing
+- [ ] Visualize metrics as needed in R. See https://github.com/slowkow/picardmetrics and my old featureCounts scripts
+
+* On technical duplicates: https://sequencing.qcfail.com/articles/libraries-can-contain-technical-duplication/ . Deduping isn't appropriate for RNA-seq (especially when these libraries are so saturated), but "If your concern is with the inflated increase in power from duplication then a better solution might well be to quantitate the read counts as normal, but then try to estimate the overall level of duplication and divide all counts by this amount before moving on to doing statistical analyses.  This won’t change the magnitude of the changes seen, but will reduce the overall number of observations."
+	* An R version for prettier plots of BAM duplication from Babraham is dupRadar: https://sourceforge.net/projects/dupradar/ . But I think SeqMonk will be enough.
+	
+- [ ] If everything looks good, merge bams for each sample (most likely by Picard's GatherBamFiles)
 
 
 ---
