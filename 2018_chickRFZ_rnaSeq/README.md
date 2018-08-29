@@ -172,9 +172,8 @@ Ryoji's dendrogram seems to be based on log2+1 read counts, so I'd guess that's 
 BAM QC with Picard (https://broadinstitute.github.io/picard/)
 
 - [x] CreateSequenceDictionary (sequence dictionary for reference genome FASTA)
-- [ ]  Annotate BAMs with AddOrReplaceReadGroups
-- [ ]  SortSam (sort by coordinate for building index) 
-- [ ] BuildBamIndex 
+- [x] Annotate and sort BAMs by coordinate with AddOrReplaceReadGroups
+- [ ] BuildBamIndex (faster with coordinate-sorted BAMs)
 - [ ] ReorderSam (sorts by reference, prefers indexed BAMs)
 	* Broad does ReorderSam -> MarkDuplicates. ReorderSam may be better for MarkDuplicates: "When the input is coordinate-sorted, unmapped mates of mapped records and supplementary/secondary alignments are not marked as duplicates. However, when the input is query-sorted (actually query-grouped), then unmapped mates and secondary/supplementary reads are not excluded from the duplication test and can be marked as duplicate reads." -https://broadinstitute.github.io/picard/command-line-overview.html#MarkDuplicates
 - [ ]  MarkDuplicates
