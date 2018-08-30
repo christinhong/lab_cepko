@@ -203,8 +203,9 @@ BAM QC with Picard (https://broadinstitute.github.io/picard/)
 
 ### Qualimap
 Complementary BAM QC with Qualimap: http://qualimap.bioinfo.cipf.es/doc_html/analysis.html
-- [ ] BamQC
-- [ ] RNASeq
+- [x] BamQC
+- [x] RNASeq
+- [ ] Make high throughput
 - [ ] Aggregate all BAM QC (Picard and Qualimap) with MultiQC
 * Qualimap also has Counts QC post-featureCounts: http://qualimap.bioinfo.cipf.es/doc_html/samples.html
 
@@ -524,4 +525,4 @@ Alexander Dobin, Carrie A. Davis, Felix Schlesinger, Jorg Drenkow, Chris Zaleski
 
 Tange, Ole. (2018). GNU Parallel 2018. GNU Parallel 2018 (p. 112). Ole Tange. http://doi.org/10.5281/zenodo.1146014
 
-
+Okonechnikov, K., Conesa, A., & García-Alcalde, F. (2015). “Qualimap 2: advanced multi-sample quality control for high-throughput sequencing data.” Bioinformatics, btv566
