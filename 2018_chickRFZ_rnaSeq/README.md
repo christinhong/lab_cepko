@@ -22,6 +22,10 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 	1. [On mapping NextSeq reads](#on-mapping-nextseq-reads)
 	1. [Thoughts on mapped data](#thoughts-on-mapped-data)
 	1. [Picard](#picard)
+	1. [Qualimap](#qualimap)
+	1. [featureCounts](#featurecounts)
+	1. [DESeq2](#deseq2)
+	1. [Complementary DE analyses](#complementary-de-analyses)
 1. [Controls](#controls)
 1. [Data collection](#data-collection)
 1. [Cluster setup](#cluster-setup)
@@ -44,7 +48,7 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 ## Analysis
 
 ### Changelog
-In progress: Collecting metrics, annotating, and merging BAMs with Picard.
+In progress: Annotating, merging BAMs, and collecting BAM QC metrics.
 
 2018-08-13: HMS approved my request for increased group space! `/n/data2/hms/genetics/cepko` has gone from 1 to 10 TB. Will set up shop in group for easier resource sharing and avoiding the auto-purge in scratch2.
 
@@ -52,7 +56,8 @@ In progress: Collecting metrics, annotating, and merging BAMs with Picard.
 
 
 ### Pipelines
-- [ ] In development: Genome-based mapping: STAR multi-sample 2-pass mapping -> featureCounts -> DESeq2. GNU Make and knitr
+- [ ] In development: Genome-based mapping: STAR multi-sample 2-pass mapping -> featureCounts -> DESeq2
+- [ ] Clean up scripts with GNU Make and knitr
 - [ ] *Hold: Genome-based mapping plus automated read count processing: (STAR) RSEM (used by Broad)*
 - [ ] *Hold: Transcriptome-based mapping: (STAR vs. StringTie for identifying novel transcripts) -> Salmon -> tximport -> DESeq2*
 	* https://combine-lab.github.io/salmon/faq/
@@ -194,27 +199,34 @@ BAM QC with Picard (https://broadinstitute.github.io/picard/)
 		* May be redundant with FastQC since not doing GATK base recalibration, but technically it's measuring MapQ instead of Phred. See https://sequencing.qcfail.com/articles/mapq-values-are-really-useful-but-their-implementation-is-a-mess/
 	* Not doing CollectRnaSeqMetrics because it requires a refFlat instead of GTF annotation file (https://github.com/broadinstitute/picard/issues/805)
 	* Not doing CollectSequencingArtifactMetrics because we aren't interested in SNPs
+- [ ] Aggregate with MultiQC
 
 
-* Qualimap
-	* May look into BAM and RNA-seq metrics from Qualimap to see if it'd give any additional data (see MultiQC doc for compatibility notes): http://qualimap.bioinfo.cipf.es/doc_html/analysis.html
-	* Qualimap does Multi-sample BAM QC, but that's a simple aggregation of BAM QC, so may as well continue applying MultiQC for aggregating.
-	* Qualimap also has Counts QC post-featureCounts: http://qualimap.bioinfo.cipf.es/doc_html/samples.html
+### Qualimap
+Additional BAM QC with Qualimap. http://qualimap.bioinfo.cipf.es/doc_html/analysis.html
+- [ ] BamQC
+- [ ] RNASeq
+- [ ] Aggregate with MultiQC
+* Qualimap also has Counts QC post-featureCounts: http://qualimap.bioinfo.cipf.es/doc_html/samples.html
 
 
-
-- [ ] Check out BAMs in SeqMonk (which can also do read density vs. duplication). Can also try IGV and IGB if necessary: https://bioinformatics.stackexchange.com/questions/722/visualisation-of-long-read-rna-seq-splicing
-
-
-- [ ] Visualize metrics as needed in R. See https://github.com/slowkow/picardmetrics and my old featureCounts scripts
-
-* On technical duplicates: https://sequencing.qcfail.com/articles/libraries-can-contain-technical-duplication/ . Deduping isn't appropriate for RNA-seq (especially when these libraries are so saturated), but "If your concern is with the inflated increase in power from duplication then a better solution might well be to quantitate the read counts as normal, but then try to estimate the overall level of duplication and divide all counts by this amount before moving on to doing statistical analyses.  This won’t change the magnitude of the changes seen, but will reduce the overall number of observations."
+**Further BAM QC**
+* Try out SeqMonk (which can also do read density vs. duplication) and see if it's less laggy than IGV. (See https://bioinformatics.stackexchange.com/questions/722/visualisation-of-long-read-rna-seq-splicing)
+	* On technical duplicates: https://sequencing.qcfail.com/articles/libraries-can-contain-technical-duplication/ . Deduping isn't appropriate for RNA-seq (especially when these libraries are so saturated), but, "If your concern is with the inflated increase in power from duplication then a better solution might well be to quantitate the read counts as normal, but then try to estimate the overall level of duplication and divide all counts by this amount before moving on to doing statistical analyses.  This won’t change the magnitude of the changes seen, but will reduce the overall number of observations."
 	* An R version for prettier plots of BAM duplication from Babraham is dupRadar: https://sourceforge.net/projects/dupradar/ . But SeqMonk may be enough.
+* https://github.com/slowkow/picardmetrics
 
 
 ### featureCounts
 
 
+
+### DESeq2
+
+
+
+### Complementary DE analyses
+DESeq (more conservative) and edgeR (alternative library normalization method)
 
 ---
 
