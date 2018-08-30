@@ -41,6 +41,11 @@ printf "%s\n" "sorted bam: ${outBAMsorted}"
 
 
 # Sort and index with samtools
+for bam in *.bam; do  samtools sort -o sorted/${bam} ${bam}; done
+
+for bam in *.bam; do  samtools index ${bam}; done
+
+
 samtools sort -o ${outBAMsorted} ${outBAM}
 
 samtools index ${outBAMsorted}
@@ -87,6 +92,26 @@ find . *.fastq.gz -name ".*" -prune -o -print | awk -F '_' '{print $3}' | sort |
 #### Download MultiQC results to PC to look them over by eye ####
 # From shell on HOME COMPUTER, run:
 rsync -avr --progress "ch220@transfer.rc.hms.harvard.edu:/home/ch220/2018_chickRFZ_rnaSeq/doc/multiqc_*_2*" "/home/christin/aaa_data_CepkoLab/2018_chickRFZ_rnaSeq_data/multiQC/"
+
+
+
+####
+echo "Merging BAM files for each sample with samtools"
+
+# Get list of bams to merge
+find . *_p2rg.bam -name ".*" -prune -o -print | paste -sd " " > bamsRG.txt
+
+
+# Make output name
+find . *_Aligned.out.bam -name ".*" -prune -o -print | cut -d "_" -f1 > sample.txt
+
+find . *_Aligned.out.bam -name ".*" -prune -o -print | head -n 1 | cut -d "_" -f6 > sNumber.txt
+
+outBam=$(paste -d "_" tissue.txt sNumber.txt)
+
+
+# Merge bams with samtools (easier syntax for automating than Picard's GatherBamFiles)
+samtools merge ${outBam}_p3merged.bam $(cat bamsRG.txt)
 
 
 
