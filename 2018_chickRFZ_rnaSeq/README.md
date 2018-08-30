@@ -202,7 +202,7 @@ BAM QC with Picard (https://broadinstitute.github.io/picard/)
 
 
 ### Qualimap
-Additional BAM QC with Qualimap. http://qualimap.bioinfo.cipf.es/doc_html/analysis.html
+Complementary BAM QC with Qualimap: http://qualimap.bioinfo.cipf.es/doc_html/analysis.html
 - [ ] BamQC
 - [ ] RNASeq
 - [ ] Aggregate all BAM QC (Picard and Qualimap) with MultiQC
