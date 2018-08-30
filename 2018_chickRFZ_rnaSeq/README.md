@@ -183,9 +183,9 @@ BAM QC with Picard (https://broadinstitute.github.io/picard/)
 - [x] SortSam to sort BAMs by coordinate 
 	* Broad does ReorderSam -> MarkDuplicates instead of SortSam. SortSam sorts by coordinate, while ReorderSam sorts by the ordering in the provided reference genome file **and drops reads that don't map to the provided reference**. That seems counter-productive for STAR's novel junction discovery, so I've decided to use SortSam.
 - [x] BuildBamIndex (faster with coordinate-sorted BAMs)
-- [x] MarkDuplicates
+- [x] MarkDuplicates (output: txt file)
 	* "When the input is coordinate-sorted, unmapped mates of mapped records and supplementary/secondary alignments are not marked as duplicates. However, when the input is query-sorted (actually query-grouped), then unmapped mates and secondary/supplementary reads are not excluded from the duplication test and can be marked as duplicate reads." -https://broadinstitute.github.io/picard/command-line-overview.html#MarkDuplicates
-- [x] EstimateLibraryComplexity
+- [x] EstimateLibraryComplexity (output: txt file)
 - [x] CollectMultipleMetrics
 	- [x] CollectAlignmentSummaryMetrics (main output: txt file)
 	- [x] CollectInsertSizeMetrics (pdf)
