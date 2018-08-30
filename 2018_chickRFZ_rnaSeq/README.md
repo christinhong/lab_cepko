@@ -172,23 +172,26 @@ Ryoji's dendrogram seems to be based on log2+1 read counts, so I'd guess that's 
 BAM QC with Picard (https://broadinstitute.github.io/picard/)
 
 - [x] CreateSequenceDictionary (one-time generation of sequence dictionary for reference genome FASTA)
-- [ ] CleanSam
-- [ ] Annotate with AddOrReplaceReadGroups
-- [ ] Merge BAMs for each sample with samtools
-- [ ] SortSam to sort BAMs by coordinate 
-	* Broad does ReorderSam -> MarkDuplicates instead of SortSam. SortSam sorts by coordinate, while ReorderSam sorts by the ordering in the provided reference genome file and drops reads that don't map to the provided reference. That seems counter-productive for STAR's novel junction discovery, so I'm going with SortSam.
-- [ ] BuildBamIndex (faster with coordinate-sorted BAMs)
-- [ ] MarkDuplicates
+- [x] CleanSam (avoid errors from reads mapping over ends of chromosomes; happened in sample 15)
+- [x] Annotate with AddOrReplaceReadGroups
+- [x] Merge BAMs for each sample with samtools
+- [x] SortSam to sort BAMs by coordinate 
+	* Broad does ReorderSam -> MarkDuplicates instead of SortSam. SortSam sorts by coordinate, while ReorderSam sorts by the ordering in the provided reference genome file **and drops reads that don't map to the provided reference**. That seems counter-productive for STAR's novel junction discovery, so I've decided to use SortSam.
+- [x] BuildBamIndex (faster with coordinate-sorted BAMs)
+- [x] MarkDuplicates
 	* "When the input is coordinate-sorted, unmapped mates of mapped records and supplementary/secondary alignments are not marked as duplicates. However, when the input is query-sorted (actually query-grouped), then unmapped mates and secondary/supplementary reads are not excluded from the duplication test and can be marked as duplicate reads." -https://broadinstitute.github.io/picard/command-line-overview.html#MarkDuplicates
-- [ ] EstimateLibraryComplexity
-- [ ]  CollectMultipleMetrics
-	- [ ]  CollectAlignmentSummaryMetrics
-	- [ ]  CollectInsertSizeMetrics
-	- [ ]  QualityScoreDistribution (not supported by MultiQC)
-	- [ ]  MeanQualityByCycle (not supported by MultiQC)
-	- [ ]  CollectBaseDistributionByCycle
-	- [ ]  CollectGcBiasMetrics (If necessary, using cqn with DESeq2: https://www.biostars.org/p/259378/ and in https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html)
-	- [ ] CollectQualityYieldMetrics (May be redundant with FastQC since not doing GATK base recalibration, but technically it's measuring MapQ instead of Phred. See https://sequencing.qcfail.com/articles/mapq-values-are-really-useful-but-their-implementation-is-a-mess/)
+- [x] EstimateLibraryComplexity
+- [x] CollectMultipleMetrics
+	- [x] CollectAlignmentSummaryMetrics (main output: txt file)
+	- [x] CollectInsertSizeMetrics (pdf)
+	- [x] QualityScoreDistribution (not supported by MultiQC) (pdf)
+	- [x] MeanQualityByCycle (not supported by MultiQC) (pdf)
+	- [x] CollectBaseDistributionByCycle (pdf)
+	- [x] CollectGcBiasMetrics (pdf)
+		* (If necessary, using cqn with DESeq2: https://www.biostars.org/p/259378/ and in https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html)
+		* From the GC% of 100 base windows, looks like chick has an AT-rich genome. From the normalized coverage, it also looks like there's some GC bias (preferential amplification of GC-rich fragmentS) due to how coverage generally increases with GC%. Most likely, the GC-bias will be consistent across samples, so there won't be a need to correct it out.
+	- [x] CollectQualityYieldMetrics (txt)
+		* May be redundant with FastQC since not doing GATK base recalibration, but technically it's measuring MapQ instead of Phred. See https://sequencing.qcfail.com/articles/mapq-values-are-really-useful-but-their-implementation-is-a-mess/
 	* Not doing CollectRnaSeqMetrics because it requires a refFlat instead of GTF annotation file (https://github.com/broadinstitute/picard/issues/805)
 	* Not doing CollectSequencingArtifactMetrics because we aren't interested in SNPs
 
