@@ -102,7 +102,8 @@ g
 # 3. reference base
 # 4. the number of reads covering the site
 # 5. read bases and
-# 6. base qualities." -http://samtools.sourceforge.net/pileup.shtml
+# 6. base qualities." 
+# -http://samtools.sourceforge.net/pileup.shtml
 
 # So maybe I can extract the genomic locations, then filter for >10 on column 4 (number of reads covering the site), and get the reference base sequence from there?
 
@@ -199,7 +200,8 @@ while IFS='' read -r bam || [[ -n "$bam" ]]; do
         chrMax=$(cat ${outdir}/${varGene}_min${nReads}_${out}.txt | awk 'NR==1{max = $1 + 0; next} {if ($1 > max) max = $1;} END {print max}' )
         pMax=$(cat ${outdir}/${varGene}_min${nReads}_${out}.txt | awk 'NR==1{max = $2 + 0; next} {if ($2 > max) max = $2;} END {print max}')
 
-        pRange=$(echo "$pMax - $pMin" | bc )
+        pRange=$(echo "$pMax - $pMin + 1" | bc )
+        # Adding +1 to include an edge nucleotide (if I have 5 apples numbered 1-5, then the number of apples I have is 5 - 1 + 1).
 
         printf "%s\n" "First position with at least ${nReads} aligned reads is ${chrMin}:${pMin}." \
         "Last position with at least ${nReads} aligned reads is ${chrMax}:${pMax}." \
