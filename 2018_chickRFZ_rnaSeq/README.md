@@ -184,6 +184,7 @@ Ryoji's dendrogram seems to be based on log2+1 read counts, so I'd guess that's 
 	* Broad does ReorderSam -> MarkDuplicates instead of SortSam. SortSam sorts by coordinate, while ReorderSam sorts by the ordering in the provided reference genome file **and drops reads that don't map to the provided reference**. That seems counter-productive for STAR's novel junction discovery, so I've decided to use SortSam.
 - [x] BuildBamIndex (faster with coordinate-sorted BAMs)
 - [x] MarkDuplicates (output: txt file)
+	* Removing duplicates is discouraged in RNA-seq analysis because RNA duplicates are most likely biologically informative.
 	* "When the input is coordinate-sorted, unmapped mates of mapped records and supplementary/secondary alignments are not marked as duplicates. However, when the input is query-sorted (actually query-grouped), then unmapped mates and secondary/supplementary reads are not excluded from the duplication test and can be marked as duplicate reads." -https://broadinstitute.github.io/picard/command-line-overview.html#MarkDuplicates
 - [x] EstimateLibraryComplexity (output: txt file)
 - [x] CollectMultipleMetrics
