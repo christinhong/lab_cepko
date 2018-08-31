@@ -5,11 +5,9 @@
 #SBATCH -c 4                    # number of cores/cpus per node (32 c/node)
 #SBATCH --mem=48G               # total RAM requested per job (256 GB RAM/node)
 
-#SBATCH -D /home/ch220/2018_chickRFZ_rnaSeq         # set working directory
-#SBATCH --open-mode=append                          # append adds to outfile, truncate deletes old outfile first
-
 #SBATCH -e /home/ch220/jobLogs/RNA-03_%A-%a.err     # standard err
 #SBATCH -o /home/ch220/jobLogs/RNA-03_%A-%a.out     # standard out
+#SBATCH --open-mode=append                          # append adds to outfile, truncate deletes old outfile first
 #SBATCH --mail-type=END                             # email when job ends
 #SBATCH --mail-user=christinhong@g.harvard.edu      # address for email
 	
@@ -36,38 +34,42 @@ set -Eeuo pipefail		# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_
 
 # GLOBAL VARIABLES
 
+export cepko=/n/data2/hms/genetics/cepko
+export christin=${cepko}/christin
+
+
 # Job-specific
 export intCores=4
 export pathLogs=/home/ch220/jobLogs
 
 
 # Experiment-specific
-export pathProj=/home/ch220/2018_chickRFZ_rnaSeq
+export pathProj=${christin}/2018_chickRFZ_rnaSeq
 export pathData=${pathProj}/data/*/*
 export pathBash=${pathProj}/bash
 export pathDoc=${pathProj}/doc
 
-
-export pathOut=/n/scratch2/ch220
+export pathOut=${pathProj}/output
 export pathData2=${pathOut}/fq_trimmed
-export pathStarInd=${pathOut}/STAR-gg5-sjo49            # STAR indexed with --sjbdOverhang 49
-
-export pathOutStar=${pathOut}/starMap                   
+export pathOutStar=${pathOut}/starMap
+export pathOutStar2=${pathOut}/starMap/pass2
 export fileSJ=${pathOutStar}/sj_1-60.txt                # File of STAR splice junctions
 
 
 # References
-export pathRef=/home/ch220/resources/ref
-export fileGenome=${pathRef}/genomes/Gallus_gallus.Gallus_gallus-5.0.dna.toplevel.fa
+export pathRef=${cepko}/resources/ref
+export pathGen=${pathRef}/genomes
+export fileGen=${pathGen}/Gallus_gallus.Gallus_gallus-5.0.dna.toplevel.fa
+export pathStarInd=${pathGen}/STAR-gg5-sjo49            # STAR indexed with --sjbdOverhang 49
 
 
 # Tools and general scripts with versions in their respective paths 
-export pathTools=/home/ch220/resources/tools
+export pathTools=${cepko}/resources/tools
 export parallel=${pathTools}/parallel-20180722/src/parallel
 
 
 # Modules loaded from O2
-    # Need to load prereq modules first. Check for prereqs and command syntax with "module spider <tool name>"
+    # Need to load prereq modules first. Check for prereqs and command syntax with "module spider <tool name>".
 module load gcc/6.2.0 python/2.7.12
 module load fastqc/0.11.3
 module load multiqc/1.5
@@ -80,7 +82,6 @@ LC_COLLATE=C    # specifies sort order (numbers, uppercase, then lowercase)
 
 
 # Notes
-    # "${SLURM_ARRAY_TASK_ID}" sometimes needs to be quoted to be recognized by the shell. Just quote it all the time.
     # Export: Variables are inherited by child processes (e.g. subshells from GNU parallel).
     # Bash variables are untyped by default.  For more robust code, can declare data type with [declare] (see http://tldp.org/LDP/abs/html/declareref.html ), but I'm not sure how declare works with export.  May try later.
     # When possible, using full path to minimize confusion by shell, record tool versions, and increase clarity regarding dependencies.

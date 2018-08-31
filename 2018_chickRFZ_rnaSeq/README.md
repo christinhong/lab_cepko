@@ -21,6 +21,10 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 	1. [STAR mapping](#star-mapping)
 	1. [On mapping NextSeq reads](#on-mapping-nextseq-reads)
 	1. [Thoughts on mapped data](#thoughts-on-mapped-data)
+	1. [BAM QC](#bam-qc)
+	1. [featureCounts](#featurecounts)
+	1. [DESeq2](#deseq2)
+	1. [Complementary DE analyses](#complementary-de-analyses)
 1. [Controls](#controls)
 1. [Data collection](#data-collection)
 1. [Cluster setup](#cluster-setup)
@@ -43,7 +47,7 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 ## Analysis
 
 ### Changelog
-In progress: Collecting metrics, annotating, and merging BAMs with Picard.
+In progress: Annotating, merging BAMs, and collecting BAM QC metrics.
 
 2018-08-13: HMS approved my request for increased group space! `/n/data2/hms/genetics/cepko` has gone from 1 to 10 TB. Will set up shop in group for easier resource sharing and avoiding the auto-purge in scratch2.
 
@@ -51,7 +55,8 @@ In progress: Collecting metrics, annotating, and merging BAMs with Picard.
 
 
 ### Pipelines
-- [ ] In development: Genome-based mapping: STAR multi-sample 2-pass mapping -> featureCounts -> DESeq2. GNU Make and knitr
+- [ ] In development: Genome-based mapping: STAR multi-sample 2-pass mapping -> featureCounts -> DESeq2
+- [ ] Clean up scripts with GNU Make and knitr
 - [ ] *Hold: Genome-based mapping plus automated read count processing: (STAR) RSEM (used by Broad)*
 - [ ] *Hold: Transcriptome-based mapping: (STAR vs. StringTie for identifying novel transcripts) -> Salmon -> tximport -> DESeq2*
 	* https://combine-lab.github.io/salmon/faq/
@@ -124,7 +129,7 @@ Hmm...this *could* be due to shorter read lengths + repetitive haplotypes/patche
 #### UPDATE
 After looking around further, I discovered that another common reason for a high percentage of multimappers is rRNA "contamination" (incomplete rRNA depletion).
 
-Checking for rRNA contamination in chick was less straightforward than I expected - seems like Galgal rRNA genes aren't really annotated. But the FastQC reports provide the top overrepresented sequences, so I copied the top 3 sequences from a sampling of NextSeq files into [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi) and searched the BLAST results for "gallus gallus." The first *Gallus gallus* result, if available, is listed below:
+Checking for rRNA contamination in chick was less straightforward than I expected - seems like Galgal rRNA genes aren't really annotated. But the FastQC reports provide the top overrepresented sequences, so I copied the top 3-5 sequences from a sampling of NextSeq files into [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi) and searched the BLAST results for "gallus gallus." The first *Gallus gallus* result, if available, is listed below:
 
 1. D-1-A02_S2_L001_S2_R1_paired_trimmed.fq.gz
 	1. `GTACAAAGGGCAGGGACTTAATCAACGCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
@@ -134,7 +139,9 @@ Checking for rRNA contamination in chick was less straightforward than I expecte
 	1. `GTACGGAAGCAGTGGTATCAACGCAGAGTA`: No hit
 	1. `CTTCCGTACTCTGCGTTGATACCACTGCTT`: No hit
 	1. `TCCGTACTCTGCGTTGATACCACTGCTTC`: No hit
+	1. `GAGTACGGAAGCAGTGGTATCAACGCAGAG`: No hit
 		* The sequences seem to be related, e.g. they all pull up multiple "common carp genome, scaffold" results. But nothing for chicken. Weird, but it is what it is.
+	1. `GTACAAAGGGCAGGGACTTAATCAACGCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
 1. RFZ-3-C01_S11_L003_S36_R2_paired_trimmed.fq.gz
 	1. `GTACAAAGGGCAGGGACTTAATCAACGCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
 	1. `GTACAGTGAAACTGCGAATGGCTCATTAAA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533602), rRNA
@@ -143,7 +150,7 @@ Checking for rRNA contamination in chick was less straightforward than I expecte
 	1. `GTACAAAGGGCAGGGACTTAATCAACGCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
 	1. `GTTAAGAGCATCGAGGGGGCGCCGAGAGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
 	1. `TCGTAGTTCCGACCATAAACGATGCCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA 
-1. V-5-E03_S23_L004_S48_R1_paired_trimmed.fq.gz (yeah, this file happens to have the same top sequences as the first one)
+1. V-5-E03_S23_L004_S48_R1_paired_trimmed.fq.gz
 	1. `GTACAAAGGGCAGGGACTTAATCAACGCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
 	1. `TCGTAGTTCCGACCATAAACGATGCCGA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA
 	1. `ATCAGATACCGTCGTAGTTCCGACCATAAA`: PREDICTED: Gallus gallus 18S ribosomal RNA (LOC112533603), rRNA 
@@ -164,6 +171,65 @@ From HiSeq, it's pretty variable, with the range being ~1-12 M/sample.
 
 Ryoji's dendrogram seems to be based on log2+1 read counts, so I'd guess that's the main reason why the datasets looked so different? At any rate, all the samples have information. Will see how the analysis turns out.
 
+
+### BAM QC
+
+#### BAM QC with Picard (https://broadinstitute.github.io/picard/)
+
+- [x] CreateSequenceDictionary (one-time generation of sequence dictionary for reference genome FASTA)
+- [x] CleanSam (avoid errors from reads mapping over ends of chromosomes; happened in sample 15)
+- [x] Annotate with AddOrReplaceReadGroups
+- [x] Merge BAMs for each sample with samtools
+- [x] SortSam to sort BAMs by coordinate 
+	* Broad does ReorderSam -> MarkDuplicates instead of SortSam. SortSam sorts by coordinate, while ReorderSam sorts by the ordering in the provided reference genome file **and drops reads that don't map to the provided reference**. That seems counter-productive for STAR's novel junction discovery, so I've decided to use SortSam.
+- [x] BuildBamIndex (faster with coordinate-sorted BAMs)
+- [x] MarkDuplicates (output: txt file)
+	* "When the input is coordinate-sorted, unmapped mates of mapped records and supplementary/secondary alignments are not marked as duplicates. However, when the input is query-sorted (actually query-grouped), then unmapped mates and secondary/supplementary reads are not excluded from the duplication test and can be marked as duplicate reads." -https://broadinstitute.github.io/picard/command-line-overview.html#MarkDuplicates
+- [x] EstimateLibraryComplexity (output: txt file)
+- [x] CollectMultipleMetrics
+	- [x] CollectAlignmentSummaryMetrics (main output: txt file)
+	- [x] CollectInsertSizeMetrics (pdf)
+	- [x] QualityScoreDistribution (not supported by MultiQC) (pdf)
+	- [x] MeanQualityByCycle (not supported by MultiQC) (pdf)
+	- [x] CollectBaseDistributionByCycle (pdf)
+	- [x] CollectGcBiasMetrics (pdf)
+		* (If necessary, using cqn with DESeq2: https://www.biostars.org/p/259378/ and in https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html)
+		* From the GC% of 100 base windows, looks like chick has an AT-rich genome. From the normalized coverage, it also looks like there's some GC bias (preferential amplification of GC-rich fragmentS) due to how coverage generally increases with GC%. Most likely, the GC-bias will be consistent across samples, so there won't be a need to correct it out.
+	- [x] CollectQualityYieldMetrics (txt)
+		* May be redundant with FastQC since not doing GATK base recalibration, but technically it's measuring MapQ instead of Phred. See https://sequencing.qcfail.com/articles/mapq-values-are-really-useful-but-their-implementation-is-a-mess/
+	* Not doing CollectRnaSeqMetrics because it requires a refFlat instead of GTF annotation file (https://github.com/broadinstitute/picard/issues/805)
+	* Not doing CollectSequencingArtifactMetrics because we aren't interested in SNPs
+
+
+#### Qualimap
+Complementary BAM QC with Qualimap: http://qualimap.bioinfo.cipf.es/doc_html/analysis.html
+- [x] BamQC
+- [x] RNASeq
+
+
+#### Processing QC output
+- [ ] Make high throughput
+- [ ] Aggregate all BAM QC (Picard and Qualimap) with MultiQC
+* Qualimap also has Counts QC post-featureCounts: http://qualimap.bioinfo.cipf.es/doc_html/samples.html
+
+
+#### Further BAM QC
+* For visualization, try out SeqMonk (which can also do read density vs. duplication) and see if it's less laggy than IGV. (See https://bioinformatics.stackexchange.com/questions/722/visualisation-of-long-read-rna-seq-splicing)
+	* On technical duplicates: https://sequencing.qcfail.com/articles/libraries-can-contain-technical-duplication/ . Deduping isn't appropriate for RNA-seq (especially when these libraries are so saturated), but, "If your concern is with the inflated increase in power from duplication then a better solution might well be to quantitate the read counts as normal, but then try to estimate the overall level of duplication and divide all counts by this amount before moving on to doing statistical analyses.  This won’t change the magnitude of the changes seen, but will reduce the overall number of observations."
+	* An R version for prettier plots of BAM duplication from Babraham is dupRadar: https://sourceforge.net/projects/dupradar/ . But SeqMonk may be enough.
+* For further analysis of Picard Metrics, can check out https://github.com/slowkow/picardmetrics
+
+
+### featureCounts
+
+
+
+### DESeq2
+
+
+
+### Complementary DE analyses
+DESeq (more conservative) and edgeR (alternative library normalization method)
 
 ---
 
@@ -289,8 +355,7 @@ The raw data for this project can be found at:
 
 
 #### Data format
-* Paired end FASTQ files (R1 for forward read and R2 for reverse)
-* FASTQ files are compressed as necessary by gunzip
+* Paired end FASTQ.GZ files (R1 for forward read and R2 for reverse, GZ = compressed by gunzip)
 * Each sample (unique combination of tissue and biological replicate) has its own folder
 * Initial scripts format Hiseq filenames into the NextSeq naming syntax: 
 	* `tissue-replicate-well_sampleNumber_laneNumber_R1orR2_batchNumber.fastq.gz`
@@ -463,4 +528,4 @@ Alexander Dobin, Carrie A. Davis, Felix Schlesinger, Jorg Drenkow, Chris Zaleski
 
 Tange, Ole. (2018). GNU Parallel 2018. GNU Parallel 2018 (p. 112). Ole Tange. http://doi.org/10.5281/zenodo.1146014
 
-
+Okonechnikov, K., Conesa, A., & García-Alcalde, F. (2015). “Qualimap 2: advanced multi-sample quality control for high-throughput sequencing data.” Bioinformatics, btv566

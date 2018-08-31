@@ -14,8 +14,8 @@ echo
 
 # Naming output
 outPre1=$(echo ${1} | cut -d " " -f1)
-outPre2=${outPre1%_*}
-outPre3=${outPre2%_*}
+outPre2=${outPre1%.*}
+outPre3=${outPre2%.*}
 
 outPre="${outPre3}"_S"${SLURM_ARRAY_TASK_ID}_"
 echo "Output FASTQ are prefixed with ${outPre}"

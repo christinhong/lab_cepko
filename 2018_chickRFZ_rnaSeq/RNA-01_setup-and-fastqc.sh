@@ -176,18 +176,19 @@ cd /home/ch220/2018_chickRFZ_rnaSeq/data
 bzip2 -d /home/ch220/2018_chickRFZ_rnaSeq/data/susana/*/*/*.fastq.bz2
     # Decompressing one by one was pretty slow. Next time I'd parallelize.
 
-${parallel} -j ${intCores} --verbose --joblog /home/ch220/2018_chickRFZ_rnaSeq/output/logs/parallel-gzip.log --resume-failed --keep-order "gzip {}" ::: /home/ch220/2018_chickRFZ_rnaSeq/data/susana/hiseq/*/*.fastq
+${parallel} -j ${intCores} --verbose --joblog /home/ch220/2018_chickRFZ_rnaSeq/output/logs/parallel-gzip.log --resume-failed --keep-order "gzip {}" ::: /home/ch220/2018_chickRFZ_rnaSeq/data/susana/hiSeq/*/*.fastq
 
 
 # Appending batch number to hiSeq samples to match nextSeq sample syntax
-rename .fastq.gz _001.fastq.gz /home/ch220/2018_chickRFZ_rnaSeq/data/susana/hiseq/*/*.fastq.gz
+rename .fastq.gz _003.fastq.gz /home/ch220/2018_chickRFZ_rnaSeq/data/susana/hiSeq/*/*.fastq.gz
 
 
-# Would be helpful if Nathan's two datasets had unique file names...
+# Would be helpful if each library was named accordingly...
     # WARNING: Renaming is an easy way to accidentally erase data!! Be careful - make a copy of the data first to test renaming.
     # If data is accidentally overwritten, remember that data on group and home folders is backed up by snapshots.
 
 rename _001.fastq.gz _002.fastq.gz /home/ch220/2018_chickRFZ_rnaSeq/data/nathan/nextSeq_b2/*/*.fastq.gz
+
 
 
     # Note: It's safer to prepend or append additional info since that doesn't risk changing the uniqueness of the names. This is a small number of files that are snapshotted, so I felt okay with this renaming strategy, but if this was a large number of files, automated (no manual checks), or unique data, I'd have simply added _b1 or _b2 before the .fastq.gz.
@@ -202,18 +203,18 @@ module load fastqc/0.11.3
 
 mkdir /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_orig
 
-mkdir /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_orig/ctrls
-mkdir /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_orig/nextSeq
-mkdir /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_orig/hiSeq
+mkdir ctrls
+mkdir nextSeq
+mkdir hiSeq
 
 
-${parallel} -j ${intCores} --verbose --joblog "/home/ch220/jobLogs/parallel-fastqc-ctrls.log" --resume-failed --keep-order "fastqc -o /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_orig/ctrls {}" ::: /home/ch220/2018_chickRFZ_rnaSeq/dataCtrls/*/*/*.fastq.gz
+${parallel} -j ${intCores} --verbose --joblog "${pathLogs}/parallel-fastqc-ctrls.log" --resume-failed --keep-order "fastqc -o ${pathDoc}/fastqc_orig/ctrls {}" ::: /home/ch220/2018_chickRFZ_rnaSeq/dataCtrls/*/*/*.fastq.gz
 
 
-${parallel} -j ${intCores} --verbose --joblog "/home/ch220/jobLogs/parallel-fastqc-nextSeq.log" --resume-failed --keep-order "fastqc -o /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_orig/nextSeq {}" ::: /home/ch220/2018_chickRFZ_rnaSeq/data/nathan/*/*/*.fastq.gz
+${parallel} -j ${intCores} --verbose --joblog "${pathLogs}/parallel-fastqc-nextSeq.log" --resume-failed --keep-order "fastqc -o ${pathDoc}/fastqc_orig/nextSeq {}" ::: ${pathData}/*.fastq.gz
 
 
-${parallel} -j ${intCores} --verbose --joblog "/home/ch220/jobLogs/parallel-fastqc-hiSeq.log" --resume-failed --keep-order "fastqc -o /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_orig/hiSeq {}" ::: /home/ch220/2018_chickRFZ_rnaSeq/data/susana/*/*/*.fastq.gz
+${parallel} -j ${intCores} --verbose --joblog "${pathLogs}/parallel-fastqc-hiSeq.log" --resume-failed --keep-order "fastqc -o ${pathDoc}/fastqc_orig/hiSeq {}" ::: ${pathData}/*.fastq.gz
 
 
 multiqc /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_orig -o /home/ch220/2018_chickRFZ_rnaSeq/doc/multiQC -n multiQC-01_fastqc-orig_$(date '+%Y-%m-%d')
@@ -293,5 +294,17 @@ mkdir /n/scratch2/ch220/fq_trimmed
 
 
 
+####
+echo 'Picard: Creating sequence dictionary'
 
+java -jar ${PICARD}/picard-2.8.0.jar CreateSequenceDictionary R=${fileGen} O=${fileGen}.dict
+
+
+mkdir ${pathDoc}/bamQC
+
+
+####
+
+# Making directory for merging different bams from each sample
+mkdir bamsMerged
 
