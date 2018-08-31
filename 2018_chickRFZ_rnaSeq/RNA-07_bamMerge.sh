@@ -33,7 +33,7 @@ set -Eeuo pipefail		# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_
 
 
 # Timing script
-res1=$(date +%s.%N)
+res1=$(date +%s)
 
 
 # GLOBAL VARIABLES
@@ -141,10 +141,11 @@ ls -d ${pathData3}/Sample_* | cat -n | while read n f; do mv -n "$f" "$f.$n"; do
 
 
 # Timing script. This takes ~75 minutes to run.
-res2=$(date +%s.%N)
+res2=$(date +%s)
 echo "Start time: $res1"
 echo "Stop time:  $res2"
-printf "Elapsed:    %.3F\n"  $(echo "$res2 - $res1"|bc )
+timeSec=$(echo "$res2 - $res1" | bc )
+echo "Elapsed minutes:  $(echo "scale=3; ${timeSec} / 60" | bc )"
 
 
 # EOM

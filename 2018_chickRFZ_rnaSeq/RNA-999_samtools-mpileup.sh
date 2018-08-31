@@ -208,7 +208,8 @@ while IFS='' read -r bam || [[ -n "$bam" ]]; do
         " " \
         > ${outdir}/${varGene}_min${nReads}_${out}_sequence.txt
 
-        samtools faidx ${fileGen} ${chrMin}:${pMin}-${pMax} >> ${outdir}/${varGene}_min${nReads}_${out}_sequence.txt    
+        samtools faidx ${fileGen} ${chrMin}:${pMin}-${pMax} >> ${outdir}/${varGene}_min${nReads}_${out}_sequence.txt
+            # from https://davetang.org/wiki/tiki-index.php?page=SAMTools#Extracting_SAM_entries_mapping_to_a_specific_loci
 
 
     else
