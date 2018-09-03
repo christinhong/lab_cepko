@@ -263,12 +263,13 @@ featureCounts \
 * -O: Count fragments that overlap multiple features, e.g. fragments that map to more than one gene. Allowed since I can see thes potentially capturing genes that sit close to each other on the genome.
 * --byReadGroup: Counting by read group annotation (see Picard's AddOrReplaceReadGroups above) so I can more easily analyze for differences between them later on.
 * To maximize accuracy, not counting multimapping reads = reads that map to more than one location.
+* Including duplicates since for RNA-seq, duplicates may be biologically informative (they may come from actual duplicate mRNA transcripts).
 * NOTE: If there are issues while running, can add a `--verbose` option for easier debugging.
 
 
 #### Results
 
-From the Qualimap BAM QC data, ~65-75% of total fragments mapped to exons. FeatureCounts counted ~60-70% of total fragments as mapping uniquely to exons.  Seems fine.  Moving into R!
+From the Qualimap BAM QC data, ~65-75% of total fragments mapped to exons. FeatureCounts counted ~60-70% of total fragments as mapping uniquely to exons.  Seems fine.  Moving to R!
 
 
 ### DESeq2
