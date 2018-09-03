@@ -262,6 +262,7 @@ Explanations:
 * -C: Don't count chimeric fragments = fragments that span multiple chromosomes. I can see chimeric fragments being interesting in cancer research, but I don't see any reason they'd be present here.
 * -O: Count fragments that overlap multiple features, e.g. fragments that map to more than one gene. Allowed since I can see thes potentially capturing genes that sit close to each other on the genome.
 * --byReadGroup: Counting by read group annotation (see Picard's AddOrReplaceReadGroups above) so I can more easily analyze for differences between them later on.
+* To maximize accuracy, not counting multimapping reads = reads that map to more than one location.
 * NOTE: If there are issues while running, can add a `--verbose` option for easier debugging.
 
 
