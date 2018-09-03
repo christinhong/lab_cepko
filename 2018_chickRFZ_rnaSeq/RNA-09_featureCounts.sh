@@ -3,16 +3,14 @@
 # Harvard Medical School, Connie Cepko Lab
 
 
-# Script 3 for differential expression analysis of chick RNA-seq data.
+# Script 9 for differential expression analysis of chick RNA-seq data.
     # Running bash on HMS O2 cluster (Slurm).
-    # Tasks
-        # Check for successful completion of STAR mapping
 
 
 #### INFRASTRUCTURE ####
 
 # Request resources on interactive node
-srun --pty -p interactive -c 4 --mem=36G -t 0-11:00 /bin/bash
+srun --pty -p interactive -c 4 --mem=48G -t 0-11:00 /bin/bash
 
 
 # GLOBAL VARIABLES
@@ -80,120 +78,86 @@ LC_COLLATE=C    # specifies sort order (numbers, uppercase, then lowercase)
 
 
 #### START ####
-# Check exit codes - should all be 0:0
-sacct -j <jobid>
 
+cd ${pathData3}
 
-# Move Trimmomatic output (job error logs) for multiQC
-	# Inelegant solution...would be better to output the error logs to doc directly, or find them within the jobLogs folder automatically.  But this'll do for now.
-mv ~/jobLogs/*.err ~/2018_chickRFZ_rnaSeq/doc/trimmomatic/
+tmux
 
+mkdir ${pathDoc}/featureCounts
 
-# Run FastQC on trimmed FASTQ files
-mkdir /home/ch220/2018_chickRFZ_rnaSeq/doc/fastqc_trimmed
+find ./*/*_p5mDups.bam -name ".*" -prune -o -print > bamsFinal.txt
 
-${parallel} -j ${intCores} --verbose --joblog "${pathLogs}/parallel-fastQC_trimmed.log" --resume-failed --keep-order "fastqc -o ${pathDoc}/fastqc_trimmed {}" ::: ${pathData2}/*/*_paired_trimmed.fq.gz
+printf "Running featureCounts for summarizing multiple paired end datasets. 
+Counting at gene (meta-feature) level. 
+Counting reads mapping to EXONS only.
+Counting duplicates. 
+Allowing reads to overlap multiple metafeatures. 
+Not counting chimeric fragments or multimapping reads."
 
-
-# Compile reports with MultiQC and check output
-cd ${pathDoc}
-
-# Pre-trimmomatic
-multiqc \
-    ${pathDoc}/fastqc_orig \
-    -o ${pathDoc}/multiQC \
-    -n multiQC-01_fastqc-orig_$(date '+%Y-%m-%d')
-
-    #multiqc . --ignore fastqc_trimmed/ --ignore trimmomatic/ -o multiQC -n multiQC-01_origFastQC
-
-
-# Move old output to archive folder
-mkdir /home/ch220/2018_chickRFZ_rnaSeq/doc/archive
-
-mv -n fastqc_nextSeq archive/
-
-mv -n fastqc_hiSeq archive/
-
-# Post-trimmomatic
-multiqc \
-    ${pathDoc}/trimmomatic \
-    ${pathDoc}/fastqc_trimmed \
-    -o ${pathDoc}/multiQC \
-    -n multiQC-02_fastqc-trimmed_$(date '+%Y-%m-%d')
-
-
-# Looks good!  Prep for STAR mapping
-mkdir ${pathOut}/starMap
-
-
-#### After STAR mapping ####
-
-# MultiQC after STAR takes a couple hours. Definitely run within tmux.
-
-sacct -j 22694194           # Exit values should be 0:0
-
-cat ~/jobLogs/RNA-05_*.err  # Should all be empty
-
-# MultiQC reports: It's easier to see the details from each step if the reports aren't all concatenated together. Maybe break up as:
-
-    # fastQC-orig
-    # trimmomatic-fastQC
-    # starPass1
-    # starPass2
-    # picard-qualimap
-
-
-multiqc \
-    ${pathOutStar} \
-    --ignore ${pathOutStar2} \
-    -o ${pathDoc}/multiQC \
-    -n multiQC-03_STARpass1_$(date '+%Y-%m-%d')
-
-
-multiqc \
-    ${pathOutStar2} \
-    -o ${pathDoc}/multiQC \
-    -n multiQC-04_STARpass2_$(date '+%Y-%m-%d')
+featureCounts \
+    -p \
+    -T ${intCores} \
+    -t exon \
+    -g gene_id \
+    -a ${fileGTF} \
+    -G ${fileGen} \
+    -C \
+    -O \
+    --byReadGroup \
+    -o ${pathDoc}/featureCounts/featureCounts.txt \
+    $(cat bamsFinal.txt) \
+    > ${pathDoc}/featureCounts/featureCounts.out \
+    2> ${pathDoc}/featureCounts/featureCounts.err
 
 
 
-#### Checking for rRNA ####
-# ribokmers.fa.gz is from the silva rRNA database at https://www.arb-silva.de/. See https://www.biostars.org/p/159959/#175854
-
-module load java
-
-# For separating rRNA from FASTQ
-/home/ch220/resources/tools/bbmap/bbduk.sh in=RFZ-1-A01_S1_L001_R1_001.fastq.gz outm=ribo.fa outu=nonribo.fa k=31 ref=/home/ch220/resources/ref/ribokmers.fa.gz
-
-# For simply getting rRNA contamination stats
-/home/ch220/resources/tools/bbmap/bbduk.sh in=RFZ-1-A01_S1_L001_R2_001.fastq.gz k=31 ref=/home/ch220/resources/ref/ribokmers.fa.gz
-
-
-# Interesting! Doesn't seem like it's rRNA after all...in that case, I have no idea what happened with these libraries?
-
-### Nevermind, I BLASTed the actual sequences from the "Overrepresented sequences" portion of the FastQC report, and these DO look like rRNA. "PREDICTED: Gallus gallus 18S ribosomal RNA."
-
-# Well, good to know that FastQC + BLAST are always reliable.
-
-
-
-#### BAM QC ####
-sacct -j 22837555
-
-
+echo "Running MultiQC for BAM QC and featureCounts"
 multiqc \
     ${pathDoc}/bamQC \
+    ${pathDoc}/featureCounts \
     -o ${pathDoc}/multiQC \
-    -n multiQC-05_bamQC_$(date '+%Y-%m-%d')
+    -n multiQC-05_bamQC-featureCounts_$(date '+%Y-%m-%d')
 
+
+echo "Done with featureCounts!  Ready to move to R."
+
+
+
+: << "Comment"
+featureCount explanations:
+
+* Counting the number of reads that align to a gene (meta-feature) rather than counting by alignment to an exon.
+
+* -t exon: Decided to count only reads mapping to exons to minimize ambiguity. From the Qualimap BAM QC data, expect 60-80% of reads to be counted.
+
+* -g gene_id: Identifier in the GTF being used for the genes/meta-feature.
+
+* -C: Don't count chimeric fragments = fragments that span multiple chromosomes. I can see chimeric fragments being interesting in cancer research, but I don't see any reason they'd be present here.
+
+* -O: Count fragments that overlap multiple features, e.g. fragments that map to more than one gene. Allowed since I can see thes potentially capturing genes that sit close to each other on the genome.
+
+* --byReadGroup: Counting by read group annotation (see Picard's AddOrReplaceReadGroups above) so I can more easily analyze for differences between them later on.
+
+* To maximize accuracy, not counting multimapping reads = reads that map to more than one location.
+
+* NOTE: If there are issues while running, can add a --verbose option for easier debugging.
+
+
+
+
+On featureCounts (http://bioinf.wehi.edu.au/featureCounts/):
+A read is said to overlap a feature if at least one read base is found to overlap the feature. For paired-end data, a fragment (or template) is said to overlap a feature if any of the two reads from that fragment is found to overlap the feature.
+
+By default, featureCounts does not count reads overlapping with more than one feature (or more than one meta-feature when summarizing at meta-feature level). Users can use the -O option to instruct featureCounts to count such reads (they will be assigned to all their overlapping features or meta-features).
+
+Note that, when counting at the meta-feature level, reads that overlap multiple features of the same meta-feature are always counted exactly once for that meta-feature, provided there is no overlap with any other meta-feature. For example, an exon-spanning read will be counted only once for the corresponding gene even if it overlaps with more than one exon. 
 
 
 
 #### Downloading data from home terminal ####
 rsync -avr --progress "ch220@transfer.rc.hms.harvard.edu:/n/data2/hms/genetics/cepko/christin/2018_chickRFZ_rnaSeq/doc/multiQC/*" "/home/christin/Dropbox/01_Harvard/02_code_github/lab_cepko/2018_chickRFZ_rnaSeq/doc/multiQC/"
 
-
-rsync -avr --progress "ch220@transfer.rc.hms.harvard.edu:/n/data2/hms/genetics/cepko/christin/2018_chickRFZ_rnaSeq/doc/featureCounts" "/home/christin/Dropbox/01_Harvard/02_code_github/lab_cepko/2018_chickRFZ_rnaSeq/doc/"
+rsync -avr --progress "ch220@transfer.rc.hms.harvard.edu:/n/data2/hms/genetics/cepko/christin/2018_chickRFZ_rnaSeq/doc/bamQC" "/home/christin/Dropbox/01_Harvard/02_code_github/lab_cepko/2018_chickRFZ_rnaSeq/doc/"
 
 
 # rsync -avr --progress "ch220@transfer.rc.hms.harvard.edu:/n/scratch2/ch220/bamsForJiho/sorted/*" "/home/christin/Desktop/bams/"
@@ -222,3 +186,4 @@ rsync -avr --progress "ch220@transfer.rc.hms.harvard.edu:/n/scratch2/ch220/starM
 
 rsync -avr --progress "ch220@transfer.rc.hms.harvard.edu:/home/ch220/2018_chickRFZ_rnaSeq/data/*" "/n/data2/hms/genetics/cepko/christin/2018_chickRFZ_rnaSeq/data/"
 
+Comment
