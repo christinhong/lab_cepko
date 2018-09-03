@@ -256,6 +256,7 @@ featureCounts \
 Explanations
 * Counting the number of reads that align to a gene (meta-feature) rather than counting by alignment to an exon.
 * -t exon: Decided to count only reads mapping to exons to minimize ambiguity. From the Qualimap BAM QC data, expect 60-80% of reads to be counted.
+* -g gene_id: Identifier in the GTF being used for the genes/meta-feature.
 * -C: Don't count chimeric fragments = fragments that span multiple chromosomes. I can see chimeric fragments being interesting in cancer research, but I don't see any reason they'd be present here.
 * -O: Count fragments that overlap multiple features, e.g. fragments that map to more than one gene. Allowed since I can see thes potentially capturing genes that sit close to each other on the genome.
 * --byReadGroup: Counting by read group annotation (see Picard's AddOrReplaceReadGroups above) so I can more easily analyze for differences between them later on.
