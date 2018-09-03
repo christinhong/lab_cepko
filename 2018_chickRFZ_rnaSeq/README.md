@@ -248,10 +248,10 @@ featureCounts \
     -C \
     -O \
     --byReadGroup \
-    -o featureCounts.txt \
-    $(cat bamsFinal.txt)  \
-    > featureCounts.out \
-    2> featureCounts.err
+    -o ${pathDoc}/featureCounts/featureCounts.txt \
+    $(cat bamsFinal.txt) \
+    > ${pathDoc}/featureCounts/featureCounts.out \
+    2> ${pathDoc}/featureCounts/featureCounts.err
 ```
 
 Explanations:
