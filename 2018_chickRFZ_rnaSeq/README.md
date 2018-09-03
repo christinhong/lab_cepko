@@ -254,7 +254,7 @@ featureCounts \
     2> ${pathDoc}/featureCounts/featureCounts.err
 ```
 
-Explanations:
+#### Explanations
 
 * Counting the number of reads that align to a gene (meta-feature) rather than counting by alignment to an exon.
 * -t exon: Decided to count only reads mapping to exons to minimize ambiguity.
@@ -266,7 +266,8 @@ Explanations:
 * NOTE: If there are issues while running, can add a `--verbose` option for easier debugging.
 
 
-Results:
+#### Results
+
 From the Qualimap BAM QC data, ~65-75% of total fragments mapped to exons. FeatureCounts counted ~60-70% of total fragments as mapping uniquely to exons.  Seems fine.  Moving into R!
 
 
