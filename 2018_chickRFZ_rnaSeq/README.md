@@ -228,7 +228,7 @@ Complementary BAM QC with Qualimap: http://qualimap.bioinfo.cipf.es/doc_html/ana
 
 
 ### featureCounts
-The parameters I used for featureConts are as follows:
+The command I used for featureCounts was:
 
 ```bash
 printf "Running featureCounts for summarizing multiple paired end datasets. 
@@ -252,7 +252,8 @@ featureCounts \
     $(cat bamsFinal.txt)
 ```
 
-Explanations
+Explanations:
+
 * Counting the number of reads that align to a gene (meta-feature) rather than counting by alignment to an exon.
 * -t exon: Decided to count only reads mapping to exons to minimize ambiguity. From the Qualimap BAM QC data, expect 60-80% of reads to be counted.
 * -g gene_id: Identifier in the GTF being used for the genes/meta-feature.
