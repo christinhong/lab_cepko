@@ -249,7 +249,9 @@ featureCounts \
     -O \
     --byReadGroup \
     -o featureCounts.txt \
-    $(cat bamsFinal.txt)
+    $(cat bamsFinal.txt)  \
+    > featureCounts.out \
+    2> featureCounts.err
 ```
 
 Explanations:
