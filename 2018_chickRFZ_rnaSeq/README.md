@@ -224,7 +224,7 @@ Complementary BAM QC with Qualimap: http://qualimap.bioinfo.cipf.es/doc_html/ana
 	* On technical duplicates: https://sequencing.qcfail.com/articles/libraries-can-contain-technical-duplication/ . Deduping isn't appropriate for RNA-seq (especially when these libraries are so saturated), but, "If your concern is with the inflated increase in power from duplication then a better solution might well be to quantitate the read counts as normal, but then try to estimate the overall level of duplication and divide all counts by this amount before moving on to doing statistical analyses.  This won’t change the magnitude of the changes seen, but will reduce the overall number of observations."
 	* On "optical duplicates": https://sequencing.qcfail.com/articles/illumina-patterned-flow-cells-generate-duplicated-sequences/
 	* An R version for prettier plots of BAM duplication from Babraham is dupRadar: https://sourceforge.net/projects/dupradar/ . But SeqMonk may be enough.
-- [ ] For further analysis of Picard Metrics, can check out https://github.com/slowkow/picardmetrics
+* For further analysis of Picard Metrics, can check out https://github.com/slowkow/picardmetrics
 
 
 ### featureCounts
@@ -257,7 +257,7 @@ featureCounts \
 Explanations:
 
 * Counting the number of reads that align to a gene (meta-feature) rather than counting by alignment to an exon.
-* -t exon: Decided to count only reads mapping to exons to minimize ambiguity. From the Qualimap BAM QC data, expect 60-80% of reads to be counted.
+* -t exon: Decided to count only reads mapping to exons to minimize ambiguity.
 * -g gene_id: Identifier in the GTF being used for the genes/meta-feature.
 * -C: Don't count chimeric fragments = fragments that span multiple chromosomes. I can see chimeric fragments being interesting in cancer research, but I don't see any reason they'd be present here.
 * -O: Count fragments that overlap multiple features, e.g. fragments that map to more than one gene. Allowed since I can see thes potentially capturing genes that sit close to each other on the genome.
@@ -266,7 +266,8 @@ Explanations:
 * NOTE: If there are issues while running, can add a `--verbose` option for easier debugging.
 
 
-
+Results:
+From the Qualimap BAM QC data, ~65-75% of total fragments mapped to exons. FeatureCounts counted ~60-70% of total fragments as mapping uniquely to exons.  Seems fine.  Moving into R!
 
 
 ### DESeq2
