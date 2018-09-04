@@ -274,15 +274,18 @@ From the Qualimap BAM QC data, ~65-75% of total fragments mapped to exons. Featu
 
 
 ### Processing in R
-Initial PCA on annotated data suggests that major batch-related factor is library size. PCs 3-5 show some differences by tissue, which is cool.  If necessary, I can run ComBat and check that it doesn't remove the tissue-based differences.
+Initial PCA on annotated data suggests that major batch-related factor is library size. PCs 3-6 show some differences by tissue (and batch), which is cool.
 
-- [ ] Label Retina 7 into its own batch instead of keeping it in the same batch as Retina 6. I think they're from the same library but the samples were prepped with different protocols, as Susana mentioned that she thinks she submitted too much RNA for the Retina 7 samples.
+There might be a problem with D from Retina 7...  It's further from the other D samples on PC3-7 than I'd expect.  But it isn't crazy far, so I'll leave it in for now.
 
-- [ ] Scale counts to TPM and see how that looks by PCA (see https://statquest.org/2015/07/09/rpkm-fpkm-and-tpm-clearly-explained/ and https://hbctraining.github.io/DGE_workshop/lessons/02_DGE_count_normalization.html).
+If necessary, I can run ComBat and check that it doesn't remove the tissue-based differences, but it may not even be necessary.
 
+- [x] Label Retina 7 into its own batch instead of keeping it in the same batch as Retina 6. I think they're from the same library but the samples were prepped with different protocols, as Susana mentioned that she thinks she submitted too much RNA for the Retina 7 samples.
 
-- [ ] edgeR, DESeq, and DESeq2 all have their own methods of correcting for library size, so they all want the raw count data.  But may be good to also run PCA on their normalized counts and confirm that tissue-based differences are maintained.
+- [ ] edgeR, DESeq, and DESeq2 all have their own methods of correcting for library size, so they all want the raw count data.  Will run PCA on their normalized counts and confirm that tissue-based differences are maintained.
+	* I could normalize the raw counts to TPM - see https://statquest.org/2015/07/09/rpkm-fpkm-and-tpm-clearly-explained/ and https://hbctraining.github.io/DGE_workshop/lessons/02_DGE_count_normalization.html - but word on Biostars is that DESeq2 counts are at least as good, if not better, so there's no reason to write the extra code.
 
+- [ ] If the DESeq2 normalized counts still show a strong batch effect, run ComBat and test again.
 
 
 
