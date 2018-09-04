@@ -23,6 +23,7 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 	1. [Thoughts on mapped data](#thoughts-on-mapped-data)
 	1. [BAM QC](#bam-qc)
 	1. [featureCounts](#featurecounts)
+	1. [Processing in R](#processing-in-R)
 	1. [DESeq2](#deseq2)
 	1. [Complementary DE analyses](#complementary-de-analyses)
 1. [Controls](#controls)
@@ -270,6 +271,19 @@ featureCounts \
 #### Results
 
 From the Qualimap BAM QC data, ~65-75% of total fragments mapped to exons. FeatureCounts counted ~60-70% of total fragments as mapping uniquely to exons.  Seems fine.  Moving to R!
+
+
+### Processing in R
+Initial PCA on annotated data suggests that major batch-related factor is library size. PCs 3-5 show some differences by tissue, which is cool.  If necessary, I can run ComBat and check that it doesn't remove the tissue-based differences.
+
+- [ ] Label Retina 7 into its own batch instead of keeping it in the same batch as Retina 6. I think they're from the same library but the samples were prepped with different protocols, as Susana mentioned that she thinks she submitted too much RNA for the Retina 7 samples.
+
+- [ ] Scale counts to TPM and see how that looks by PCA (see https://statquest.org/2015/07/09/rpkm-fpkm-and-tpm-clearly-explained/ and https://hbctraining.github.io/DGE_workshop/lessons/02_DGE_count_normalization.html).
+
+
+- [ ] edgeR, DESeq, and DESeq2 all have their own methods of correcting for library size, so they all want the raw count data.  But may be good to also run PCA on their normalized counts and confirm that tissue-based differences are maintained.
+
+
 
 
 ### DESeq2
