@@ -274,18 +274,17 @@ From the Qualimap BAM QC data, ~65-75% of total fragments mapped to exons. Featu
 
 
 ### PCA
-PCA on annotated, log2(x+1) transformed count data suggests that the major batch-related factor is library size. 
+PCA on annotated, log2(x+1) transformed count data suggests that (as expected) batch is the major driver of PC1 and PC2.  Oddly, RFZ-7 shows up with the Retina 6 samples, while the other Retina 7 samples cluster on their own.  Not sure what's going on there...**maybe a timepoint difference?**
 
-Differences by tissue show up by PC3 and carry through to PC6, which is cool.
+I was hoping the major batch-related factor would be library size, but from the number of assigned fragments in featureCounts, it looks like that isn't the case.  Hmm.
 
-There might be a problem with D from Retina 7...  It's further from the other D samples on PC3-7 than I'd expect.  But it isn't crazy far, so I'll leave it in for now.
+Still, the tissues start clustering by PC3 and carry through to PC6.  That's cool.
 
-If necessary, I can run ComBat and check that it doesn't remove the tissue-based differences, but it may not even be necessary.  Since the tissues cluster so well on PC3-6, I have a hunch that these samples can actually be analyzed together.
+There might be a problem with D from Retina 7...?  It's further from the other D samples on PC3-7 than I'd expect.  But it isn't crazy far, so I'll leave it in for now.
 
-That would be helpful, because if the batch-related differences are major enough to prevent that, the HiSeq samples can't be used for differential gene expression analysis.  It's 1 retina per batch for those, and we can't get statistics with N=1.
+If necessary, I can run ComBat and check that it doesn't remove the tissue-based differences, but it may not be necessary.  Since the tissues cluster so well on PC3-6, I have a hunch that these samples can actually be analyzed together.  That would be helpful, because if the batch-related differences are major enough to prevent that, the HiSeq samples can't be used for differential gene expression analysis.  It's 1 retina per batch for those, and we can't get statistics with N=1.
 
 (If necessary, there's a package called GFOLD for analyzing single replicate data. Paper is here: https://academic.oup.com/bioinformatics/article/28/21/2782/235811.  X. Shirley Liu is an author, and it seems legit on Biostars.  It isn't really DE analysis, but it's an advanced method for ranking fold changes across samples for potential follow-up.)
-
 
 - [x] Label Retina 7 into its own batch instead of keeping it in the same batch as Retina 6. I think they're from the same library but the samples were prepped with different protocols, as Susana mentioned that she thinks she submitted too much RNA for the Retina 7 samples.
 
@@ -293,10 +292,12 @@ That would be helpful, because if the batch-related differences are major enough
 	* I could normalize the raw counts to TPM - see https://statquest.org/2015/07/09/rpkm-fpkm-and-tpm-clearly-explained/ and https://hbctraining.github.io/DGE_workshop/lessons/02_DGE_count_normalization.html - but word on Biostars is that DESeq2 counts are at least as good, if not better, so there's no reason to write the extra code.
 
 - [ ] If the DESeq2 normalized counts still show a strong batch effect, run ComBat and test again.
-
+	* If the batches are still problematic, probably have to analyze Retina 6 and Retina 7 separately. Can try GFOLD for getting gene rankings.
 
 
 ### DESeq2
+- [ ] Set RFZ as "control" and other tissues as other conditions to analyze data together? See https://www.biostars.org/p/110266/
+
 
 
 
