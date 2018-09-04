@@ -23,7 +23,7 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 	1. [Thoughts on mapped data](#thoughts-on-mapped-data)
 	1. [BAM QC](#bam-qc)
 	1. [featureCounts](#featurecounts)
-	1. [Processing in R](#processing-in-R)
+	1. [PCA](#pca)
 	1. [DESeq2](#deseq2)
 	1. [Complementary DE analyses](#complementary-de-analyses)
 1. [Controls](#controls)
@@ -273,12 +273,19 @@ featureCounts \
 From the Qualimap BAM QC data, ~65-75% of total fragments mapped to exons. FeatureCounts counted ~60-70% of total fragments as mapping uniquely to exons.  Seems fine.  Moving to R!
 
 
-### Processing in R
-Initial PCA on annotated data suggests that major batch-related factor is library size. PCs 3-6 show some differences by tissue (and batch), which is cool.
+### PCA
+PCA on annotated, log2(x+1) transformed count data suggests that the major batch-related factor is library size. 
+
+Differences by tissue show up by PC3 and carry through to PC6, which is cool.
 
 There might be a problem with D from Retina 7...  It's further from the other D samples on PC3-7 than I'd expect.  But it isn't crazy far, so I'll leave it in for now.
 
-If necessary, I can run ComBat and check that it doesn't remove the tissue-based differences, but it may not even be necessary.
+If necessary, I can run ComBat and check that it doesn't remove the tissue-based differences, but it may not even be necessary.  Since the tissues cluster so well on PC3-6, I have a hunch that these samples can actually be analyzed together.
+
+That would be helpful, because if the batch-related differences are major enough to prevent that, the HiSeq samples can't be used for differential gene expression analysis.  It's 1 retina per batch for those, and we can't get statistics with N=1.
+
+(If necessary, there's a package called GFOLD for analyzing single replicate data. Paper is here: https://academic.oup.com/bioinformatics/article/28/21/2782/235811.  X. Shirley Liu is an author, and it seems legit on Biostars.  It isn't really DE analysis, but it's an advanced method for ranking fold changes across samples for potential follow-up.)
+
 
 - [x] Label Retina 7 into its own batch instead of keeping it in the same batch as Retina 6. I think they're from the same library but the samples were prepped with different protocols, as Susana mentioned that she thinks she submitted too much RNA for the Retina 7 samples.
 
