@@ -64,6 +64,8 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 - [ ] *Hold: Genome-based mapping plus automated read count processing: (STAR) RSEM (used by Broad)*
 - [ ] *Hold: Transcriptome-based mapping: (STAR vs. StringTie for identifying novel transcripts) -> Salmon -> tximport -> DESeq2*
 	* https://combine-lab.github.io/salmon/faq/
+	
+For other options, see https://en.wikipedia.org/wiki/List_of_RNA-Seq_bioinformatics_tools
 
 
 ### FastQC and Trimmomatic
@@ -296,9 +298,14 @@ If necessary, I can run ComBat and check that it doesn't remove the tissue-based
 
 
 ### DESeq2
+- [ ] GC correction between HiSeq and NextSeq datasets.  cqn (https://support.bioconductor.org/p/95683/)? alpine (https://mikelove.wordpress.com/2016/09/26/rna-seq-fragment-sequence-bias/)?
+	* For an explanation of bias, see https://mikelove.github.io/techbias/#/slide-1
 - [ ] Set RFZ as "control" and other tissues as other conditions to analyze data together? See https://www.biostars.org/p/110266/
 
 
+
+### Visualization
+See https://cran.r-project.org/web/packages/dendextend/vignettes/Cluster_Analysis.html
 
 
 ### Complementary DE analyses
