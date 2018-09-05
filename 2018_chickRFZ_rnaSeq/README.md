@@ -23,7 +23,7 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 	1. [Thoughts on mapped data](#thoughts-on-mapped-data)
 	1. [BAM QC](#bam-qc)
 	1. [featureCounts](#featurecounts)
-	1. [PCA](#pca)
+	1. [PCA and dendrogram](#pca-and-dendrogram)
 	1. [DESeq2](#deseq2)
 	1. [Visualization](#visualization)
 	1. [Complementary DE analyses](#complementary-de-analyses)
@@ -276,7 +276,7 @@ featureCounts \
 From the Qualimap BAM QC data, ~65-75% of total fragments mapped to exons. FeatureCounts counted ~60-70% of total fragments as mapping uniquely to exons.  Seems fine.  Moving to R!
 
 
-### PCA
+### PCA and dendrogram
 PCA on annotated, log2(x+1) transformed count data suggests that (as expected) batch is the major driver of PC1 and PC2.  Oddly, RFZ-7 shows up with the Retina 6 samples, while the other Retina 7 samples cluster on their own.  Not sure what's going on there...**maybe a timepoint difference?**
 
 I was hoping the major batch-related factor would be library size, but from the number of assigned fragments in featureCounts, it looks like that isn't the case.  Hmm.
@@ -290,6 +290,8 @@ If necessary, I can run ComBat and check that it doesn't remove the tissue-based
 (If necessary, there's a package called GFOLD for analyzing single replicate data. Paper is here: https://academic.oup.com/bioinformatics/article/28/21/2782/235811.  X. Shirley Liu is an author, and it seems legit on Biostars.  It isn't really DE analysis, but it's an advanced method for ranking fold changes across samples for potential follow-up.)
 
 - [x] Label Retina 7 into its own batch instead of keeping it in the same batch as Retina 6. I think they're from the same library but the samples were prepped with different protocols, as Susana mentioned that she thinks she submitted too much RNA for the Retina 7 samples.
+
+- [x] Lanes all look consistent by PCA and dendrogam. Will sum lanes together for each sample for easier visualization downstream.
 
 - [ ] edgeR, DESeq, and DESeq2 all have their own methods of correcting for library size, so they all want the raw count data.  Will run PCA on their normalized counts and confirm that tissue-based differences are maintained.
 	* I could normalize the raw counts to TPM - see https://statquest.org/2015/07/09/rpkm-fpkm-and-tpm-clearly-explained/ and https://hbctraining.github.io/DGE_workshop/lessons/02_DGE_count_normalization.html - but word on Biostars is that DESeq2 counts are at least as good, if not better, so there's no reason to write the extra code.
