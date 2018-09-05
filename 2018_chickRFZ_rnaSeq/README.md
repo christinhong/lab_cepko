@@ -46,8 +46,10 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 
 2018-09-03: Done with featureCounts! On to analysis in R.
 
-2018-08-30: Finished moving all work to Cepko group folder. Done annotating, merging BAMs, and collecting BAM QC metrics.
-* As an aside to potentially help with probe development from RNA-seq data, also wrote a small script for identifying regions with pileup of N+ aligned reads and extracting reference genome sequence for those regions.
+2018-08-30: Finished moving all work to Cepko group folder. Done annotating, merging BAMs, and collecting BAM QC metrics with Picard and Qualimap.
+* Also wrote a small script for identifying regions with pileup of N+ aligned reads and extracting reference genome sequence for those regions, because it seemed easier than messing with IGV for probe development. Maybe it'll help?
+
+2018-08-17 to 2018-08-24: Out for family trip to Canada.
 
 2018-08-13: HMS approved my request for increased group space! `/n/data2/hms/genetics/cepko` has gone from 1 to 10 TB. Will set up shop in group for easier resource sharing and avoiding the auto-purge in scratch2.
 
