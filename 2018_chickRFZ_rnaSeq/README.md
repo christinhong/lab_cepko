@@ -297,8 +297,10 @@ If necessary, I can run ComBat and check that it doesn't remove the tissue-based
 	* If the batches are still problematic, probably have to analyze Retina 6 and Retina 7 separately. Can try GFOLD for getting gene rankings.
 
 
+
 ### DESeq2
-- [ ] GC correction between HiSeq and NextSeq datasets.  cqn (https://support.bioconductor.org/p/95683/)? alpine (https://mikelove.wordpress.com/2016/09/26/rna-seq-fragment-sequence-bias/)?
+- [ ] GC bias is different between HiSeq and NextSeq datasets. Will start by adding a new annotation for platform and using that as a covariate. 
+	* Other options: cqn (https://support.bioconductor.org/p/95683/)? alpine (https://mikelove.wordpress.com/2016/09/26/rna-seq-fragment-sequence-bias/)?
 	* For an explanation of bias, see https://mikelove.github.io/techbias/#/slide-1
 - [ ] Set RFZ as "control" and other tissues as other conditions to analyze data together? See https://www.biostars.org/p/110266/
 
@@ -306,6 +308,10 @@ If necessary, I can run ComBat and check that it doesn't remove the tissue-based
 
 ### Visualization
 See https://cran.r-project.org/web/packages/dendextend/vignettes/Cluster_Analysis.html
+
+- [ ] NOISeq looks interesting for QC purposes. May throw that in to see if it'd be useful.
+
+
 
 
 ### Complementary DE analyses
