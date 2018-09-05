@@ -49,7 +49,7 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 2018-08-30: Finished moving all work to Cepko group folder. Done annotating, merging BAMs, and collecting BAM QC metrics with Picard and Qualimap.
 * Also wrote a small script for identifying regions with pileup of N+ aligned reads and extracting reference genome sequence for those regions, because it seemed easier than messing with IGV for probe development. Maybe it'll help?
 
-2018-08-17 to 2018-08-24: Out for family trip to Canada.
+*2018-08-17 to 2018-08-24: Away on family vacation.*
 
 2018-08-13: HMS approved my request for increased group space! `/n/data2/hms/genetics/cepko` has gone from 1 to 10 TB. Will set up shop in group for easier resource sharing and avoiding the auto-purge in scratch2.
 
@@ -597,14 +597,12 @@ edgeR, DESeq, and DESeq2 all have their own methods of correcting for library si
 - [x] GC bias is different between HiSeq and NextSeq datasets -> Add a new annotation for platform and use that as a covariate. 
 	* Other options: cqn (https://support.bioconductor.org/p/95683/)? alpine (https://mikelove.wordpress.com/2016/09/26/rna-seq-fragment-sequence-bias/)?
 	* For an explanation of bias, see https://mikelove.github.io/techbias/#/slide-1
-- [ ] Set RFZ as "control" and other tissues as other conditions to analyze data together? See https://www.biostars.org/p/110266/
+- [x] Set RFZ as "control" and other tissues as other conditions to analyze data together? See https://www.biostars.org/p/110266/
 - [ ] Check DESeq2 results by PCA, heatmap with hierachical clustering, etc.
 	* On heatmaps: http://www.opiniomics.org/you-probably-dont-understand-heatmaps/
 	* If the DESeq2 normalized counts still show a strong batch effect, can run ComBat and test again, but that may decrease tissue differences since there's only n=1 of each tissue in the HiSeq batches...
 	* If the batches are still problematic, will probably have to analyze Retina 6 and Retina 7 separately. Can try GFOLD for getting gene rankings (GFOLD paper is at https://academic.oup.com/bioinformatics/article/28/21/2782/235811).
-
-
-
+- [ ] Run ComBat to correct for HiSeq vs. NextSeq on a tissue-by-tissue basis and rerun
 
 
 
@@ -632,3 +630,8 @@ Tange, Ole. (2018). GNU Parallel 2018. GNU Parallel 2018 (p. 112). Ole Tange. ht
 Okonechnikov, K., Conesa, A., & García-Alcalde, F. (2015). "Qualimap 2: advanced multi-sample quality control for high-throughput sequencing data." Bioinformatics, btv566
 
 Love, M.I., Huber, W., Anders, S. (2014) Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2. Genome Biology, 15:550. 10.1186/s13059-014-0550-8
+
+
+If the shrinkage estimator apeglm is used in published research, please cite:
+
+    Zhu, A., Ibrahim, J.G., Love, M.I. (2018) Heavy-tailed prior distributions for sequence count data: removing the noise and preserving large differences. bioRxiv. 10.1101/303255
