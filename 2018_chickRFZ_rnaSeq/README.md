@@ -291,7 +291,7 @@ If necessary, I can run ComBat and check that it doesn't remove the tissue-based
 
 - [x] Label Retina 7 into its own batch instead of keeping it in the same batch as Retina 6. I think they're from the same library but the samples were prepped with different protocols, as Susana mentioned that she thinks she submitted too much RNA for the Retina 7 samples.
 
-- [x] Lanes all look consistent by PCA and dendrogam. Will sum lanes together for each sample for easier visualization downstream.
+- [x] Lanes all look consistent by PCA and dendrogam -> Sum lanes together for each sample for easier visualization downstream.
 
 
 ### DESeq2
@@ -299,7 +299,7 @@ edgeR, DESeq, and DESeq2 all have their own methods of correcting for library si
 
 * DESeq2 automatically filters out low count reads. DESeq offers a genefilter package for that. Not sure about edgeR.
 
-- [x] GC bias is different between HiSeq and NextSeq datasets. Will start by adding a new annotation for platform and using that as a covariate. 
+- [x] GC bias is different between HiSeq and NextSeq datasets -> Add a new annotation for platform and use that as a covariate. 
 	* Other options: cqn (https://support.bioconductor.org/p/95683/)? alpine (https://mikelove.wordpress.com/2016/09/26/rna-seq-fragment-sequence-bias/)?
 	* For an explanation of bias, see https://mikelove.github.io/techbias/#/slide-1
 - [ ] Set RFZ as "control" and other tissues as other conditions to analyze data together? See https://www.biostars.org/p/110266/
