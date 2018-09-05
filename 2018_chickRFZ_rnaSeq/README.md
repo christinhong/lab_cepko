@@ -25,6 +25,7 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 	1. [featureCounts](#featurecounts)
 	1. [PCA](#pca)
 	1. [DESeq2](#deseq2)
+	1. [Visualization](#visualization)
 	1. [Complementary DE analyses](#complementary-de-analyses)
 1. [Controls](#controls)
 1. [Data collection](#data-collection)
