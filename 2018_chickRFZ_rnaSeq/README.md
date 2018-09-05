@@ -13,8 +13,8 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 ---
 
 ## TOC
-1. [Intro](#intro) - TODO
 1. [Changelog](#changelog)
+1. [Background](#background) - TODO
 1. [Controls](#controls)
 1. [Data collection](#data-collection)
 1. [Cluster setup](#cluster-setup)
@@ -41,11 +41,6 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 
 ---
 
-## Intro
- :exclamation:
-
----
-
 ## Changelog
 2018-09-05: Finished initial annotation and QC plots. Starting analysis with DESeq2.
 
@@ -57,6 +52,11 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 2018-08-13: HMS approved my request for increased group space! `/n/data2/hms/genetics/cepko` has gone from 1 to 10 TB. Will set up shop in group for easier resource sharing and avoiding the auto-purge in scratch2.
 
 2018-08-12: Initialized project README. Tested parameters for mapping NextSeq data. Finalized FastQC, Trimmomatic, and STAR multi-sample 2-pass mapping. Code refactoring.
+
+---
+
+## Background
+ :exclamation:
 
 
 ---
