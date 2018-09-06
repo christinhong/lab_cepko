@@ -607,7 +607,7 @@ edgeR, DESeq, and DESeq2 all have their own methods of correcting for library si
 - [ ] On heatmaps: http://www.opiniomics.org/you-probably-dont-understand-heatmaps/
 	* If the batches are still problematic, will probably have to analyze Retina 6 and Retina 7 separately. Can try GFOLD for getting gene rankings (GFOLD paper is at https://academic.oup.com/bioinformatics/article/28/21/2782/235811).
 - [x] Add svaseq to DESeq2 to test correcting for NextSeq vs. HiSeq
-- [ ] Remove D_7 (PCA outlier, 5'-3' bias is 2.36!. Also has the lowest GC content) and rerun DESeq2 + svaseq
+- [ ] Remove D_7 (PCA outlier, 5'-3' bias is 2.36! See https://www.biostars.org/p/102812/ .  I think it also has the lowest GC content) and rerun DESeq2 + svaseq
 
 
 
