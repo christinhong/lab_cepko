@@ -598,9 +598,11 @@ edgeR, DESeq, and DESeq2 all have their own methods of correcting for library si
 	* Other options: cqn (https://support.bioconductor.org/p/95683/)? alpine (https://mikelove.wordpress.com/2016/09/26/rna-seq-fragment-sequence-bias/)?
 	* For an explanation of bias, see https://mikelove.github.io/techbias/#/slide-1
 - [x] Set RFZ as "control" and other tissues as other conditions to analyze data together? See https://www.biostars.org/p/110266/
-- [ ] Check DESeq2 results by PCA, heatmap with hierachical clustering, etc.
-	* On heatmaps: http://www.opiniomics.org/you-probably-dont-understand-heatmaps/
-	* If the DESeq2 normalized counts still show a strong batch effect, can run ComBat and test again, but that may decrease tissue differences since there's only n=1 of each tissue in the HiSeq batches...
+- [x] Check DESeq2 results by PCA, heatmap with hierachical clustering, etc.
+- [x] If the DESeq2 normalized counts still show a strong batch effect, research batch correction methods
+- [x] Run svaseq. (Originally I was going to go with ComBat, but consensus by experienced bioinformaticians is that ComBat is too aggressive and over-fits, which creates beautiful plots, but significantly inflates false positives. I think it's considered only safe to use with spike-in controls. Otherwise, adjusting with SVA is preferred.
+- [x] Figure out how to observe effects from svaseq in PCA.  :p  Eventually discovered its use with limma's removeBatchEffect
+- [ ] On heatmaps: http://www.opiniomics.org/you-probably-dont-understand-heatmaps/
 	* If the batches are still problematic, will probably have to analyze Retina 6 and Retina 7 separately. Can try GFOLD for getting gene rankings (GFOLD paper is at https://academic.oup.com/bioinformatics/article/28/21/2782/235811).
 - [ ] Run ComBat to correct for HiSeq vs. NextSeq on a tissue-by-tissue basis and rerun
 
