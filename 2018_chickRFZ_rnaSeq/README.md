@@ -37,6 +37,7 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 	1. [DESeq2](#deseq2)
 	1. [Visualization](#visualization)
 	1. [Complementary DE analyses](#complementary-de-analyses)
+	1. [Probe design from transcriptome](#probe-design-from-transcriptome)
 1. [Acknowledgments](#acknowledgments)
 
 ---
@@ -605,20 +606,37 @@ edgeR, DESeq, and DESeq2 all have their own methods of correcting for library si
 - [x] Figure out how to observe effects from svaseq in PCA.  :p  Eventually discovered its use with limma's removeBatchEffect
 - [ ] On heatmaps: http://www.opiniomics.org/you-probably-dont-understand-heatmaps/
 	* If the batches are still problematic, will probably have to analyze Retina 6 and Retina 7 separately. Can try GFOLD for getting gene rankings (GFOLD paper is at https://academic.oup.com/bioinformatics/article/28/21/2782/235811).
-- [ ] Run ComBat to correct for HiSeq vs. NextSeq on a tissue-by-tissue basis and rerun
+- [x] Add svaseq to DESeq2 to test correcting for NextSeq vs. HiSeq
+- [ ] Remove D_7 (PCA outlier, 5'-3' bias is 2.36!. Also has the lowest GC content) and rerun DESeq2 + svaseq
 
 
 
 ### Visualization
 See https://cran.r-project.org/web/packages/dendextend/vignettes/Cluster_Analysis.html
 
-- [ ] NOISeq looks interesting for QC purposes. May throw that in to see if it'd be useful.
+* NOISeq looks interesting for QC purposes? May throw that in to see if it'd be useful.
 
-
+- [ ] Annotate gene names
+- [ ] List of most variable genes
+- [ ] Heatmap
+- [ ] PCA
+- [ ] Volcano plot
+- [ ] GO pathway analysis and/or KEGG?
 
 
 ### Complementary DE analyses
 DESeq (more conservative) and edgeR (alternative library normalization method)
+
+
+
+### Probe design from transcriptome
+(isoform detection)
+
+- [x] Detect pileups in genes of interest and reference genome sequence where they occur
+- [ ] Read Sylvain's paper! Currently on bioRxiv. :D
+- [ ] Check out OligoMiner
+- [ ] Might actually fit into alternative RNA-seq pipelines (StringTie, Salmon)
+
 
 ---
 
@@ -634,7 +652,3 @@ Okonechnikov, K., Conesa, A., & García-Alcalde, F. (2015). "Qualimap 2: advance
 
 Love, M.I., Huber, W., Anders, S. (2014) Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2. Genome Biology, 15:550. 10.1186/s13059-014-0550-8
 
-
-If the shrinkage estimator apeglm is used in published research, please cite:
-
-    Zhu, A., Ibrahim, J.G., Love, M.I. (2018) Heavy-tailed prior distributions for sequence count data: removing the noise and preserving large differences. bioRxiv. 10.1101/303255
