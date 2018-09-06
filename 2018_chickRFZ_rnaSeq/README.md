@@ -607,8 +607,6 @@ edgeR, DESeq, and DESeq2 all have their own methods of correcting for library si
 - [ ] On heatmaps: http://www.opiniomics.org/you-probably-dont-understand-heatmaps/
 	* If the batches are still problematic, will probably have to analyze Retina 6 and Retina 7 separately. Can try GFOLD for getting gene rankings (GFOLD paper is at https://academic.oup.com/bioinformatics/article/28/21/2782/235811).
 - [x] Add svaseq to DESeq2 to test correcting for NextSeq vs. HiSeq
-- [ ] Remove D_7 (PCA outlier, 5'-3' bias is 2.36! See https://www.biostars.org/p/102812/ .  I think it also has the lowest GC content) and rerun DESeq2 + svaseq
-
 
 
 ### Visualization
@@ -617,11 +615,20 @@ See https://cran.r-project.org/web/packages/dendextend/vignettes/Cluster_Analysi
 * NOISeq looks interesting for QC purposes? May throw that in to see if it'd be useful.
 
 - [ ] Annotate gene names
-- [ ] List of most variable genes
+- [ ] Get lists of DE genes for RFZ vs. other tissues plus intersect (Venn diagram Jiho showed me)
+- [ ] Send to Jiho
 - [ ] Heatmap
 - [ ] PCA
 - [ ] Volcano plot
 - [ ] GO pathway analysis and/or KEGG?
+
+
+### Polish
+- [ ] Test removing R2 for D_7 (PCA outlier, 5'-3' bias is 2.36! See https://www.biostars.org/p/102812/ .  I think it also has the lowest GC content) and rerun.  Can check at BAM QC step to see if 5'-3' bias is still present)
+- [ ] Test HiSeq alone
+- [ ] Test NextSeq alone
+- [ ] GNU Make
+- [ ] knitr
 
 
 ### Complementary DE analyses
