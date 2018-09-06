@@ -431,6 +431,13 @@ Hmm...this *could* be due to shorter read lengths + repetitive haplotypes/patche
 #### UPDATE
 After looking around further, I discovered that another common reason for a high percentage of multimappers is rRNA "contamination" (incomplete rRNA depletion).
 
+>2a. Contamination with exogenous sequences.
+>You can try to BLAST a few of unmapped reads agains the full NCBI database to see if you get any good matches.
+>
+>2b. Contamination with ribosomal RNA.
+>If your samples are "total RNA", depleted with Ribo-Zero or Ribo-Minus kits, it is possible that the depletion did not work well. rRNA are typically multi-mappers (and you get plenty of those), however, not all rRNA repeats make it into the main chromosomal assembly, and in this case they will not be mapped and will be reported as "alignment too short". We have recently had many cases like that in our lab for human tissues. I believe for the fly genome, the unplaced contigs are in chrU and chrUextra - please try to include them in the genome if you have not done so.
+-https://groups.google.com/forum/#!msg/rna-star/7RwKkvNLmI4/REpWc1B4KDkJ
+
 Checking for rRNA contamination in chick was less straightforward than I expected - seems like Galgal rRNA genes aren't really annotated. But the FastQC reports provide the top overrepresented sequences, so I copied the top 3-5 sequences from a sampling of NextSeq files into [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi) and searched the BLAST results for "gallus gallus." The first *Gallus gallus* result, if available, is listed below:
 
 1. D-1-A02_S2_L001_S2_R1_paired_trimmed.fq.gz
