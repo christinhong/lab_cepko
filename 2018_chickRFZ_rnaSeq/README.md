@@ -69,11 +69,12 @@ From Connie, expect the following gene expression patterns:
 * Fgf8: High in RFZ and maybe T
 * Vax: High in V and low in D
 * Tbx5: High in D and low in V
-* Raldh1: High in D
+* Aldh1a1 (previously Raldh1): High in a specific region of D
 * Emb: High in RFZ
 * Cyp26c1: High in RFZ
 * Cyp26a1: High in RFZ and N and T
-* Tbx2, 3, and 5: More D than V, but on a gradient
+* Tbx2: More D than V, but on a gradient
+* Tbx3: More D than V, but on a gradient
 
 
 ---
