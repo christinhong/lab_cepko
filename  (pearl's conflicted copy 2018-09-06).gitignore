@@ -1,0 +1,18 @@
+# Exclude top-level hidden files
+.git
+.Rproj.user
+.Rhistory
+
+# Exclude specific subdirectories
+archive/
+data/
+doc/
+layouts/
+output/
+resources/
+
+# Exclude specific file types
+*.html
+*.Rproj
+
+#Exclude all except specific subdirectories: see https://stackoverflow.com/questions/5533050/gitignore-exclude-folder-but-include-specific-subfolder#5534865
