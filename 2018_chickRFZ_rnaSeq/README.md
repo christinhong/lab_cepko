@@ -43,6 +43,8 @@ Collaborators: Jiho Choi, Susana da Silva, Nathan Mundell
 ---
 
 ## Changelog
+2018-09-12: Finished first DE analysis!
+
 2018-09-05: Finished initial annotation and QC plots. Starting analysis with DESeq2.
 
 2018-09-03: Done with featureCounts! On to analysis in R.
