@@ -9,6 +9,7 @@ data/
 doc/
 layouts/
 output/
+resources/
 
 # Exclude specific file types
 *.html
