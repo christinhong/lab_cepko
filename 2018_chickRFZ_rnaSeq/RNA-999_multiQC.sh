@@ -193,10 +193,13 @@ multiqc \
 rsync -avr --progress "ch220@transfer.rc.hms.harvard.edu:/n/data2/hms/genetics/cepko/christin/2018_chickRFZ_rnaSeq/doc/multiQC/*" "/home/christin/Dropbox/01_Harvard/02_code_github/lab_cepko/2018_chickRFZ_rnaSeq/doc/multiQC/"
 
 
+<<<<<<< HEAD
 rsync -avr --progress --no-perms --no-owner --no-group "ch220@transfer.rc.hms.harvard.edu:/n/data2/hms/genetics/cepko/christin/2018_chickRFZ_rnaSeq/output/bamsMerged/*/*_p5mDups*" "/media/christin/cmhExtHD/2018_chickRFZ_rnaSeq_bams/"
 
 
 
+=======
+>>>>>>> 0c095598e7474d2f317ff129c2351bb21dd7760a
 rsync -avr --progress "ch220@transfer.rc.hms.harvard.edu:/n/data2/hms/genetics/cepko/christin/2018_chickRFZ_rnaSeq/doc/featureCounts" "/home/christin/Dropbox/01_Harvard/02_code_github/lab_cepko/2018_chickRFZ_rnaSeq/doc/"
 
 
