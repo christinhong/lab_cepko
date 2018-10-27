@@ -14,7 +14,7 @@ echo
 while IFS='_' read -ra bam || [[ -n "${bam}" ]]; do
 
     # Naming output
-    outPre=$(echo ${bam[0]}_${bam[1]}_${bam[2]})
+    outPre=$(echo ${bam[1]}_${bam[0]}_${bam[2]})
     echo "Output is prefixed with ${outPre}"
     echo
 

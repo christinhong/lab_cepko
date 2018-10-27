@@ -5,8 +5,8 @@
 #SBATCH -c 4                    # number of cores/cpus per node (32 c/node)
 #SBATCH --mem=48G               # total RAM requested per job (256 GB RAM/node)
 
-#SBATCH -e /home/ch220/jobLogs/RNA-06_%A-%a.err     # standard err
-#SBATCH -o /home/ch220/jobLogs/RNA-06_%A-%a.out     # standard out
+#SBATCH -e /home/ch220/jobLogs/RNA-07_%j.err        # standard err
+#SBATCH -o /home/ch220/jobLogs/RNA-07_%j.out        # standard out
 #SBATCH --open-mode=append                          # append adds to outfile, truncate deletes old outfile first
 
 	
@@ -22,8 +22,7 @@
 
 
 # Tasks
-    # BAM annotation with Picard
-
+    # Merging lanes of annotated bams
 
 
 #### INFRASTRUCTURE ####
@@ -31,6 +30,9 @@
 # Stop script if error occurs
 set -Eeuo pipefail		# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/ and http://redsymbol.net/articles/unofficial-bash-strict-mode/
 
+
+# Timing script
+res1=$(date +%s)
 
 
 # GLOBAL VARIABLES
@@ -47,7 +49,10 @@ export christin=${cepko}/christin
 export pathProj=${christin}/2018_microglia_rnaSeq
 export pathData=${pathProj}/data
 export pathBash=${pathProj}/bash
+
 export pathDoc=${pathProj}/doc
+export pathBamQC=${pathDoc}/bamQC
+
 
 export pathOut=${pathProj}/output
 export pathOutStar=${pathOut}/starMap
@@ -101,47 +106,52 @@ LC_COLLATE=C    # specifies sort order (numbers, uppercase, then lowercase)
 
 
 
+
 #### START ####
 
-echo 'Adding read groups to BAMs with Picard'
-echo
 
-cd ${pathOutStar2}/S"${SLURM_ARRAY_TASK_ID}"
-
-
+cd ${pathData3}
 echo "Working directory is ${PWD}"
 echo
 
 
-# Split filename on underscores and pass to array.
-    # RGID: Unique read group identifier
-    # RGSM: Sample/tissue that read group came from
-    # RGPU: Platform, e.g. {FLOWCELL_BARCODE}.{LANE}.{SAMPLE_BARCODE}
-    # RGPL: Tech used to produce reads. Valid values: ILLUMINA, SOLID, LS454, HELICOS and PACBIO.
-    # RGLB: DNA library prep identifier. I'm also using this as a batch identifier.
-    
-# Note that sorting by coordinate requires enough memory to load the reference genome (>30 GB).
-
-
-echo "Cleaning BAMs and adding read groups from filename with Picard"
+echo "Making list of samples by sample ID"
 echo
-
-find . *_Aligned.out.bam -name ".*" -prune -o -print > bams.txt
-
-${parallel} -j ${intCores} \
-    --resume-failed --keep-order \
-    --joblog "${pathLogs}/S"${SLURM_ARRAY_TASK_ID}"-parallel_picardAnno_${SLURM_ARRAY_JOB_ID}.log" \
-    'sh ${pathBash}/RNA_picard.sh' \
-    :::: bams.txt
+find . *_p2rg.bam -name ".*" -prune -o -print | cut -d "_" -f 1,2 | sort | uniq > samples.txt
 
 
-echo "Done annotating BAMs!"
+while IFS='' read -r sample || [[ -n "${sample}" ]]; do
+
+    mkdir Sample_${sample}
+
+    echo "Merging BAM files for "${sample}" with samtools"
+    echo    
+    find . ${sample}*_p2rg.bam -name ".*" -prune -o -print > ${sample}_bams.txt
+
+    samtools merge -f -b ${sample}_bams.txt Sample_${sample}/${sample}_p3merged.bam
+        # Using samtools merge instead of Picard MergeSamFiles due to samtools having an easier syntax for automating. 
+        # Note: Samtools merge requires "-f" flag to auto-overwrite if output file already exists.
 
 
+    # Check for read group assignment
+    # samtools view -H *_p3merged.bam | grep '@RG'
+    
+    
+done < samples.txt
+    # If running interactively, can append " 2>sterr.log&". "2>sterr.log" writes standard error to sterr.log file. Appending "&" recovers use of the shell if running interactively.
+    
 
-#### Check for successful read group assignment in first file ####
-# samtools view -H ${pathData3}/*_p2rg.bam | grep '@RG'
 
-# Check for completion of script
-# grep -rl "Done annotating BAMs!" ${pathLogs}/RNA-06*.out | wc -l # Should be the number of samples (95)
+ls -d ${pathData3}/Sample_* | cat -n | while read n f; do mv -n "$f" "$f.$n"; done    
 
+
+# Timing script. This took 110.883 minutes to run.
+res2=$(date +%s)
+echo "Start time: $res1"
+echo "Stop time:  $res2"
+timeSec=$(echo "$res2 - $res1" | bc )
+echo "Elapsed minutes:  $(echo "scale=3; ${timeSec} / 60" | bc )"
+
+echo
+echo "Done merging BAMs!"
+echo

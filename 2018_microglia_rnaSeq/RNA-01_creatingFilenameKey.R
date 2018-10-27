@@ -2,6 +2,8 @@
 # Last updated: 2018-10
 # Harvard Medical School, Connie Cepko Lab
 
+# Formatting filenames from Broad Genomics Platform output from Picard to a human-readable annotation syntax.
+
 
 #### INFRASTRUCTURE ####
 
@@ -214,8 +216,6 @@ write.csv(
     quote = F,
     row.names = F
 )
-
-
 
 
 

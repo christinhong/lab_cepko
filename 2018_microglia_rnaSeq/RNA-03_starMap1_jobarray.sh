@@ -8,13 +8,12 @@
 #SBATCH -e /home/ch220/jobLogs/RNA-03_%A-%a.err     # standard err
 #SBATCH -o /home/ch220/jobLogs/RNA-03_%A-%a.out     # standard out
 #SBATCH --open-mode=append                          # append adds to outfile, truncate deletes old outfile first
-#SBATCH --mail-type=END                             # email when job ends
-#SBATCH --mail-user=christinhong@g.harvard.edu      # address for email
+
 	
 
 #### INTRO ####
 
-# Christin Hong
+# Christin M. Hong
 # Last modified: 2018-10
 # Harvard Medical School, Connie Cepko Lab
 
@@ -30,6 +29,7 @@
 
 # Stop script if error occurs
 set -Eeuo pipefail		# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/ and http://redsymbol.net/articles/unofficial-bash-strict-mode/
+
 
 
 # GLOBAL VARIABLES
@@ -60,12 +60,17 @@ export pathData3=${pathOut}/bamsMerged
 export pathRef=${cepko}/resources/ref
 export pathGen=${pathRef}/genome_m38
 export fileGen=${pathGen}/Mus_musculus.GRCm38.dna.primary_assembly.fa
+export fileGTF=${pathGen}/Mus_musculus.GRCm38.94.gtf
 export pathStarInd=${pathGen}/STAR-m38
 
 
 # Tools and general scripts with versions noted in their respective paths
 export pathTools=${cepko}/resources/tools
+export qualimap=${pathTools}/qualimap_v2.2.1/qualimap
+
 export parallel=${pathTools}/parallel-20180722/src/parallel
+    # Note on GNU Parallel: --keep-order requires --joblog, and if the joblog file already exists, Parallel with terminate without an error notice. If using keep-order, it's best to tag the joblog with the job ID to generate a unique file per submission, e.g. with ${SLURM_ARRAY_JOB_ID}.
+
 
 
 # Modules loaded from O2
@@ -73,8 +78,15 @@ export parallel=${pathTools}/parallel-20180722/src/parallel
 module load gcc/6.2.0 python/2.7.12
 module load fastqc/0.11.3
 module load multiqc/1.5
+module load trimmomatic/0.36    # Problematic syntax. Version number will need to be manually updated in script if program is updated.
+
 module load star/2.5.4a
-module load picard/2.8.0
+module load picard/2.8.0        # Problematic syntax. Version number will need to be manually updated in script if program is updated.
+
+module load samtools/1.9
+module load R/3.5.1             # Used by Picard CollectMultipleMetrics and Qualimap
+
+
 
 
 # Other options

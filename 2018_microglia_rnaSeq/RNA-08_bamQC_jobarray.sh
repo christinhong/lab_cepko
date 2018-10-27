@@ -2,11 +2,11 @@
 
 #SBATCH -p short                # Required, partition/queue for submission
 #SBATCH -t 0-10:00              # Required, time allowed for script to run in D-HH:MM
-#SBATCH -c 4                    # number of cores/cpus per node (32 c/node)
+#SBATCH -c 1                    # number of cores/cpus per node (32 c/node)
 #SBATCH --mem=48G               # total RAM requested per job (256 GB RAM/node)
 
-#SBATCH -e /home/ch220/jobLogs/RNA-06_%A-%a.err     # standard err
-#SBATCH -o /home/ch220/jobLogs/RNA-06_%A-%a.out     # standard out
+#SBATCH -e /home/ch220/jobLogs/RNA-08_%A-%a.err        # standard err
+#SBATCH -o /home/ch220/jobLogs/RNA-08_%A-%a.out        # standard out
 #SBATCH --open-mode=append                          # append adds to outfile, truncate deletes old outfile first
 
 	
@@ -22,7 +22,7 @@
 
 
 # Tasks
-    # BAM annotation with Picard
+    # Collecting QC metrics on mapped reads (bam files).
 
 
 
@@ -32,11 +32,19 @@
 set -Eeuo pipefail		# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/ and http://redsymbol.net/articles/unofficial-bash-strict-mode/
 
 
+# Timing script
+res1=$(date +%s)
+
 
 # GLOBAL VARIABLES
 
+export cepko=/n/data2/hms/genetics/cepko
+export christin=${cepko}/christin
+
+
 # Job-specific
-export intCores=4
+export intCores=1
+export intMem=48
 export pathLogs=/home/ch220/jobLogs
 
 
@@ -47,7 +55,10 @@ export christin=${cepko}/christin
 export pathProj=${christin}/2018_microglia_rnaSeq
 export pathData=${pathProj}/data
 export pathBash=${pathProj}/bash
+
 export pathDoc=${pathProj}/doc
+export pathBamQC=${pathDoc}/bamQC
+
 
 export pathOut=${pathProj}/output
 export pathOutStar=${pathOut}/starMap
@@ -101,47 +112,94 @@ LC_COLLATE=C    # specifies sort order (numbers, uppercase, then lowercase)
 
 
 
+
 #### START ####
 
-echo 'Adding read groups to BAMs with Picard'
-echo
-
-cd ${pathOutStar2}/S"${SLURM_ARRAY_TASK_ID}"
-
+cd ${pathData3}/Sample_*."${SLURM_ARRAY_TASK_ID}"
 
 echo "Working directory is ${PWD}"
 echo
 
-
-# Split filename on underscores and pass to array.
-    # RGID: Unique read group identifier
-    # RGSM: Sample/tissue that read group came from
-    # RGPU: Platform, e.g. {FLOWCELL_BARCODE}.{LANE}.{SAMPLE_BARCODE}
-    # RGPL: Tech used to produce reads. Valid values: ILLUMINA, SOLID, LS454, HELICOS and PACBIO.
-    # RGLB: DNA library prep identifier. I'm also using this as a batch identifier.
-    
-# Note that sorting by coordinate requires enough memory to load the reference genome (>30 GB).
+sBam=$(find . *_p3merged.bam -name ".*" -prune -o -print | cut -d "_" -f 1,2)
 
 
-echo "Cleaning BAMs and adding read groups from filename with Picard"
+echo "Sorting ${sBam}"
+echo    
+java -jar ${PICARD}/picard-2.8.0.jar SortSam \
+    I=${sBam}_p3merged.bam \
+    O=${sBam}_p4sorted.bam \
+    SORT_ORDER=coordinate
+# Note that sorting by coordinate requires a large amount of memory (>20 GB). Check exit values afterwards to confirm successful completion.
+
+
+echo "Marking duplicates in ${sBam}"
 echo
-
-find . *_Aligned.out.bam -name ".*" -prune -o -print > bams.txt
-
-${parallel} -j ${intCores} \
-    --resume-failed --keep-order \
-    --joblog "${pathLogs}/S"${SLURM_ARRAY_TASK_ID}"-parallel_picardAnno_${SLURM_ARRAY_JOB_ID}.log" \
-    'sh ${pathBash}/RNA_picard.sh' \
-    :::: bams.txt
+java -jar ${PICARD}/picard-2.8.0.jar MarkDuplicates \
+    I=${sBam}_p4sorted.bam \
+    O=${sBam}_p5mDups.bam \
+    M=${pathBamQC}/${sBam}_p5mDups_MarkDuplicatesMetrics.txt
 
 
-echo "Done annotating BAMs!"
+echo "Indexing ${sBam}"
+echo
+java -jar ${PICARD}/picard-2.8.0.jar BuildBamIndex \
+    I=${sBam}_p5mDups.bam
+        
+        
+echo "Estimating library complexity of ${sBam}"
+echo
+java -jar ${PICARD}/picard-2.8.0.jar EstimateLibraryComplexity \
+    I=${sBam}_p5mDups.bam \
+    O=${pathBamQC}/${sBam}_p5mDups_libComplexityMetrics.txt
+
+
+echo "Collecting other Picard metrics on ${sBam}"
+echo
+java -jar ${PICARD}/picard-2.8.0.jar CollectMultipleMetrics \
+    I=${sBam}_p5mDups.bam \
+    O=${pathBamQC}/${sBam}_p5mDups_multipleMetrics \
+    R=${fileGen} \
+    PROGRAM=null \
+    PROGRAM=CollectAlignmentSummaryMetrics \
+    PROGRAM=CollectInsertSizeMetrics \
+    PROGRAM=QualityScoreDistribution \
+    PROGRAM=MeanQualityByCycle \
+    PROGRAM=CollectBaseDistributionByCycle \
+    PROGRAM=CollectGcBiasMetrics \
+    PROGRAM=CollectQualityYieldMetrics
+        
+
+echo "Running Qualimap BAM QC"
+echo
+${qualimap} bamqc \
+    -bam ${sBam}_p5mDups.bam \
+    -outdir ${pathBamQC}/qualimapBamQC_${sBam} \
+    -gff ${fileGTF} \
+    --outside-stats \
+    --collect-overlap-pairs \
+    --paint-chromosome-limits \
+    --java-mem-size=${intMem}G
+
+
+echo "Running Qualimap RNA-seq QC"
+echo
+${qualimap} rnaseq \
+    -bam ${sBam}_p5mDups.bam \
+    -outdir ${pathBamQC}/qualimapRnaQC_${sBam} \
+    -gtf ${fileGTF} \
+    --paired \
+    --java-mem-size=${intMem}G
 
 
 
-#### Check for successful read group assignment in first file ####
-# samtools view -H ${pathData3}/*_p2rg.bam | grep '@RG'
+# Timing script.  This takes ~30-60 minutes per job.
+res2=$(date +%s)
+echo "Start time: $res1"
+echo "Stop time:  $res2"
+timeSec=$(echo "$res2 - $res1" | bc )
+echo "Elapsed minutes:  $(echo "scale=3; ${timeSec} / 60" | bc )"
 
-# Check for completion of script
-# grep -rl "Done annotating BAMs!" ${pathLogs}/RNA-06*.out | wc -l # Should be the number of samples (95)
 
+# EOM
+echo "BAM QC done!"
+echo

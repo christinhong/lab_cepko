@@ -29,17 +29,24 @@ export pathOutStar=${pathOut}/starMap
 export pathOutStar2=${pathOut}/starMap/pass2
 export fileSJ=${pathOutStar}/sj.txt                # File of STAR splice junctions
 
+export pathData3=${pathOut}/bamsMerged
+
 
 # References
 export pathRef=${cepko}/resources/ref
 export pathGen=${pathRef}/genome_m38
 export fileGen=${pathGen}/Mus_musculus.GRCm38.dna.primary_assembly.fa
+export fileGTF=${pathGen}/Mus_musculus.GRCm38.94.gtf
 export pathStarInd=${pathGen}/STAR-m38
 
 
 # Tools and general scripts with versions noted in their respective paths
 export pathTools=${cepko}/resources/tools
+export qualimap=${pathTools}/qualimap_v2.2.1/qualimap
+
 export parallel=${pathTools}/parallel-20180722/src/parallel
+    # Note on GNU Parallel: --keep-order requires --joblog, and if the joblog file already exists, Parallel with terminate without an error notice. If using keep-order, it's best to tag the joblog with the job ID to generate a unique file per submission, e.g. with ${SLURM_ARRAY_JOB_ID}.
+
 
 
 # Modules loaded from O2
@@ -47,8 +54,15 @@ export parallel=${pathTools}/parallel-20180722/src/parallel
 module load gcc/6.2.0 python/2.7.12
 module load fastqc/0.11.3
 module load multiqc/1.5
+module load trimmomatic/0.36    # Problematic syntax. Version number will need to be manually updated in script if program is updated.
+
 module load star/2.5.4a
-module load picard/2.8.0
+module load picard/2.8.0        # Problematic syntax. Version number will need to be manually updated in script if program is updated.
+
+module load samtools/1.9
+module load R/3.5.1             # Used by Picard CollectMultipleMetrics and Qualimap
+
+
 
 
 # Other options

@@ -18,9 +18,9 @@
 
 #### NOTE ####
 
-# Hi! As RNA-seq has become ubiquitous in biology, I'm happy to provide these scripts for your personal use.  I hope you find them helpful.
+# Hello!  As RNA-seq has become ubiquitous in biology, I'm happy to provide these scripts for your personal use.  I've done my best to develop them in an efficient and human-readable way, so I hope you find them helpful.
 
-# If you do, it'd mean a lot to me to be mentioned in the acknowledgments.  (No pressure, of course, it'd just be nice.)  
+# If you do, it'd mean a lot to me to be mentioned in the acknowledgments.  ;)
 
 # Best of luck with your analysis!!  \^o^/  ---Christin
 
@@ -30,13 +30,13 @@
 
 # I like to write scripts the same way I write protocols - so a complete novice to the task can pick it up and go. (Also so when I look back years later, I can actually understand what I did and why I did it.)
 
-# This script is NOT meant for submitting as a job. This is a record of the initial commands I used to set up analysis on the cluster. These commands are all run through the interactive partition (see detail in script).
+# This first script is NOT meant for submitting as a job. This is a record of the initial commands I used to set up the analysis on the cluster. These commands are all run through the interactive partition (see detail in script).
 
 # This text is saved as .sh because I'm using an editor that does syntax highlighting (gedit), and the ".sh" tells the editor to syntax highlight for bash. I strongly recommend reading and writing scripts in editors that do syntax highlighting. 
 
 # I've recorded full paths instead of shortcuts (e.g. /home/ch220/ instead of ~/) and excluded most interactive convenience tricks for transparency and readability. Feel free to make use of variables, tmux, etc. for greater convenience at will.
 
-# On OS: Bash is designed for the Linux OS. I'm working from a Linux Mint OS (derived from Linux Ubuntu). If you're working on a PC through Windows Powershell, terminal commands that run on your own computer (not the cluster) may be different. Windows 10 comes with the option to partially enable an Ubuntu subsystem. It isn't perfect, but it might be easier to work from that Ubuntu subsystem instead of the default Windows command line. (Macs should work the same as Linux; they built in Linux OS support while developing.)
+# On OS: Bash is designed for the Linux OS. I'm working from a Linux Mint OS (derived from Linux Ubuntu). If you're working on a PC through Windows Powershell, terminal commands that run on your own local computer (not the remote cluster) may be different. Windows 10 comes with the option to partially enable an Ubuntu subsystem. It isn't perfect, but it might be easier to work from that Ubuntu subsystem instead of the default Windows command line. (Macs should work the same as Linux; they built in Linux OS support during development.)
 
 
 
@@ -314,7 +314,7 @@ find ${pathData} -name '*.fastq.gz' -printf '%P\n' | sort > sampleFiles.txt
 rsync -av --progress "ch220@transfer.rc.hms.harvard.edu:/n/data2/hms/genetics/cepko/christin/2018_microglia_rnaSeq/data/sampleFiles.txt" "/home/christin/Dropbox/01_Harvard/02_code_github/lab_cepko/2018_seanWang_microglia/" 
 
 
-# Made final key in R because it's better for formatting a data frame.  See "RNA-01_creatingFilenameKey.R".
+# Made final key in R because it's better for formatting a data frame ("RNA-01_creatingFilenameKey.R").
 
 
 # Upload to HMS O2
@@ -500,7 +500,9 @@ Looked into S093.  Its Per Sequence GC Content looks similar to S041, S008, and 
 
 
 Upload next script(s):
-rsync -av --progress "/home/christin/Dropbox/01_Harvard/02_code_github/lab_cepko/2018_microglia_rnaSeq/" "ch220@transfer.rc.hms.harvard.edu:/n/data2/hms/genetics/cepko/christin/2018_microglia_rnaSeq/"
+rsync -avm --progress --include="*/" --include="*.sh" --exclude="*" "/home/christin/Dropbox/01_Harvard/02_code_github/lab_cepko/2018_microglia_rnaSeq/" "ch220@transfer.rc.hms.harvard.edu:/n/data2/hms/genetics/cepko/christin/2018_microglia_rnaSeq/"
+
 
 THOUGHTS
+
 
