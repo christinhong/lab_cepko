@@ -38,13 +38,9 @@ res1=$(date +%s)
 
 # GLOBAL VARIABLES
 
-export cepko=/n/data2/hms/genetics/cepko
-export christin=${cepko}/christin
-
-
 # Job-specific
 export intCores=1
-export intMem=48
+export intMem=36
 export pathLogs=/home/ch220/jobLogs
 
 
@@ -90,14 +86,14 @@ export parallel=${pathTools}/parallel-20180722/src/parallel
 module load gcc/6.2.0 python/2.7.12
 module load fastqc/0.11.3
 module load multiqc/1.5
-module load trimmomatic/0.36    # Problematic syntax. Version number will need to be manually updated in script if program is updated.
+module load trimmomatic/0.36    # Problematic syntax. Version number will need to be manually updated in scripts when program is updated.
 
 module load star/2.5.4a
-module load picard/2.8.0        # Problematic syntax. Version number will need to be manually updated in script if program is updated.
+module load picard/2.8.0        # Problematic syntax. Version number will need to be manually updated in scripts when program is updated.
 
 module load samtools/1.9
 module load R/3.5.1             # Used by Picard CollectMultipleMetrics and Qualimap
-
+module load subread/1.6.2
 
 
 
@@ -192,7 +188,7 @@ ${qualimap} rnaseq \
 
 
 
-# Timing script.  This takes ~30-60 minutes per job.
+# Timing script.  This takes ~30-60 minutes per job, ~2.5 hours total.
 res2=$(date +%s)
 echo "Start time: $res1"
 echo "Stop time:  $res2"

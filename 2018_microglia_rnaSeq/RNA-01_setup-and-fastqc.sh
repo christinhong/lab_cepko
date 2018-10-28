@@ -415,9 +415,10 @@ ${parallel} -j ${intCores} --verbose --joblog "${pathLogs}/parallel-fastqcSort2.
 
 
 
-#### Aggregate FastQC reports with MultiQC ####
 
-# Note: By default, MultiQC's output is in whatever directory it runs in, and its input is its directory + all subdirectories.
+#### Aggregate final FastQC reports with MultiQC ####
+
+echo "Running MultiQC for FastQC"
 
 
 # All
@@ -431,25 +432,18 @@ multiqc \
 multiqc \
     ${pathDoc}/fastqc_orig/microglia \
     -o ${pathDoc}/multiQC \
-    -n multiQC-01_fastqc-orig-microglia_$(date '+%Y-%m-%d')
+    -n multiQC-microglia-01_fastqc-orig_$(date '+%Y-%m-%d')
 
 
 # Cones
 multiqc \
     ${pathDoc}/fastqc_orig/cones \
     -o ${pathDoc}/multiQC \
-    -n multiQC-01_fastqc-orig-cones_$(date '+%Y-%m-%d')
+    -n multiQC-cones-01_fastqc-orig_$(date '+%Y-%m-%d')
 
 
 
-# From home terminal
-rsync -avr --progress "ch220@transfer.rc.hms.harvard.edu:/n/data2/hms/genetics/cepko/christin/2018_microglia_rnaSeq/doc/multiQC/*" "/home/christin/Dropbox/01_Harvard/02_code_github/lab_cepko/2018_microglia_rnaSeq/doc/multiQC/"
-
-rsync -avr --progress "ch220@transfer.rc.hms.harvard.edu:/n/data2/hms/genetics/cepko/christin/2018_microglia_rnaSeq/doc/fastqc_orig/*" "/home/christin/Dropbox/01_Harvard/02_code_github/lab_cepko/2018_microglia_rnaSeq/doc/fastqc_orig/"
-
-
-
-: <<'THOUGHTS'
+: << "THOUGHTS"
 First off, no need for trimmomatic.  I'm guessing that the processing pipeline used by Broad Genomics Platform trims itself, because all the reads are 38 bp and have Q30+ scores (except R2 reads off the negative control).
 
 GC content plot looks strange...  Going to rerun MultiQC on them separately to look more closely.  
@@ -502,7 +496,9 @@ Looked into S093.  Its Per Sequence GC Content looks similar to S041, S008, and 
 Upload next script(s):
 rsync -avm --progress --include="*/" --include="*.sh" --exclude="*" "/home/christin/Dropbox/01_Harvard/02_code_github/lab_cepko/2018_microglia_rnaSeq/" "ch220@transfer.rc.hms.harvard.edu:/n/data2/hms/genetics/cepko/christin/2018_microglia_rnaSeq/"
 
-
 THOUGHTS
 
 
+
+echo "Done with setup and initial FastQC!"
+echo
