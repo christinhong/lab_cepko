@@ -2,8 +2,8 @@
 
 #SBATCH -p short                # Required, partition/queue for submission
 #SBATCH -t 0-10:00              # Required, time allowed for script to run in D-HH:MM
-#SBATCH -c 4                    # number of cores/cpus per node (32 c/node)
-#SBATCH --mem=48G               # total RAM requested per job (256 GB RAM/node)
+#SBATCH -c 1                    # number of cores/cpus per node (32 c/node)
+#SBATCH --mem=12G               # total RAM requested per job (256 GB RAM/node)
 
 #SBATCH -e /home/ch220/jobLogs/RNA-07_%j.err        # standard err
 #SBATCH -o /home/ch220/jobLogs/RNA-07_%j.out        # standard out
@@ -38,7 +38,7 @@ res1=$(date +%s)
 # GLOBAL VARIABLES
 
 # Job-specific
-export intCores=4
+export intCores=1
 export pathLogs=/home/ch220/jobLogs
 
 
@@ -145,7 +145,7 @@ done < samples.txt
 ls -d ${pathData3}/Sample_* | cat -n | while read n f; do mv -n "$f" "$f.$n"; done    
 
 
-# Timing script. This took 110.883 minutes to run.
+# Timing script. This took 110.883 minutes to run (~1 minute per sample).
 res2=$(date +%s)
 echo "Start time: $res1"
 echo "Stop time:  $res2"
@@ -155,3 +155,6 @@ echo "Elapsed minutes:  $(echo "scale=3; ${timeSec} / 60" | bc )"
 echo
 echo "Done merging BAMs!"
 echo
+
+
+# Note that from "ls -lah" on a *p2rg.bam, it looks like they're only ~150 MB each.  Could probably get away with requesting less memory (maybe even 1-2 GB?), which will move it faster off the queue.  Alternatively, could sort *p2rg.bams into their own folders in the previous step and run this as a job array.

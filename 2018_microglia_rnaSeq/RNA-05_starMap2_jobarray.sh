@@ -163,3 +163,6 @@ echo
 echo "Done!"
 echo
 
+
+# Due to the splice junction insertion step, for 96 samples, this pass takes ~3-4 hours to run.  It mainly depends on the queue - each job itself takes ~30 minutes.
+

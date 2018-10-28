@@ -199,3 +199,5 @@ echo
 echo "Done!"
 echo
 
+
+# For 96 samples, this pass takes ~60-90 minutes to run.
