@@ -118,11 +118,14 @@ featureCounts \
     -G ${fileGen} \
     -C \
     -O \
-    --byReadGroup \
     -o ${pathDoc}/featureCounts/featureCounts_microglia.txt \
     $(cat bamsFinal_microglia.txt) \
     > ${pathDoc}/featureCounts/featureCounts_microglia.out \
     2> ${pathDoc}/featureCounts/featureCounts_microglia.err
+
+
+# Excluding the "    --byReadGroup \" flag because I already checked the output and the lanes look fine, and excluding it here makes the MultiQC report on the featureCount output more accurate.  (Otherwise the out.txt.summary file only reports for 1 lane of the 4, so it looks like 3/4 of the reads mysteriously disappeared.  :p  The actual out.txt file is fine, though.  Mainly doing this so Sean and Sawyer don't get nervous about it for no reason.)
+
 
 
 
@@ -139,17 +142,10 @@ featureCounts \
     -G ${fileGen} \
     -C \
     -O \
-    --byReadGroup \
     -o ${pathDoc}/featureCounts/featureCounts_cones.txt \
     $(cat bamsFinal_cones.txt) \
     > ${pathDoc}/featureCounts/featureCounts_cones.out \
     2> ${pathDoc}/featureCounts/featureCounts_cones.err
-
-
-
-echo
-echo "Done with featureCounts!  Ready to move to R."
-echo
 
 
 : << "COMMENT"
@@ -252,5 +248,9 @@ multiqc \
 # rsync -avr --progress "ch220@transfer.rc.hms.harvard.edu:/n/data2/hms/genetics/cepko/christin/2018_microglia_rnaSeq/doc/multiQC/*" "/home/christin/Dropbox/01_Harvard/02_code_github/lab_cepko/2018_microglia_rnaSeq/doc/multiQC/"
 
 
-echo "Done with MultiQC!"
+# rsync -avr --progress "ch220@transfer.rc.hms.harvard.edu:/n/data2/hms/genetics/cepko/christin/2018_microglia_rnaSeq/doc/featureCounts/*" "/home/christin/Dropbox/01_Harvard/02_code_github/lab_cepko/2018_microglia_rnaSeq/doc/featureCounts/"
+
+
+echo
+echo "Done with featureCounts and MultiQC!  Ready to move to R."
 echo
