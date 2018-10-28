@@ -3,7 +3,7 @@
 #SBATCH -p short                # Required, partition/queue for submission
 #SBATCH -t 0-10:00              # Required, time allowed for script to run in D-HH:MM
 #SBATCH -c 1                    # number of cores/cpus per node (32 c/node)
-#SBATCH --mem=48G               # total RAM requested per job (256 GB RAM/node)
+#SBATCH --mem=36G               # total RAM requested per job (256 GB RAM/node)
 
 #SBATCH -e /home/ch220/jobLogs/RNA-08_%A-%a.err        # standard err
 #SBATCH -o /home/ch220/jobLogs/RNA-08_%A-%a.out        # standard out

@@ -145,7 +145,7 @@ done < samples.txt
 ls -d ${pathData3}/Sample_* | cat -n | while read n f; do mv -n "$f" "$f.$n"; done    
 
 
-# Timing script. This took 110.883 minutes to run (~1 minute per sample).
+# Timing script. This took ~2 hours to run for 95 samples.
 res2=$(date +%s)
 echo "Start time: $res1"
 echo "Stop time:  $res2"
@@ -157,4 +157,4 @@ echo "Done merging BAMs!"
 echo
 
 
-# Note that from "ls -lah" on a *p2rg.bam, it looks like they're only ~150 MB each.  Could probably get away with requesting less memory (maybe even 1-2 GB?), which will move it faster off the queue.  Alternatively, could sort *p2rg.bams into their own folders in the previous step and run this as a job array.
+# Options for speeding up: From "ls -lah" on a *p2rg.bam, it looks like they're only ~150 MB each.  Could probably get away with requesting less memory (maybe even 2 GB?), which will move it faster off the queue.  Alternatively, could sort *p2rg.bams into their own folders in the previous step and run this as a job array.
